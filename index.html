@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dagar Mini Mart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles for the body, setting font, background, and text color */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F0F2F5; /* A very light, soft gray for the background */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: #374151; /* Darker gray for better readability (Tailwind gray-700) */
+            line-height: 1.6;
+        }
+
+        /* Styling for individual calculator cards */
+        .calculator-card {
+            background-color: #ffffff; /* Pure white for cards */
+            border-radius: 1.25rem; /* Even more rounded corners (20px) */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08), 0 5px 10px rgba(0,0,0,0.04); /* Deeper, softer shadow */
+            padding: 2.5rem; /* Generous padding */
+            margin-bottom: 3.5rem; /* Increased consistent margin between cards */
+            transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
+            border: 1px solid #E5E7EB; /* Subtle light gray border */
+            overflow: hidden; /* Ensures shadows and borders are contained */
+        }
+
+        /* Hover effect for calculator cards */
+        .calculator-card:hover {
+            transform: translateY(-0.5rem); /* Lift card slightly more on hover */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0,0,0,0.06); /* More pronounced shadow on hover */
+        }
+
+        /* Styling for input fields */
+        .input-field {
+            border: 1px solid #D1D5DB; /* Medium gray border */
+            border-radius: 0.625rem; /* Slightly more rounded corners for inputs (10px) */
+            padding: 0.875rem 1.25rem; /* Increased padding */
+            width: 100%;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
+            background-color: #F9FAFB; /* Very light gray background for inputs */
+            font-size: 1.05rem; /* Slightly larger font size */
+            color: #1F2937; /* Dark text for inputs (Tailwind gray-800) */
+        }
+
+        /* Focus state for input fields */
+        .input-field:focus {
+            border-color: #5A7DFF; /* A vibrant, yet soft blue on focus */
+            box-shadow: 0 0 0 4px rgba(90, 125, 255, 0.3); /* Blue glow on focus */
+            outline: none;
+            background-color: #ffffff; /* White background on focus */
+        }
+
+        /* Styling for labels */
+        .label-text {
+            font-size: 0.95rem; /* Slightly adjusted font size */
+            font-weight: 500; /* Medium weight */
+            color: #4B5563; /* Darker gray for labels (Tailwind gray-600) */
+            margin-bottom: 0.75rem; /* Increased consistent spacing below labels */
+            display: block;
+        }
+
+        /* Styling for result areas */
+        .result-area {
+            margin-top: 2.5rem; /* Increased spacing above result area */
+            padding-top: 2.5rem; /* Increased padding inside result area */
+            border-top: 1px solid #E5E7EB; /* Light gray border at the top */
+        }
+
+        /* Styling for general result text */
+        .result-text {
+            font-size: 1.25rem; /* 20px */
+            font-weight: 600; /* Semi-bold */
+            color: #1F2937; /* Dark text for results */
+            margin-bottom: 0.5rem; /* Small margin below result text */
+        }
+
+        /* Styling for total amount displays (e.g., cash counter, profit) */
+        .total-amount {
+            font-size: 2.5rem; /* Larger font size for totals (40px) */
+            font-weight: 800; /* Extra bold */
+            color: #5A7DFF; /* Primary blue for main totals */
+            letter-spacing: -0.025em; /* Slightly tighter letter spacing */
+        }
+
+        /* Styling for currency symbols */
+        .currency-symbol {
+            font-size: 0.7em; /* Slightly smaller than parent text */
+            margin-right: 0.25rem; /* Small margin to the right */
+            opacity: 0.8;
+        }
+
+        /* Base styling for buttons */
+        .btn {
+            padding: 0.875rem 1.75rem; /* Generous padding for buttons */
+            border-radius: 0.75rem; /* More rounded corners for buttons (12px) */
+            font-weight: 600; /* Semi-bold text */
+            transition: all 0.25s ease-in-out; /* Smooth transitions for hover/active */
+            cursor: pointer;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.625rem; /* Increased space for icons */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); /* Subtle shadow */
+        }
+
+        /* Styling for primary buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #5A7DFF 0%, #6B8EFF 100%); /* Blue gradient */
+            color: white;
+            border: none;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #6B8EFF 0%, #5A7DFF 100%); /* Reverse gradient on hover */
+            transform: translateY(-0.1875rem); /* Slight lift */
+            box-shadow: 0 6px 15px rgba(90, 125, 255, 0.3); /* More pronounced shadow */
+        }
+
+        /* Styling for secondary buttons (used for reset) */
+        .btn-secondary {
+            background-color: #E0E7FF; /* Light blue background */
+            color: #5A7DFF; /* Primary blue text */
+            border: 1px solid #C3D2FF; /* Slightly darker light blue border */
+        }
+        .btn-secondary:hover {
+            background-color: #C3D2FF; /* Darker light blue background on hover */
+            border-color: #A6BFFF; /* Darker border on hover */
+            color: #436BFF; /* Darker blue text on hover */
+            transform: translateY(-0.125rem); /* Slight lift */
+        }
+
+        /* Active state for all buttons */
+        .btn:active {
+            transform: scale(0.97) translateY(0); /* Slight press effect */
+            box-shadow: none; /* Remove shadow on press */
+        }
+
+        /* Styling for main heading (H1) */
+        h1 {
+            font-family: 'Montserrat', sans-serif; /* A bolder, more impactful font for the main title */
+            font-size: 3.5rem; /* Even larger font size for main title (56px) */
+            font-weight: 800; /* Extra bold */
+            color: #1F2937; /* Very dark gray */
+            margin-bottom: 1.5rem; /* Adjusted margin below title */
+            text-align: center;
+            letter-spacing: -0.05em; /* Tighter letter spacing for impact */
+        }
+
+        /* Styling for section headings (H2) */
+        h2 {
+            font-size: 2rem; /* Larger font size for section titles (32px) */
+            font-weight: 700; /* Bold */
+            color: #1F2937; /* Darker gray */
+            margin-bottom: 1.5rem; /* Adjusted margin below section titles */
+            padding-bottom: 0.75rem; /* Padding below text before border */
+            border-bottom: 3px solid #5A7DFF; /* Thicker, primary blue accent border */
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* Custom scrollbar for denomination list (if it overflows) */
+        .denomination-grid::-webkit-scrollbar {
+            width: 0.625rem; /* 10px */
+        }
+        .denomination-grid::-webkit-scrollbar-track {
+            background: #E5E7EB; /* Light track */
+            border-radius: 0.625rem; /* 10px */
+        }
+        .denomination-grid::-webkit-scrollbar-thumb {
+            background: #A6BFFF; /* Light blue thumb */
+            border-radius: 0.625rem; /* 10px */
+        }
+        .denomination-grid::-webkit-scrollbar-thumb:hover {
+            background: #8C9EFF; /* Darker blue on hover */
+        }
+
+        /* Flex grow for content wrapper to push footer to bottom */
+        .content-wrapper {
+            flex-grow: 1;
+        }
+
+        /* Styling for the footer */
+        .footer {
+            width: 100%;
+            text-align: center;
+            padding: 2rem 0; /* Increased consistent padding */
+            margin-top: 5rem; /* Increased spacing above footer */
+            /*background-color: #ffffff; /* White background */
+            /*border-top: 1px solid #E5E7EB; /* Light gray border at the top */
+            /*box-shadow: 0 -0.125rem 0.3125rem rgba(0,0,0,0.03); /* Subtle top shadow */
+            color: #6B7280; /* Medium gray text */
+        }
+
+        /* Specific styling for denomination input wrappers */
+        .denomination-input-wrapper {
+            display: flex;
+            align-items: center;
+            background-color: #F9FAFB; /* Light background */
+            padding: 0.875rem 1.25rem; /* Consistent padding */
+            border-radius: 0.625rem; /* Rounded corners */
+            border: 1px solid #D1D5DB; /* Light border */
+            transition: all 0.2s ease-in-out;
+        }
+        .denomination-input-wrapper:focus-within {
+            border-color: #5A7DFF;
+            box-shadow: 0 0 0 3px rgba(90, 125, 255, 0.2);
+        }
+        .denomination-input-wrapper label {
+            margin-bottom: 0; /* Override general label margin */
+            margin-right: 0.875rem; /* Increased space between label and input */
+            white-space: nowrap; /* Prevent label from wrapping */
+            font-weight: 600;
+            color: #4B5563;
+        }
+        .denomination-input-wrapper input.input-field {
+            background-color: transparent; /* Transparent background for the input itself */
+            border: none; /* No border for the inner input */
+            padding: 0; /* No padding for the inner input */
+            min-width: 4rem; /* Minimum width for input */
+            flex-grow: 1; /* Allow input to grow */
+            text-align: right;
+            font-weight: 600;
+            color: #1F2937;
+        }
+        .denomination-input-wrapper input.input-field:focus {
+            box-shadow: none; /* Remove outer glow on inner input focus */
+            border-color: transparent;
+        }
+
+        /* Styling for profit/loss display */
+        .profit-positive {
+            color: #4CAF50; /* A clear, vibrant green for profit */
+        }
+        .profit-negative {
+            color: #F44336; /* A clear, vibrant red for loss */
+        }
+    </style>
+</head>
+<body class="p-6 sm:p-8 md:p-10">
+    <div class="content-wrapper max-w-4xl mx-auto w-full">
+        <h1 class="total-amount mb-4">Dagar Mini Mart</h1>
+        <p class="text-center text-xl text-gray-600 mb-12 -mt-4 font-light">Your All-in-One Retail Calculation Tool</p>
+
+        <div id="cashCounter" class="calculator-card">
+            <h2 class="mb-6"><span class="currency-symbol">💰</span> Indian Cash Counter</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8 denomination-grid mb-8 max-h-[400px] sm:max-h-none overflow-y-auto sm:overflow-visible pr-2 sm:pr-0">
+                </div>
+            <div class="result-area flex flex-col items-start">
+                <p class="text-xl font-semibold text-gray-700">Total Amount:</p>
+                <p id="cashTotalAmount" class="total-amount mt-2">₹0.00</p>
+                <button id="resetCashCounter" class="btn btn-secondary mt-8 w-full sm:w-auto">Reset Counter</button>
+            </div>
+        </div>
+
+        <div id="unitPriceCalculator" class="calculator-card">
+            <h2 class="mb-6"><span class="currency-symbol">🏷️</span> Price Per Piece Calculator</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
+                <div>
+                    <label for="mrpBox" class="label-text">MRP (Price of the Box/Pack):</label>
+                    <input type="number" id="mrpBox" class="input-field" placeholder="e.g., 590" min="0">
+                </div>
+                <div>
+                    <label for="piecesInBox" class="label-text">Number of Pieces in Box/Pack:</label>
+                    <input type="number" id="piecesInBox" class="input-field" placeholder="e.g., 50" min="0">
+                </div>
+            </div>
+            <div class="result-area flex flex-col items-start">
+                <p class="text-lg font-semibold text-gray-700">Price Per Piece:</p>
+                <p id="pricePerPiece" class="result-text mt-2">₹0.00</p>
+                <p id="unitPriceMessage" class="text-sm text-red-500 mt-3 h-5"></p>
+                <button id="resetUnitPriceCalc" class="btn btn-secondary mt-4 w-full sm:w-auto">Reset Calculator</button>
+            </div>
+        </div>
+
+        <div id="boxProfitCalculator" class="calculator-card">
+            <h2 class="mb-6"><span class="currency-symbol">📈</span> Total Box Profit Calculator</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
+                <div>
+                    <label for="sellingPricePerPc" class="label-text">Selling Price Per Piece (₹):</label>
+                    <input type="number" id="sellingPricePerPc" class="input-field" placeholder="e.g., 15" min="0">
+                </div>
+                <div>
+                    <label for="costOfBox" class="label-text">Cost of Box (₹):</label>
+                    <input type="number" id="costOfBox" class="input-field" placeholder="e.g., 590" min="0">
+                </div>
+                <div>
+                    <label for="piecesInBoxProfit" class="label-text">Number of Pieces in Box:</label>
+                    <input type="number" id="piecesInBoxProfit" class="input-field" placeholder="e.g., 50" min="0">
+                </div>
+            </div>
+            <div class="result-area flex flex-col items-start">
+                <p class="text-lg font-semibold text-gray-700">Total Profit Per Box:</p>
+                <p id="totalBoxProfit" class="total-amount mt-2">₹0.00</p>
+                <p id="boxProfitMessage" class="text-sm text-red-500 mt-3 h-5"></p>
+                <button id="resetBoxProfitCalc" class="btn btn-secondary mt-4 w-full sm:w-auto">Reset Calculator</button>
+            </div>
+        </div>
+
+        <div id="discountCalculator" class="calculator-card">
+            <h2 class="mb-6"><span class="currency-symbol">📉</span> Discount Calculator</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
+                <div>
+                    <label for="mrp" class="label-text">MRP (Maximum Retail Price):</label>
+                    <input type="number" id="mrp" class="input-field" placeholder="e.g., 1000" min="0">
+                </div>
+                <div>
+                    <label for="salePrice" class="label-text">Sale Price:</label>
+                    <input type="number" id="salePrice" class="input-field" placeholder="e.g., 800" min="0">
+                </div>
+            </div>
+            <div class="result-area flex flex-col items-start">
+                <p class="text-lg font-semibold text-gray-700">Discount Details:</p>
+                <p id="discountAmount" class="result-text mt-2">Discount Amount: ₹0.00</p>
+                <p id="discountPercentage" class="result-text">Discount Percentage: 0.00%</p>
+                <p id="discountMessage" class="text-sm text-red-500 mt-3 h-5"></p>
+                <button id="resetDiscountCalc" class="btn btn-secondary mt-4 w-full sm:w-auto">Reset Calculator</button>
+            </div>
+        </div>
+
+        <div id="pulseCalculator" class="calculator-card">
+            <h2 class="mb-6"><span class="currency-symbol">🍚</span> Price of Pulse Calculator</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
+                <div>
+                    <label for="pulsePricePerKg" class="label-text">Price of Pulse (per 1 kg):</label>
+                    <input type="number" id="pulsePricePerKg" class="input-field" placeholder="e.g., 90" min="0">
+                </div>
+                <div>
+                    <label for="amountToSpend" class="label-text">Amount you want to spend (₹):</label>
+                    <input type="number" id="amountToSpend" class="input-field" placeholder="e.g., 20" min="0">
+                </div>
+            </div>
+            <div class="result-area flex flex-col items-start">
+                <p class="text-lg font-semibold text-gray-700">Quantity you will get:</p>
+                <p id="pulseQuantity" class="result-text mt-2">0.00 grams</p>
+                <p id="pulseMessage" class="text-sm text-red-500 mt-3 h-5"></p>
+                <button id="resetPulseCalc" class="btn btn-secondary mt-4 w-full sm:w-auto">Reset Calculator</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p class="text-sm">
+            Copyright © 2023-2025 | Designed with ❤️ by Annu Stark
+        </p>
+        <p class="text-xs mt-1">
+            (Sole Proprietor of Dagar Mini Mart)
+        </p>
+    </footer>
+
+    <script>
+        // --- Utility Function for common input handling ---
+        /**
+         * Parses a float from an input element, validates it, and displays an error message.
+         * @param {HTMLInputElement} inputElement - The input element.
+         * @param {HTMLElement} messageElement - The element to display error messages.
+         * @param {string} fieldName - The name of the field for error messages (e.g., "MRP").
+         * @returns {number|null} The parsed float value, or null if invalid.
+         */
+        function getValidatedFloatInput(inputElement, messageElement, fieldName) {
+            messageElement.textContent = ''; // Clear previous messages
+            const value = parseFloat(inputElement.value);
+
+            if (inputElement.value.trim() === '') {
+                return null; // Treat empty as no input, not an error for initial state
+            }
+            if (isNaN(value)) {
+                messageElement.textContent = `Invalid ${fieldName} value. Please enter a number.`;
+                return NaN; // Indicate a parsing error
+            }
+            if (value < 0) {
+                messageElement.textContent = `${fieldName} cannot be negative.`;
+                return NaN; // Indicate a validation error
+            }
+            return value;
+        }
+
+        /**
+         * Parses an integer from an input element, validates it, and displays an error message.
+         * @param {HTMLInputElement} inputElement - The input element.
+         * @param {HTMLElement} messageElement - The element to display error messages.
+         * @param {string} fieldName - The name of the field for error messages (e.g., "Pieces").
+         * @returns {number|null} The parsed integer value, or null if invalid.
+         */
+        function getValidatedIntInput(inputElement, messageElement, fieldName) {
+            messageElement.textContent = ''; // Clear previous messages
+            const value = parseInt(inputElement.value);
+
+            if (inputElement.value.trim() === '') {
+                return null; // Treat empty as no input, not an error for initial state
+            }
+            if (isNaN(value)) {
+                messageElement.textContent = `Invalid ${fieldName} value. Please enter a whole number.`;
+                return NaN; // Indicate a parsing error
+            }
+            if (value < 0) {
+                messageElement.textContent = `${fieldName} cannot be negative.`;
+                return NaN; // Indicate a validation error
+            }
+            return value;
+        }
+
+        /**
+         * Formats a number as Indian Rupees with 2 decimal places.
+         * @param {number} amount - The number to format.
+         * @returns {string} The formatted string (e.g., "₹1,234.56").
+         */
+        function formatIndianRupees(amount) {
+            return `₹${amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+
+        // --- Indian Cash Counter ---
+        const cashCounterDiv = document.querySelector('#cashCounter .denomination-grid');
+        const cashTotalAmountEl = document.getElementById('cashTotalAmount');
+        const resetCashCounterBtn = document.getElementById('resetCashCounter');
+
+        const denominations = [500, 200, 100, 50, 20, 10, 5, 2, 1];
+        let denominationInputs = []; // Stores references to the dynamically created input elements
+
+        function initializeCashCounter() {
+            cashCounterDiv.innerHTML = ''; // Clear existing inputs to prevent duplicates on re-init
+            denominationInputs = []; // Reset the array
+
+            denominations.forEach(denom => {
+                const wrapperDiv = document.createElement('div');
+                wrapperDiv.classList.add('denomination-input-wrapper');
+
+                const label = document.createElement('label');
+                label.setAttribute('for', `denom-${denom}`);
+                label.classList.add('font-medium', 'text-gray-700');
+                label.textContent = `₹${denom} x `;
+
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.id = `denom-${denom}`;
+                input.min = '0';
+                input.classList.add('input-field', 'text-center');
+                input.dataset.value = denom; // Store the denomination value in a data attribute
+                input.placeholder = "0";
+                input.addEventListener('input', calculateCashTotal);
+
+                denominationInputs.push(input);
+                wrapperDiv.appendChild(label);
+                wrapperDiv.appendChild(input);
+                cashCounterDiv.appendChild(wrapperDiv);
+            });
+            calculateCashTotal(); // Calculate initial total
+        }
+
+        function calculateCashTotal() {
+            let total = 0;
+            denominationInputs.forEach(input => {
+                const count = parseInt(input.value) || 0; // Use 0 if input is empty or invalid
+                const denominationValue = parseInt(input.dataset.value); // Retrieve denomination from data attribute
+                if (count >= 0) { // Ensure count is not negative
+                    total += count * denominationValue;
+                }
+            });
+            cashTotalAmountEl.textContent = formatIndianRupees(total);
+        }
+
+        resetCashCounterBtn.addEventListener('click', () => {
+            denominationInputs.forEach(input => input.value = ''); // Clear all input values
+            calculateCashTotal(); // Recalculate total after clearing
+        });
+
+        // --- Price Per Piece Calculator ---
+        const mrpBoxInput = document.getElementById('mrpBox');
+        const piecesInBoxInput = document.getElementById('piecesInBox');
+        const pricePerPieceEl = document.getElementById('pricePerPiece');
+        const unitPriceMessageEl = document.getElementById('unitPriceMessage');
+        const resetUnitPriceCalcBtn = document.getElementById('resetUnitPriceCalc');
+
+        function calculatePricePerPiece() {
+            const mrpBox = getValidatedFloatInput(mrpBoxInput, unitPriceMessageEl, 'MRP of Box');
+            const piecesInBox = getValidatedIntInput(piecesInBoxInput, unitPriceMessageEl, 'Number of Pieces');
+
+            // If any input is invalid (NaN) or empty (null), reset display and return
+            if (mrpBox === null || piecesInBox === null || isNaN(mrpBox) || isNaN(piecesInBox)) {
+                pricePerPieceEl.textContent = formatIndianRupees(0);
+                return;
+            }
+
+            if (piecesInBox === 0) {
+                pricePerPieceEl.textContent = formatIndianRupees(0);
+                unitPriceMessageEl.textContent = 'Number of pieces cannot be zero.';
+                return;
+            }
+
+            const price = mrpBox / piecesInBox;
+            pricePerPieceEl.textContent = formatIndianRupees(price);
+        }
+
+        mrpBoxInput.addEventListener('input', calculatePricePerPiece);
+        piecesInBoxInput.addEventListener('input', calculatePricePerPiece);
+        resetUnitPriceCalcBtn.addEventListener('click', () => {
+            mrpBoxInput.value = '';
+            piecesInBoxInput.value = '';
+            calculatePricePerPiece(); // Recalculate to reset display and clear messages
+        });
+
+        // --- Total Box Profit Calculator ---
+        const sellingPricePerPcInput = document.getElementById('sellingPricePerPc');
+        const costOfBoxInput = document.getElementById('costOfBox');
+        const piecesInBoxProfitInput = document.getElementById('piecesInBoxProfit');
+        const totalBoxProfitEl = document.getElementById('totalBoxProfit');
+        const boxProfitMessageEl = document.getElementById('boxProfitMessage');
+        const resetBoxProfitCalcBtn = document.getElementById('resetBoxProfitCalc');
+
+        function calculateBoxProfit() {
+            const sellingPricePerPc = getValidatedFloatInput(sellingPricePerPcInput, boxProfitMessageEl, 'Selling Price Per Piece');
+            const costOfBox = getValidatedFloatInput(costOfBoxInput, boxProfitMessageEl, 'Cost of Box');
+            const piecesInBoxProfit = getValidatedIntInput(piecesInBoxProfitInput, boxProfitMessageEl, 'Number of Pieces in Box');
+
+            totalBoxProfitEl.classList.remove('profit-positive', 'profit-negative'); // Reset classes
+
+            // If any input is invalid (NaN) or empty (null), reset display and return
+            if (sellingPricePerPc === null || costOfBox === null || piecesInBoxProfit === null ||
+                isNaN(sellingPricePerPc) || isNaN(costOfBox) || isNaN(piecesInBoxProfit)) {
+                totalBoxProfitEl.textContent = formatIndianRupees(0);
+                return;
+            }
+
+            const totalRevenue = sellingPricePerPc * piecesInBoxProfit;
+            const totalProfit = totalRevenue - costOfBox;
+
+            totalBoxProfitEl.textContent = formatIndianRupees(totalProfit);
+            // Apply profit/loss specific classes
+            if (totalProfit >= 0) {
+                totalBoxProfitEl.classList.add('profit-positive');
+            } else {
+                totalBoxProfitEl.classList.add('profit-negative');
+            }
+        }
+
+        sellingPricePerPcInput.addEventListener('input', calculateBoxProfit);
+        costOfBoxInput.addEventListener('input', calculateBoxProfit);
+        piecesInBoxProfitInput.addEventListener('input', calculateBoxProfit);
+        resetBoxProfitCalcBtn.addEventListener('click', () => {
+            sellingPricePerPcInput.value = '';
+            costOfBoxInput.value = '';
+            piecesInBoxProfitInput.value = '';
+            calculateBoxProfit(); // Recalculate to reset display and clear messages
+        });
+
+        // --- Discount Calculator ---
+        const mrpInput = document.getElementById('mrp');
+        const salePriceInput = document.getElementById('salePrice');
+        const discountAmountEl = document.getElementById('discountAmount');
+        const discountPercentageEl = document.getElementById('discountPercentage');
+        const discountMessageEl = document.getElementById('discountMessage');
+        const resetDiscountCalcBtn = document.getElementById('resetDiscountCalc');
+
+        function calculateDiscount() {
+            const mrp = getValidatedFloatInput(mrpInput, discountMessageEl, 'MRP');
+            const salePrice = getValidatedFloatInput(salePriceInput, discountMessageEl, 'Sale Price');
+
+            // If any input is invalid (NaN) or empty (null), reset display and return
+            if (mrp === null || salePrice === null || isNaN(mrp) || isNaN(salePrice)) {
+                discountAmountEl.textContent = 'Discount Amount: ₹0.00';
+                discountPercentageEl.textContent = 'Discount Percentage: 0.00%';
+                return;
+            }
+
+            if (salePrice > mrp) {
+                discountAmountEl.textContent = 'Discount Amount: ₹0.00';
+                discountPercentageEl.textContent = 'Discount Percentage: 0.00%';
+                discountMessageEl.textContent = 'Sale price cannot be greater than MRP.';
+                return;
+            }
+
+            const discountAmount = mrp - salePrice;
+            const discountPercentage = (mrp > 0) ? (discountAmount / mrp) * 100 : 0;
+
+            discountAmountEl.textContent = `Discount Amount: ${formatIndianRupees(discountAmount)}`;
+            discountPercentageEl.textContent = `Discount Percentage: ${discountPercentage.toFixed(2)}%`;
+        }
+
+        mrpInput.addEventListener('input', calculateDiscount);
+        salePriceInput.addEventListener('input', calculateDiscount);
+        resetDiscountCalcBtn.addEventListener('click', () => {
+            mrpInput.value = '';
+            salePriceInput.value = '';
+            calculateDiscount(); // Recalculate to reset display and clear messages
+        });
+
+        // --- Price of Pulse Calculator ---
+        const pulsePricePerKgInput = document.getElementById('pulsePricePerKg');
+        const amountToSpendInput = document.getElementById('amountToSpend');
+        const pulseQuantityEl = document.getElementById('pulseQuantity');
+        const pulseMessageEl = document.getElementById('pulseMessage');
+        const resetPulseCalcBtn = document.getElementById('resetPulseCalc');
+
+        function calculatePulseQuantity() {
+            const pricePerKg = getValidatedFloatInput(pulsePricePerKgInput, pulseMessageEl, 'Price Per Kg');
+            const amountToSpend = getValidatedFloatInput(amountToSpendInput, pulseMessageEl, 'Amount to Spend');
+
+            // If any input is invalid (NaN) or empty (null), reset display and return
+            if (pricePerKg === null || amountToSpend === null || isNaN(pricePerKg) || isNaN(amountToSpend)) {
+                pulseQuantityEl.textContent = '0.00 grams';
+                return;
+            }
+
+            if (pricePerKg === 0) {
+                pulseQuantityEl.textContent = (amountToSpend > 0) ? 'Infinite grams (Price is ₹0)' : '0.00 grams';
+                if (amountToSpend > 0) {
+                    pulseMessageEl.textContent = 'Cannot calculate quantity if price is zero and amount is positive.';
+                } else {
+                    pulseMessageEl.textContent = '';
+                }
+                return;
+            }
+
+            const quantityInGrams = (amountToSpend / pricePerKg) * 1000;
+
+            if (quantityInGrams >= 1000) {
+                pulseQuantityEl.textContent = `${(quantityInGrams / 1000).toFixed(2)} kg`;
+            } else {
+                pulseQuantityEl.textContent = `${quantityInGrams.toFixed(2)} grams`;
+            }
+        }
+
+        pulsePricePerKgInput.addEventListener('input', calculatePulseQuantity);
+        amountToSpendInput.addEventListener('input', calculatePulseQuantity);
+        resetPulseCalcBtn.addEventListener('click', () => {
+            pulsePricePerKgInput.value = '';
+            amountToSpendInput.value = '';
+            calculatePulseQuantity(); // Recalculate to reset display and clear messages
+        });
+
+        // Initialize all calculators on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeCashCounter();
+            calculatePricePerPiece();
+            calculateBoxProfit();
+            calculateDiscount();
+            calculatePulseQuantity();
+        });
+    </script>
+</body>
+</html>
