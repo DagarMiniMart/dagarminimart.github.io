@@ -303,6 +303,50 @@
             </div>
         </div>
 
+        <div id="marginCalculator" class="calculator-card">
+            <h2 class="mb-6"><span class="currency-symbol">📊</span> Margin Calculator</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
+                <div>
+                    <label for="costPriceMargin" class="label-text">Cost Price (₹):</label>
+                    <input type="number" id="costPriceMargin" class="input-field" placeholder="e.g., 100" min="0">
+                </div>
+                <div>
+                    <label for="sellingPriceMargin" class="label-text">Selling Price (₹):</label>
+                    <input type="number" id="sellingPriceMargin" class="input-field" placeholder="e.g., 120" min="0">
+                </div>
+            </div>
+            <div class="result-area flex flex-col items-start">
+                <p class="text-lg font-semibold text-gray-700">Gross Profit:</p>
+                <p id="grossProfitAmount" class="result-text mt-2">₹0.00</p>
+                <p class="text-lg font-semibold text-gray-700 mt-4">Gross Margin Percentage:</p>
+                <p id="grossMarginPercentage" class="result-text">0.00%</p>
+                <p id="marginMessage" class="text-sm text-red-500 mt-3 h-5"></p>
+                <button id="resetMarginCalc" class="btn btn-secondary mt-4 w-full sm:w-auto">Reset Calculator</button>
+            </div>
+        </div>
+
+        <div id="gstCalculator" class="calculator-card">
+            <h2 class="mb-6"><span class="currency-symbol">🧾</span> GST Calculator</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
+                <div>
+                    <label for="basePriceGST" class="label-text">Base Price (₹):</label>
+                    <input type="number" id="basePriceGST" class="input-field" placeholder="e.g., 1000" min="0">
+                </div>
+                <div>
+                    <label for="gstRate" class="label-text">GST Rate (%):</label>
+                    <input type="number" id="gstRate" class="input-field" placeholder="e.g., 18" min="0">
+                </div>
+            </div>
+            <div class="result-area flex flex-col items-start">
+                <p class="text-lg font-semibold text-gray-700">GST Amount:</p>
+                <p id="gstAmount" class="result-text mt-2">₹0.00</p>
+                <p class="text-lg font-semibold text-gray-700 mt-4">Total Price (with GST):</p>
+                <p id="totalPriceWithGST" class="result-text">₹0.00</p>
+                <p id="gstMessage" class="text-sm text-red-500 mt-3 h-5"></p>
+                <button id="resetGSTCalc" class="btn btn-secondary mt-4 w-full sm:w-auto">Reset Calculator</button>
+            </div>
+        </div>
+
         <div id="discountCalculator" class="calculator-card">
             <h2 class="mb-6"><span class="currency-symbol">📉</span> Discount Calculator</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
@@ -549,6 +593,78 @@
             calculateBoxProfit(); // Recalculate to reset display and clear messages
         });
 
+        // --- Margin Calculator ---
+        const costPriceMarginInput = document.getElementById('costPriceMargin');
+        const sellingPriceMarginInput = document.getElementById('sellingPriceMargin');
+        const grossProfitAmountEl = document.getElementById('grossProfitAmount');
+        const grossMarginPercentageEl = document.getElementById('grossMarginPercentage');
+        const marginMessageEl = document.getElementById('marginMessage');
+        const resetMarginCalcBtn = document.getElementById('resetMarginCalc');
+
+        function calculateMargin() {
+            const costPrice = getValidatedFloatInput(costPriceMarginInput, marginMessageEl, 'Cost Price');
+            const sellingPrice = getValidatedFloatInput(sellingPriceMarginInput, marginMessageEl, 'Selling Price');
+
+            if (costPrice === null || sellingPrice === null || isNaN(costPrice) || isNaN(sellingPrice)) {
+                grossProfitAmountEl.textContent = formatIndianRupees(0);
+                grossMarginPercentageEl.textContent = '0.00%';
+                return;
+            }
+
+            if (sellingPrice < costPrice) {
+                marginMessageEl.textContent = 'Selling price cannot be less than cost price for positive margin.';
+            } else {
+                marginMessageEl.textContent = '';
+            }
+
+            const grossProfit = sellingPrice - costPrice;
+            const grossMarginPercentage = (sellingPrice > 0) ? (grossProfit / sellingPrice) * 100 : 0;
+
+            grossProfitAmountEl.textContent = formatIndianRupees(grossProfit);
+            grossMarginPercentageEl.textContent = `${grossMarginPercentage.toFixed(2)}%`;
+        }
+
+        costPriceMarginInput.addEventListener('input', calculateMargin);
+        sellingPriceMarginInput.addEventListener('input', calculateMargin);
+        resetMarginCalcBtn.addEventListener('click', () => {
+            costPriceMarginInput.value = '';
+            sellingPriceMarginInput.value = '';
+            calculateMargin();
+        });
+
+        // --- GST Calculator ---
+        const basePriceGSTInput = document.getElementById('basePriceGST');
+        const gstRateInput = document.getElementById('gstRate');
+        const gstAmountEl = document.getElementById('gstAmount');
+        const totalPriceWithGSTEl = document.getElementById('totalPriceWithGST');
+        const gstMessageEl = document.getElementById('gstMessage');
+        const resetGSTCalcBtn = document.getElementById('resetGSTCalc');
+
+        function calculateGST() {
+            const basePrice = getValidatedFloatInput(basePriceGSTInput, gstMessageEl, 'Base Price');
+            const gstRate = getValidatedFloatInput(gstRateInput, gstMessageEl, 'GST Rate');
+
+            if (basePrice === null || gstRate === null || isNaN(basePrice) || isNaN(gstRate)) {
+                gstAmountEl.textContent = formatIndianRupees(0);
+                totalPriceWithGSTEl.textContent = formatIndianRupees(0);
+                return;
+            }
+
+            const gstAmount = basePrice * (gstRate / 100);
+            const totalPrice = basePrice + gstAmount;
+
+            gstAmountEl.textContent = formatIndianRupees(gstAmount);
+            totalPriceWithGSTEl.textContent = formatIndianRupees(totalPrice);
+        }
+
+        basePriceGSTInput.addEventListener('input', calculateGST);
+        gstRateInput.addEventListener('input', calculateGST);
+        resetGSTCalcBtn.addEventListener('click', () => {
+            basePriceGSTInput.value = '';
+            gstRateInput.value = '';
+            calculateGST();
+        });
+
         // --- Discount Calculator ---
         const mrpInput = document.getElementById('mrp');
         const salePriceInput = document.getElementById('salePrice');
@@ -639,6 +755,8 @@
             initializeCashCounter();
             calculatePricePerPiece();
             calculateBoxProfit();
+            calculateMargin(); // Initialize new Margin Calculator
+            calculateGST();    // Initialize new GST Calculator
             calculateDiscount();
             calculatePulseQuantity();
         });
