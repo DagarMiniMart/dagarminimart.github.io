@@ -241,6 +241,72 @@
         .profit-negative {
             color: #F44336; /* A clear, vibrant red for loss */
         }
+
+        /* --- Custom styles for Reorder List --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: right;
+        }
+        .total-row td {
+            font-weight: bold;
+            background-color: #e9e9e9;
+        }
+        .text-right {
+            text-align: right;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        #orderOutputContainer {
+            margin-top: 30px;
+            text-align: center;
+        }
+        #orderOutput {
+            width: 80%;
+            height: 200px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 14px;
+            resize: vertical; /* Allow vertical resizing */
+        }
+        .header-info { /* Reorder list specific header info style */
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f0f8ff;
+            border-left: 5px solid #4682b4;
+            border-radius: 0.5rem; /* Added for consistency with other elements */
+        }
+        .header-info p {
+            margin: 5px 0;
+        }
+
     </style>
 </head>
 <body class="p-6 sm:p-8 md:p-10">
@@ -387,7 +453,104 @@
                 <button id="resetPulseCalc" class="btn btn-secondary mt-4 w-full sm:w-auto">Reset Calculator</button>
             </div>
         </div>
-    </div>
+
+        <div id="reorderListSection" class="calculator-card">
+            <h2 class="mb-6"><span class="currency-symbol">📋</span> Daily Reorder List</h2>
+            <div class="header-info">
+                <p><strong>Address:</strong> Bhaktiyana, Near NIT, 246174 Srinagar Garhwal</p>
+                <p><strong>Report:</strong> Daily Reorder Suggestion</p>
+                <p id="currentDate"></p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Reorder Quantity</th>
+                        <th>Cost (₹)</th>
+                    </tr>
+                </thead>
+                <tbody id="reorderTableBody">
+                    <tr>
+                        <td data-unit-type="ml" data-unit-value="500">Full Cream Milk, 500ml</td>
+                        <td><input type="number" value="31" min="0" data-price="34.00" onchange="calculateTotal()"></td>
+                        <td class="text-right">1,054.00</td>
+                    </tr>
+                    <tr>
+                        <td data-unit-type="ml" data-unit-value="500">Cow Milk, 500ml</td>
+                        <td><input type="number" value="8" min="0" data-price="29.00" onchange="calculateTotal()"></td>
+                        <td class="text-right">232.00</td>
+                    </tr>
+                    <tr>
+                        <td data-unit-type="ml" data-unit-value="500">Double Toned Milk, 500ml</td>
+                        <td><input type="number" value="1" min="0" data-price="25.00" onchange="calculateTotal()"></td>
+                        <td class="text-right">25.00</td>
+                    </tr>
+                    <tr>
+                        <td data-unit-type="g" data-unit-value="500" data-display-unit="Kg">Dahi, 400g</td>
+                        <td><input type="number" value="20" min="0" data-price="32.00" onchange="calculateTotal()"></td>
+                        <td class="text-right">640.00</td>
+                    </tr>
+                    <tr>
+                        <td data-unit-type="g" data-unit-value="200" data-display-unit="Kg">Dahi, 200g</td>
+                        <td><input type="number" value="20" min="0" data-price="18.00" onchange="calculateTotal()"></td>
+                        <td class="text-right">360.00</td>
+                    </tr>
+                    <tr>
+                        <td data-unit-type="ml" data-unit-value="500">Buttermilk, 500ml</td>
+                        <td><input type="number" value="18" min="0" data-price="14.00" onchange="calculateTotal()"></td>
+                        <td class="text-right">252.00</td>
+                    </tr>
+                    <tr>
+                        <td data-unit-type="packs">Masala Buttermilk, 300ml</td>
+                        <td><input type="number" value="20" min="0" data-price="9.00" onchange="calculateTotal()"></td>
+                        <td class="text-right">180.00</td>
+                    </tr>
+                    <tr>
+                        <td>Ananda Cow Paneer, 200g</td>
+                        <td><input type="number" value="5" min="0" data-price="64.00" onchange="calculateTotal()"></td>
+                        <td class="text-right">320.00</td>
+                    </tr>
+                    <tr>
+                        <td>Amul Paneer, 200g</td>
+                        <td><input type="number" value="5" min="0" data-price="80.00" onchange="calculateTotal()"></td>
+                        <td class="text-right">400.00</td>
+                    </tr>
+                    <tr>
+                        <td data-unit-type="packs">Plain Bread, 200g</td>
+                        <td><input type="number" value="0" min="0" data-price="20.00" onchange="calculateTotal()"></td>
+                        <td class="text-right">0.00</td>
+                    </tr>
+                    <tr>
+                        <td data-unit-type="packs">Brown Bread, 400g</td>
+                        <td><input type="number" value="0" min="0" data-price="50.00" onchange="calculateTotal()"></td>
+                        <td class="text-right">0.00</td>
+                    </tr>
+                    <tr>
+                        <td>Green Pea, 200g</td>
+                        <td><input type="number" value="5" min="0" data-price="24.00" onchange="calculateTotal()"></td>
+                        <td class="text-right">120.00</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-right">Grand Total:</td>
+                        <td id="grandTotal" class="text-right">₹3,558.00</td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div class="button-container">
+                <button onclick="generateOrderText()">Generate Order Text</button>
+            </div>
+
+            <div id="orderOutputContainer" style="display: none;">
+                <h3>Order Text (to copy):</h3>
+                <textarea id="orderOutput" readonly></textarea>
+                <button onclick="copyOrderText()" style="margin-top: 10px;">Copy</button>
+            </div>
+        </div>
+        </div>
 
     <footer class="footer">
         <p class="text-sm">
@@ -750,15 +913,112 @@
             calculatePulseQuantity(); // Recalculate to reset display and clear messages
         });
 
-        // Initialize all calculators on page load
+        // --- Daily Reorder List Functions ---
+        // Set the current date
+        const dateElement = document.getElementById('currentDate');
+        const today = new Date();
+        // Format for display date (e.g., "Wednesday, May 28, 2025")
+        const longDateFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dateElement.textContent = `Date: ${today.toLocaleDateString('en-IN', longDateFormatOptions)}`;
+
+        // Format for order text date (e.g., "28/05/2025")
+        const shortDateFormatOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        const todayDateFormatted = today.toLocaleDateString('en-IN', shortDateFormatOptions);
+
+        // Function to calculate total cost for reorder list
+        function calculateTotal() {
+            let grandTotal = 0;
+            const rows = document.getElementById('reorderTableBody').rows;
+
+            for (let i = 0; i < rows.length; i++) {
+                const input = rows[i].cells[1].getElementsByTagName('input')[0];
+                const costCell = rows[i].cells[2];
+                const quantity = parseFloat(input.value) || 0;
+                const price = parseFloat(input.dataset.price) || 0;
+                const rowTotal = quantity * price;
+                costCell.textContent = rowTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                grandTotal += rowTotal;
+            }
+
+            document.getElementById('grandTotal').textContent = `₹${grandTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+        }
+
+        // Function to generate the order text and display in textarea
+        function generateOrderText() {
+            let orderText = `Today's Order: ${todayDateFormatted}\n`;
+            const rows = document.getElementById('reorderTableBody').rows;
+            let itemCounter = 1;
+
+            for (let i = 0; i < rows.length; i++) {
+                const productNameCell = rows[i].cells[0];
+                const input = rows[i].cells[1].getElementsByTagName('input')[0];
+                const quantity = parseFloat(input.value) || 0;
+
+                if (quantity > 0) {
+                    const productName = productNameCell.textContent;
+                    const unitType = productNameCell.dataset.unitType;
+                    const unitValue = parseFloat(productNameCell.dataset.unitValue);
+
+                    let totalAmount;
+                    let unitDisplay;
+
+                    if (unitType === "ml") {
+                        totalAmount = (quantity * unitValue) / 1000;
+                        unitDisplay = "L";
+                    } else if (unitType === "g") {
+                        totalAmount = (quantity * unitValue) / 1000;
+                        unitDisplay = "Kg";
+                    } else if (unitType === "packs") {
+                        totalAmount = quantity;
+                        unitDisplay = "Pack";
+                    } else {
+                        totalAmount = quantity;
+                        unitDisplay = "Pcs";
+                    }
+
+                    let formattedAmount = totalAmount.toFixed(1);
+                    if (formattedAmount.endsWith('.0')) {
+                        formattedAmount = formattedAmount.slice(0, -2);
+                    }
+
+                    orderText += `${itemCounter}. ${productName} - ${formattedAmount}${unitDisplay}\n`;
+                    itemCounter++;
+                }
+            }
+
+            const orderOutputElement = document.getElementById('orderOutput');
+            const orderOutputContainer = document.getElementById('orderOutputContainer');
+
+            if (itemCounter === 1) {
+                orderOutputElement.value = `Today's Order: ${todayDateFormatted}\nNo items selected for order.`;
+            } else {
+                orderOutputElement.value = orderText;
+            }
+
+            orderOutputContainer.style.display = 'block';
+            orderOutputElement.select();
+        }
+
+        // Function to copy the generated text
+        function copyOrderText() {
+            const orderOutputElement = document.getElementById('orderOutput');
+            orderOutputElement.select();
+            document.execCommand('copy');
+            alert('Order text copied to clipboard!');
+        }
+
+
+        // Initialize all calculators and reorder list on page load
         document.addEventListener('DOMContentLoaded', () => {
             initializeCashCounter();
             calculatePricePerPiece();
             calculateBoxProfit();
-            calculateMargin(); // Initialize new Margin Calculator
-            calculateGST();    // Initialize new GST Calculator
+            calculateMargin();
+            calculateGST();
             calculateDiscount();
             calculatePulseQuantity();
+            // Initialize reorder list total
+            calculateTotal();
         });
     </script>
 </body>
