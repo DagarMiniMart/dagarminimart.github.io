@@ -1,0 +1,313 @@
+/* Base styles for the body, setting font, background, and text color */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F0F2F5; /* A very light, soft gray for the background */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    color: #374151; /* Darker gray for better readability (Tailwind gray-700) */
+    line-height: 1.6;
+}
+
+/* Styling for individual calculator cards */
+.calculator-card {
+    background-color: #ffffff; /* Pure white for cards */
+    border-radius: 1.25rem; /* Even more rounded corners (20px) */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08), 0 5px 10px rgba(0,0,0,0.04); /* Deeper, softer shadow */
+    padding: 2.5rem; /* Generous padding */
+    margin-bottom: 3.5rem; /* Increased consistent margin between cards */
+    transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
+    border: 1px solid #E5E7EB; /* Subtle light gray border */
+    overflow: hidden; /* Ensures shadows and borders are contained */
+}
+
+/* Hover effect for calculator cards */
+.calculator-card:hover {
+    transform: translateY(-0.5rem); /* Lift card slightly more on hover */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0,0,0,0.06); /* More pronounced shadow on hover */
+}
+
+/* Styling for input fields */
+.input-field {
+    border: 1px solid #D1D5DB; /* Medium gray border */
+    border-radius: 0.625rem; /* Slightly more rounded corners for inputs (10px) */
+    padding: 0.875rem 1.25rem; /* Increased padding */
+    width: 100%;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    background-color: #F9FAFB; /* Very light gray background for inputs */
+    font-size: 1.05rem; /* Slightly larger font size */
+    color: #1F2937; /* Dark text for inputs (Tailwind gray-800) */
+}
+
+/* Focus state for input fields */
+.input-field:focus {
+    border-color: #5A7DFF; /* A vibrant, yet soft blue on focus */
+    box-shadow: 0 0 0 4px rgba(90, 125, 255, 0.3); /* Blue glow on focus */
+    outline: none;
+    background-color: #ffffff; /* White background on focus */
+}
+
+/* Styling for labels */
+.label-text {
+    font-size: 0.95rem; /* Slightly adjusted font size */
+    font-weight: 500; /* Medium weight */
+    color: #4B5563; /* Darker gray for labels (Tailwind gray-600) */
+    margin-bottom: 0.75rem; /* Increased consistent spacing below labels */
+    display: block;
+}
+
+/* Styling for result areas */
+.result-area {
+    margin-top: 2.5rem; /* Increased spacing above result area */
+    padding-top: 2.5rem; /* Increased padding inside result area */
+    border-top: 1px solid #E5E7EB; /* Light gray border at the top */
+}
+
+/* Styling for general result text */
+.result-text {
+    font-size: 1.25rem; /* 20px */
+    font-weight: 600; /* Semi-bold */
+    color: #1F2937; /* Dark text for results */
+    margin-bottom: 0.5rem; /* Small margin below result text */
+}
+
+/* Styling for total amount displays (e.g., cash counter, profit) */
+.total-amount {
+    font-size: 2.5rem; /* Larger font size for totals (40px) */
+    font-weight: 800; /* Extra bold */
+    color: #5A7DFF; /* Primary blue for main totals */
+    letter-spacing: -0.025em; /* Slightly tighter letter spacing */
+}
+
+/* Styling for currency symbols */
+.currency-symbol {
+    font-size: 0.7em; /* Slightly smaller than parent text */
+    margin-right: 0.25rem; /* Small margin to the right */
+    opacity: 0.8;
+}
+
+/* Base styling for buttons */
+.btn {
+    padding: 0.875rem 1.75rem; /* Generous padding for buttons */
+    border-radius: 0.75rem; /* More rounded corners for buttons (12px) */
+    font-weight: 600; /* Semi-bold text */
+    transition: all 0.25s ease-in-out; /* Smooth transitions for hover/active */
+    cursor: pointer;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem; /* Increased space for icons */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05); /* Subtle shadow */
+}
+
+/* Styling for primary buttons */
+.btn-primary {
+    background: linear-gradient(135deg, #5A7DFF 0%, #6B8EFF 100%); /* Blue gradient */
+    color: white;
+    border: none;
+}
+.btn-primary:hover {
+    background: linear-gradient(135deg, #6B8EFF 0%, #5A7DFF 100%); /* Reverse gradient on hover */
+    transform: translateY(-0.1875rem); /* Slight lift */
+    box-shadow: 0 6px 15px rgba(90, 125, 255, 0.3); /* More pronounced shadow */
+}
+
+/* Styling for secondary buttons (used for reset) */
+.btn-secondary {
+    background-color: #E0E7FF; /* Light blue background */
+    color: #5A7DFF; /* Primary blue text */
+    border: 1px solid #C3D2FF; /* Slightly darker light blue border */
+}
+.btn-secondary:hover {
+    background-color: #C3D2FF; /* Darker light blue background on hover */
+    border-color: #A6BFFF; /* Darker border on hover */
+    color: #436BFF; /* Darker blue text on hover */
+    transform: translateY(-0.125rem); /* Slight lift */
+}
+
+/* Active state for all buttons */
+.btn:active {
+    transform: scale(0.97) translateY(0); /* Slight press effect */
+    box-shadow: none; /* Remove shadow on press */
+}
+
+/* Styling for main heading (H1) */
+h1 {
+    font-family: 'Montserrat', sans-serif; /* A bolder, more impactful font for the main title */
+    font-size: 3.5rem; /* Even larger font size for main title (56px) */
+    font-weight: 800; /* Extra bold */
+    color: #1F2937; /* Very dark gray */
+    margin-bottom: 1.5rem; /* Adjusted margin below title */
+    text-align: center;
+    letter-spacing: -0.05em; /* Tighter letter spacing for impact */
+}
+
+/* Styling for section headings (H2) */
+h2 {
+    font-size: 2rem; /* Larger font size for section titles (32px) */
+    font-weight: 700; /* Bold */
+    color: #1F2937; /* Darker gray */
+    margin-bottom: 1.5rem; /* Adjusted margin below section titles */
+    padding-bottom: 0.75rem; /* Padding below text before border */
+    border-bottom: 3px solid #5A7DFF; /* Thicker, primary blue accent border */
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Custom scrollbar for denomination list (if it overflows) */
+.denomination-grid::-webkit-scrollbar {
+    width: 0.625rem; /* 10px */
+}
+.denomination-grid::-webkit-scrollbar-track {
+    background: #E5E7EB; /* Light track */
+    border-radius: 0.625rem; /* 10px */
+}
+.denomination-grid::-webkit-scrollbar-thumb {
+    background: #A6BFFF; /* Light blue thumb */
+    border-radius: 0.625rem; /* 10px */
+}
+.denomination-grid::-webkit-scrollbar-thumb:hover {
+    background: #8C9EFF; /* Darker blue on hover */
+}
+
+/* Flex grow for content wrapper to push footer to bottom */
+.content-wrapper {
+    flex-grow: 1;
+}
+
+/* Styling for the footer */
+.footer {
+    width: 100%;
+    text-align: center;
+    padding: 2rem 0; /* Increased consistent padding */
+    margin-top: 5rem; /* Increased spacing above footer */
+    /*background-color: #ffffff; /* White background */
+    /*border-top: 1px solid #E5E7EB; /* Light gray border at the top */
+    /*box-shadow: 0 -0.125rem 0.3125rem rgba(0,0,0,0.03); /* Subtle top shadow */
+    color: #6B7280; /* Medium gray text */
+}
+
+/* Specific styling for denomination input wrappers */
+.denomination-input-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: #F9FAFB; /* Light background */
+    padding: 0.875rem 1.25rem; /* Consistent padding */
+    border-radius: 0.625rem; /* Rounded corners */
+    border: 1px solid #D1D5DB; /* Light border */
+    transition: all 0.2s ease-in-out;
+}
+.denomination-input-wrapper:focus-within {
+    border-color: #5A7DFF;
+    box-shadow: 0 0 0 3px rgba(90, 125, 255, 0.2);
+}
+.denomination-input-wrapper label {
+    margin-bottom: 0; /* Override general label margin */
+    margin-right: 0.875rem; /* Increased space between label and input */
+    white-space: nowrap; /* Prevent label from wrapping */
+    font-weight: 600;
+    color: #4B5563;
+}
+.denomination-input-wrapper input.input-field {
+    background-color: transparent; /* Transparent background for the input itself */
+    border: none; /* No border for the inner input */
+    padding: 0; /* No padding for the inner input */
+    min-width: 4rem; /* Minimum width for input */
+    flex-grow: 1; /* Allow input to grow */
+    text-align: right;
+    font-weight: 600;
+    color: #1F2937;
+}
+.denomination-input-wrapper input.input-field:focus {
+    box-shadow: none; /* Remove outer glow on inner input focus */
+    border-color: transparent;
+}
+
+/* Styling for profit/loss display */
+.profit-positive {
+    color: #4CAF50; /* A clear, vibrant green for profit */
+}
+.profit-negative {
+    color: #F44336; /* A clear, vibrant red for loss */
+}
+
+/* --- Custom styles for Reorder List --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px 12px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+tr:hover {
+    background-color: #f1f1f1;
+}
+input[type="number"] {
+    width: 60px; /* Adjusted slightly for better potential fit */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: right;
+}
+.total-row td {
+    font-weight: bold;
+    background-color: #e9e9e9;
+}
+.text-right {
+    text-align: right;
+}
+.button-container {
+    text-align: center;
+    margin-top: 30px;
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center horizontally */
+    gap: 15px; /* Space between buttons */
+}
+#orderOutputContainer {
+    margin-top: 30px;
+}
+#orderOutput {
+    width: 80%;
+    height: 200px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 14px;
+    resize: vertical; /* Allow vertical resizing */
+    display: block; /* Ensure it takes full width within its parent */
+    margin-left: auto; /* Remove centering margin */
+    margin-right: auto; /* Remove centering margin */
+    max-width: 600px; /* Limit width for better readability */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+#orderOutputContainer .btn {
+    display: block; /* Make the button a block element */
+    margin-left: auto; /* Center the button */
+    margin-right: auto; /* Center the button */
+    width: fit-content; /* Adjust width to content */
+}
+
+.header-info { /* Reorder list specific header info style */
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f0f8ff;
+    border-left: 5px solid #4682b4;
+    border-radius: 0.5rem; /* Added for consistency with other elements */
+}
+.header-info p {
+    margin: 5px 0;
+}
