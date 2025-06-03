@@ -59,43 +59,17 @@ function formatIndianRupees(amount) {
 }
 
 // --- Cash Counter Logic ---
-const cashCounterDiv = document.querySelector('#cashCounter .denomination-grid');
+// Select all existing denomination inputs
+const denominationInputs = document.querySelectorAll('#cashCounter .denomination-input');
 const cashTotalAmountEl = document.getElementById('cashTotalAmount');
 const resetCashCounterBtn = document.getElementById('resetCashCounter');
-const expectedCashInput = document.getElementById('expectedCash'); // New: Expected Cash input
-const cashDifferenceInput = document.getElementById('cashDifference'); // New: Difference output
-
-// Denominations in ascending order as per user request
-const denominations = [1, 2, 5, 10, 20, 50, 100, 200, 500, 2000];
-let denominationInputs = []; // Stores references to the dynamically created input elements
+const expectedCashInput = document.getElementById('expectedCash');
+const cashDifferenceInput = document.getElementById('cashDifference');
 
 function initializeCashCounter() {
-    cashCounterDiv.innerHTML = ''; // Clear existing inputs to prevent duplicates on re-init
-    denominationInputs = []; // Reset the array
-
-    // Sort denominations in ascending order for display
-    denominations.sort((a, b) => a - b);
-
-    denominations.forEach(denom => {
-        const wrapperDiv = document.createElement('div');
-        wrapperDiv.classList.add('denomination-item'); // Use the existing class for styling
-
-        const label = document.createElement('span');
-        label.classList.add('denomination-label');
-        label.textContent = `₹${denom}`;
-
-        const input = document.createElement('input');
-        input.type = 'number';
-        input.min = '0';
-        input.value = '0'; // Set default value to 0
-        input.classList.add('denomination-input');
-        input.dataset.value = denom; // Store the denomination value in a data attribute
+    // Attach event listeners to the already existing inputs
+    denominationInputs.forEach(input => {
         input.addEventListener('input', calculateCashTotal);
-
-        denominationInputs.push(input);
-        wrapperDiv.appendChild(label);
-        wrapperDiv.appendChild(input);
-        cashCounterDiv.appendChild(wrapperDiv);
     });
     calculateCashTotal(); // Calculate initial total
 }
@@ -192,7 +166,7 @@ function calculateBoxProfit() {
     const costOfBox = getValidatedFloatInput(costOfBoxInput, boxProfitMessageEl, 'Cost of Box');
     const piecesInBoxProfit = getValidatedIntInput(piecesInBoxProfitInput, boxProfitMessageEl, 'Number of Pieces in Box');
 
-    totalBoxProfitEl.classList.remove('profit-positive', 'profit-negative'); // Reset classes
+    totalBoxProfitEl.classList.remove('text-green-600', 'text-red-600'); // Reset classes
 
     // If any input is invalid (NaN) or empty (null), reset display and return
     if (sellingPricePerPc === null || costOfBox === null || piecesInBoxProfit === null ||
@@ -481,7 +455,6 @@ function copyOrderText() {
     const orderOutputElement = document.getElementById('orderOutput');
     orderOutputElement.select();
     document.execCommand('copy');
-    // Replaced alert with a simple console log or you can implement a custom modal/message box
     console.log('Order text copied to clipboard!');
 }
 
@@ -498,7 +471,7 @@ function initializeReorderListInputs() {
 
 // Initialize all calculators and reorder list on page load
 document.addEventListener('DOMContentLoaded', () => {
-    initializeCashCounter();
+    initializeCashCounter(); // Now selects existing inputs
     calculatePricePerPiece();
     calculateBoxProfit();
     calculateMargin();
