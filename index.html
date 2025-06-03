@@ -14,9 +14,68 @@
         <p class="text-center text-xl text-gray-600 mb-12 -mt-4 font-light">Your All-in-One Retail Calculation Tool</p>
 
         <div id="cashCounter" class="calculator-card">
-            <h2 class="mb-6"><span class="currency-symbol">💰</span> Indian Cash Counter</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8 denomination-grid mb-8 max-h-[400px] sm:max-h-none overflow-y-auto sm:overflow-visible pr-2 sm:pr-0">
+            <h2 class="mb-6"><span class="currency-symbol">💰</span> Cash Counter</h2>
+            <div class="mb-6 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                <div>
+                    <label for="customerName" class="label-text">Customer Name:</label>
+                    <input type="text" id="customerName" class="input-field" placeholder="e.g., John Doe">
                 </div>
+                <div>
+                    <label for="accountNumber" class="label-text">Account Number:</label>
+                    <input type="text" id="accountNumber" class="input-field" placeholder="e.g., 1234567890">
+                </div>
+                <div>
+                    <label for="expectedCash" class="label-text">Expected Cash (₹):</label>
+                    <input type="number" id="expectedCash" class="input-field" placeholder="e.g., 15000" min="0">
+                </div>
+                <div>
+                    <label for="cashDifference" class="label-text">Difference (₹):</label>
+                    <input type="text" id="cashDifference" class="input-field" readonly>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8 denomination-grid mb-8 max-h-[400px] sm:max-h-none overflow-y-auto sm:overflow-visible pr-2 sm:pr-0">
+                <div class="denomination-item" data-value="1">
+                    <span class="denomination-label">₹1</span>
+                    <input type="number" min="0" value="0" class="denomination-input">
+                </div>
+                <div class="denomination-item" data-value="2">
+                    <span class="denomination-label">₹2</span>
+                    <input type="number" min="0" value="0" class="denomination-input">
+                </div>
+                <div class="denomination-item" data-value="5">
+                    <span class="denomination-label">₹5</span>
+                    <input type="number" min="0" value="0" class="denomination-input">
+                </div>
+                <div class="denomination-item" data-value="10">
+                    <span class="denomination-label">₹10</span>
+                    <input type="number" min="0" value="0" class="denomination-input">
+                </div>
+                <div class="denomination-item" data-value="20">
+                    <span class="denomination-label">₹20</span>
+                    <input type="number" min="0" value="0" class="denomination-input">
+                </div>
+                <div class="denomination-item" data-value="50">
+                    <span class="denomination-label">₹50</span>
+                    <input type="number" min="0" value="0" class="denomination-input">
+                </div>
+                <div class="denomination-item" data-value="100">
+                    <span class="denomination-label">₹100</span>
+                    <input type="number" min="0" value="0" class="denomination-input">
+                </div>
+                <div class="denomination-item" data-value="200">
+                    <span class="denomination-label">₹200</span>
+                    <input type="number" min="0" value="0" class="denomination-input">
+                </div>
+                <div class="denomination-item" data-value="500">
+                    <span class="denomination-label">₹500</span>
+                    <input type="number" min="0" value="0" class="denomination-input">
+                </div>
+                <div class="denomination-item" data-value="2000">
+                    <span class="denomination-label">₹2000</span>
+                    <input type="number" min="0" value="0" class="denomination-input">
+                </div>
+            </div>
             <div class="result-area flex flex-col items-start">
                 <p class="text-xl font-semibold text-gray-700">Total Amount:</p>
                 <p id="cashTotalAmount" class="total-amount mt-2">₹0.00</p>
@@ -155,7 +214,7 @@
 
         <div id="reorderListSection" class="calculator-card">
             <h2 class="mb-6"><span class="currency-symbol">📋</span> Daily Reorder List</h2>
-            
+
             <table>
                 <thead>
                     <tr>
