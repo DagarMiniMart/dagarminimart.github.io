@@ -15,25 +15,6 @@
 
         <div id="cashCounter" class="calculator-card">
             <h2 class="mb-6"><span class="currency-symbol">💰</span> Cash Counter</h2>
-            <div class="mb-6 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
-                <div>
-                    <label for="customerName" class="label-text">Customer Name:</label>
-                    <input type="text" id="customerName" class="input-field" placeholder="e.g., John Doe">
-                </div>
-                <div>
-                    <label for="accountNumber" class="label-text">Account Number:</label>
-                    <input type="text" id="accountNumber" class="input-field" placeholder="e.g., 1234567890">
-                </div>
-                <div>
-                    <label for="expectedCash" class="label-text">Expected Cash (₹):</label>
-                    <input type="number" id="expectedCash" class="input-field" placeholder="e.g., 15000" min="0">
-                </div>
-                <div>
-                    <label for="cashDifference" class="label-text">Difference (₹):</label>
-                    <input type="text" id="cashDifference" class="input-field" readonly>
-                </div>
-            </div>
-
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8 denomination-grid mb-8 max-h-[400px] sm:max-h-none overflow-y-auto sm:overflow-visible pr-2 sm:pr-0">
                 <div class="denomination-item" data-value="1">
                     <span class="denomination-label">₹1</span>
@@ -77,6 +58,25 @@
                 </div>
             </div>
             <div class="result-area flex flex-col items-start">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 w-full mb-6">
+                    <div>
+                        <label for="customerName" class="label-text">Customer Name:</label>
+                        <input type="text" id="customerName" class="input-field" placeholder="e.g., John Doe">
+                    </div>
+                    <div>
+                        <label for="accountNumber" class="label-text">Account Number:</label>
+                        <input type="text" id="accountNumber" class="input-field" placeholder="e.g., 1234567890">
+                    </div>
+                    <div>
+                        <label for="expectedCash" class="label-text">Expected Cash (₹):</label>
+                        <input type="number" id="expectedCash" class="input-field" placeholder="e.g., 15000" min="0">
+                    </div>
+                    <div>
+                        <label for="cashDifference" class="label-text">Difference (₹):</label>
+                        <input type="text" id="cashDifference" class="input-field" readonly>
+                    </div>
+                </div>
+
                 <p class="text-xl font-semibold text-gray-700">Total Amount:</p>
                 <p id="cashTotalAmount" class="total-amount mt-2">₹0.00</p>
                 <button id="resetCashCounter" class="btn btn-secondary mt-8 w-full sm:w-auto">Reset Counter</button>
