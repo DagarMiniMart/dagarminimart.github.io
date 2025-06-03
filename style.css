@@ -214,8 +214,8 @@ h2 {
     background-color: transparent; /* Transparent background for the input itself */
     border: none; /* No border for the inner input */
     padding: 0; /* No padding for the inner input */
-    min-width: 4rem; /* Minimum width for input */
-    flex-grow: 1; /* Allow input to grow */
+    min-width: 4rem;
+    flex-grow: 1;
     text-align: right;
     font-weight: 600;
     color: #1F2937;
@@ -310,4 +310,12 @@ input[type="number"] {
 }
 .header-info p {
     margin: 5px 0;
+}
+
+/* Specific styling for Cash Counter input fields added in the result area */
+#cashCounter .result-area .input-field {
+    text-align: right; /* Align text to the right */
+    max-width: 250px; /* Set a maximum width for compactness */
+    margin-left: auto; /* Push the input to the right within its container */
+    margin-right: 0; /* Ensure no extra right margin */
 }
