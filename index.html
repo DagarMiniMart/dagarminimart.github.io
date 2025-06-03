@@ -19,16 +19,16 @@
                 </div>
             <div class="result-area flex flex-col items-start">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8 w-full">
-                    <div>
-                        <label for="customerName" class="label-text">Customer Name:</label>
+                    <div class="standard-input-wrapper">
+                        <label for="customerName">Customer Name:</label>
                         <input type="text" id="customerName" class="input-field" placeholder="e.g., John Doe">
                     </div>
-                    <div>
-                        <label for="accountNumber" class="label-text">Account Number:</label>
+                    <div class="standard-input-wrapper">
+                        <label for="accountNumber">Account Number:</label>
                         <input type="text" id="accountNumber" class="input-field" placeholder="e.g., 1234567890">
                     </div>
-                    <div>
-                        <label for="expectedCash" class="label-text">Expected Cash (₹):</label>
+                    <div class="standard-input-wrapper">
+                        <label for="expectedCash">Expected Cash (₹):</label>
                         <input type="number" id="expectedCash" class="input-field" placeholder="e.g.," min="0">
                     </div>
                     <div>
@@ -45,12 +45,12 @@
         <div id="unitPriceCalculator" class="calculator-card">
             <h2 class="mb-6"><span class="currency-symbol">🏷️</span> Price Per Piece Calculator</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
-                <div>
-                    <label for="mrpBox" class="label-text">MRP (Price of the Box/Pack):</label>
+                <div class="standard-input-wrapper">
+                    <label for="mrpBox">MRP (Price of the Box/Pack):</label>
                     <input type="number" id="mrpBox" class="input-field" placeholder="e.g., 590" min="0">
                 </div>
-                <div>
-                    <label for="piecesInBox" class="label-text">Number of Pieces in Box/Pack:</label>
+                <div class="standard-input-wrapper">
+                    <label for="piecesInBox">Number of Pieces in Box/Pack:</label>
                     <input type="number" id="piecesInBox" class="input-field" placeholder="e.g., 50" min="0">
                 </div>
             </div>
@@ -65,16 +65,16 @@
         <div id="boxProfitCalculator" class="calculator-card">
             <h2 class="mb-6"><span class="currency-symbol">📈</span> Total Box Profit Calculator</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
-                <div>
-                    <label for="sellingPricePerPc" class="label-text">Selling Price Per Piece (₹):</label>
+                <div class="standard-input-wrapper">
+                    <label for="sellingPricePerPc">Selling Price Per Piece (₹):</label>
                     <input type="number" id="sellingPricePerPc" class="input-field" placeholder="e.g., 15" min="0">
                 </div>
-                <div>
-                    <label for="costOfBox" class="label-text">Cost of Box (₹):</label>
+                <div class="standard-input-wrapper">
+                    <label for="costOfBox">Cost of Box (₹):</label>
                     <input type="number" id="costOfBox" class="input-field" placeholder="e.g., 590" min="0">
                 </div>
-                <div>
-                    <label for="piecesInBoxProfit" class="label-text">Number of Pieces in Box:</label>
+                <div class="standard-input-wrapper">
+                    <label for="piecesInBoxProfit">Number of Pieces in Box:</label>
                     <input type="number" id="piecesInBoxProfit" class="input-field" placeholder="e.g., 50" min="0">
                 </div>
             </div>
@@ -89,12 +89,12 @@
         <div id="marginCalculator" class="calculator-card">
             <h2 class="mb-6"><span class="currency-symbol">📊</span> Margin Calculator</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
-                <div>
-                    <label for="costPriceMargin" class="label-text">Cost Price (₹):</label>
+                <div class="standard-input-wrapper">
+                    <label for="costPriceMargin">Cost Price (₹):</label>
                     <input type="number" id="costPriceMargin" class="input-field" placeholder="e.g., 100" min="0">
                 </div>
-                <div>
-                    <label for="sellingPriceMargin" class="label-text">Selling Price (₹):</label>
+                <div class="standard-input-wrapper">
+                    <label for="sellingPriceMargin">Selling Price (₹):</label>
                     <input type="number" id="sellingPriceMargin" class="input-field" placeholder="e.g., 120" min="0">
                 </div>
             </div>
@@ -111,12 +111,12 @@
         <div id="gstCalculator" class="calculator-card">
             <h2 class="mb-6"><span class="currency-symbol">🧾</span> GST Calculator</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
-                <div>
-                    <label for="basePriceGST" class="label-text">Base Price (₹):</label>
+                <div class="standard-input-wrapper">
+                    <label for="basePriceGST">Base Price (₹):</label>
                     <input type="number" id="basePriceGST" class="input-field" placeholder="e.g., 1000" min="0">
                 </div>
-                <div>
-                    <label for="gstRate" class="label-text">GST Rate (%):</label>
+                <div class="standard-input-wrapper">
+                    <label for="gstRate">GST Rate (%):</label>
                     <input type="number" id="gstRate" class="input-field" placeholder="e.g., 18" min="0">
                 </div>
             </div>
@@ -133,12 +133,12 @@
         <div id="discountCalculator" class="calculator-card">
             <h2 class="mb-6"><span class="currency-symbol">📉</span> Discount Calculator</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
-                <div>
-                    <label for="mrp" class="label-text">MRP (Maximum Retail Price):</label>
+                <div class="standard-input-wrapper">
+                    <label for="mrp">MRP (Maximum Retail Price):</label>
                     <input type="number" id="mrp" class="input-field" placeholder="e.g., 1000" min="0">
                 </div>
-                <div>
-                    <label for="salePrice" class="label-text">Sale Price:</label>
+                <div class="standard-input-wrapper">
+                    <label for="salePrice">Sale Price:</label>
                     <input type="number" id="salePrice" class="input-field" placeholder="e.g., 800" min="0">
                 </div>
             </div>
@@ -154,12 +154,12 @@
         <div id="pulseCalculator" class="calculator-card">
             <h2 class="mb-6"><span class="currency-symbol">🍚</span> Price of Pulse Calculator</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
-                <div>
-                    <label for="pulsePricePerKg" class="label-text">Price of Pulse (per 1 kg):</label>
+                <div class="standard-input-wrapper">
+                    <label for="pulsePricePerKg">Price of Pulse (per 1 kg):</label>
                     <input type="number" id="pulsePricePerKg" class="input-field" placeholder="e.g., 90" min="0">
                 </div>
-                <div>
-                    <label for="amountToSpend" class="label-text">Amount you want to spend (₹):</label>
+                <div class="standard-input-wrapper">
+                    <label for="amountToSpend">Amount you want to spend (₹):</label>
                     <input type="number" id="amountToSpend" class="input-field" placeholder="e.g., 20" min="0">
                 </div>
             </div>
