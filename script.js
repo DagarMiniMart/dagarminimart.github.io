@@ -7,18 +7,24 @@
  * @returns {number|null} The parsed float value, or null if invalid.
  */
 function getValidatedFloatInput(inputElement, messageElement, fieldName) {
-    messageElement.textContent = ''; // Clear previous messages
+    if (messageElement) { // Check if messageElement exists before trying to clear
+        messageElement.textContent = ''; // Clear previous messages
+    }
     const value = parseFloat(inputElement.value);
 
     if (inputElement.value.trim() === '') {
         return null; // Treat empty as no input, not an error for initial state
     }
     if (isNaN(value)) {
-        messageElement.textContent = `Invalid ${fieldName} value. Please enter a number.`;
+        if (messageElement) {
+            messageElement.textContent = `Invalid ${fieldName} value. Please enter a number.`;
+        }
         return NaN; // Indicate a parsing error
     }
     if (value < 0) {
-        messageElement.textContent = `${fieldName} cannot be negative.`;
+        if (messageElement) {
+            messageElement.textContent = `${fieldName} cannot be negative.`;
+        }
         return NaN; // Indicate a validation error
     }
     return value;
@@ -32,18 +38,24 @@ function getValidatedFloatInput(inputElement, messageElement, fieldName) {
  * @returns {number|null} The parsed integer value, or null if invalid.
  */
 function getValidatedIntInput(inputElement, messageElement, fieldName) {
-    messageElement.textContent = ''; // Clear previous messages
+    if (messageElement) { // Check if messageElement exists before trying to clear
+        messageElement.textContent = ''; // Clear previous messages
+    }
     const value = parseInt(inputElement.value);
 
     if (inputElement.value.trim() === '') {
         return null; // Treat empty as no input, not an error for initial state
     }
     if (isNaN(value)) {
-        messageElement.textContent = `Invalid ${fieldName} value. Please enter a whole number.`;
+        if (messageElement) {
+            messageElement.textContent = `Invalid ${fieldName} value. Please enter a whole number.`;
+        }
         return NaN; // Indicate a parsing error
     }
     if (value < 0) {
-        messageElement.textContent = `${fieldName} cannot be negative.`;
+        if (messageElement) {
+            messageElement.textContent = `${fieldName} cannot be negative.`;
+        }
         return NaN; // Indicate a validation error
     }
     return value;
@@ -58,20 +70,45 @@ function formatIndianRupees(amount) {
     return `₹${amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
-// --- Cash Counter Logic ---
-// Select all existing denomination inputs
-const denominationInputs = document.querySelectorAll('#cashCounter .denomination-input');
+// --- Indian Cash Counter ---
+const cashCounterDiv = document.querySelector('#cashCounter .denomination-grid');
 const cashTotalAmountEl = document.getElementById('cashTotalAmount');
-const resetCashCounterBtn = document.getElementById('resetCashCounter');
+const cashDifferenceEl = document.getElementById('cashDifference');
 const expectedCashInput = document.getElementById('expectedCash');
-const cashDifferenceInput = document.getElementById('cashDifference');
+const resetCashCounterBtn = document.getElementById('resetCashCounter');
+
+// Denominations in ascending order, excluding 1000 and 2000
+const denominations = [1, 2, 5, 10, 20, 50, 100, 200, 500];
+let denominationInputs = []; // Stores references to the dynamically created input elements
 
 function initializeCashCounter() {
-    // Attach event listeners to the already existing inputs
-    denominationInputs.forEach(input => {
-        input.addEventListener('input', calculateCashTotal);
+    cashCounterDiv.innerHTML = ''; // Clear existing inputs to prevent duplicates on re-init
+    denominationInputs = []; // Reset the array
+
+    denominations.forEach(denom => {
+        const wrapperDiv = document.createElement('div');
+        wrapperDiv.classList.add('denomination-input-wrapper');
+
+        const label = document.createElement('label');
+        label.setAttribute('for', `denom-${denom}`);
+        label.classList.add('font-medium', 'text-gray-700');
+        label.textContent = `₹${denom} x `;
+
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.id = `denom-${denom}`;
+        input.min = '0';
+        input.classList.add('input-field', 'text-center');
+        input.dataset.value = denom; // Store the denomination value in a data attribute
+        input.placeholder = "0";
+        input.addEventListener('input', calculateCashAndDifference);
+
+        denominationInputs.push(input);
+        wrapperDiv.appendChild(label);
+        wrapperDiv.appendChild(input);
+        cashCounterDiv.appendChild(wrapperDiv);
     });
-    calculateCashTotal(); // Calculate initial total
+    calculateCashAndDifference(); // Calculate initial total
 }
 
 function calculateCashTotal() {
@@ -83,37 +120,40 @@ function calculateCashTotal() {
             total += count * denominationValue;
         }
     });
-    cashTotalAmountEl.textContent = formatIndianRupees(total);
-    calculateCashDifference(total); // Call difference calculation after total is updated
+    return total;
 }
 
-function calculateCashDifference(currentTotal) {
-    const expected = parseFloat(expectedCashInput.value) || 0;
-    const difference = currentTotal - expected;
-    cashDifferenceInput.value = formatIndianRupees(difference);
+function calculateCashAndDifference() {
+    const totalCash = calculateCashTotal();
+    cashTotalAmountEl.textContent = formatIndianRupees(totalCash);
 
-    // Apply styling based on difference
-    cashDifferenceInput.classList.remove('text-green-600', 'text-red-600'); // Clear previous styles
-    if (difference > 0) {
-        cashDifferenceInput.classList.add('text-green-600');
-    } else if (difference < 0) {
-        cashDifferenceInput.classList.add('text-red-600');
+    const expectedCash = getValidatedFloatInput(expectedCashInput, null, 'Expected Cash'); // No specific message element for expected cash
+    
+    if (expectedCash === null || isNaN(expectedCash)) {
+        cashDifferenceEl.textContent = formatIndianRupees(0);
+    } else {
+        const difference = totalCash - expectedCash;
+        cashDifferenceEl.textContent = formatIndianRupees(difference);
+        // Optionally, add styling based on difference (e.g., red for negative, green for positive)
+        cashDifferenceEl.classList.remove('profit-positive', 'profit-negative');
+        if (difference > 0) {
+            cashDifferenceEl.classList.add('profit-positive');
+        } else if (difference < 0) {
+            cashDifferenceEl.classList.add('profit-negative');
+        }
     }
 }
 
-// Event listener for Expected Cash input
-expectedCashInput.addEventListener('input', () => {
-    const currentTotal = parseFloat(cashTotalAmountEl.textContent.replace('₹', '').replace(/,/g, '')) || 0;
-    calculateCashDifference(currentTotal);
-});
 
 resetCashCounterBtn.addEventListener('click', () => {
-    denominationInputs.forEach(input => input.value = '0'); // Reset to '0'
-    expectedCashInput.value = ''; // Clear expected cash
+    denominationInputs.forEach(input => input.value = ''); // Clear all input values
     document.getElementById('customerName').value = ''; // Clear customer name
     document.getElementById('accountNumber').value = ''; // Clear account number
-    calculateCashTotal(); // Recalculate total and difference after clearing
+    expectedCashInput.value = ''; // Clear expected cash
+    calculateCashAndDifference(); // Recalculate total and difference after clearing
 });
+
+expectedCashInput.addEventListener('input', calculateCashAndDifference);
 
 
 // --- Price Per Piece Calculator ---
@@ -166,7 +206,7 @@ function calculateBoxProfit() {
     const costOfBox = getValidatedFloatInput(costOfBoxInput, boxProfitMessageEl, 'Cost of Box');
     const piecesInBoxProfit = getValidatedIntInput(piecesInBoxProfitInput, boxProfitMessageEl, 'Number of Pieces in Box');
 
-    totalBoxProfitEl.classList.remove('text-green-600', 'text-red-600'); // Reset classes
+    totalBoxProfitEl.classList.remove('profit-positive', 'profit-negative'); // Reset classes
 
     // If any input is invalid (NaN) or empty (null), reset display and return
     if (sellingPricePerPc === null || costOfBox === null || piecesInBoxProfit === null ||
@@ -181,9 +221,9 @@ function calculateBoxProfit() {
     totalBoxProfitEl.textContent = formatIndianRupees(totalProfit);
     // Apply profit/loss specific classes
     if (totalProfit >= 0) {
-        totalBoxProfitEl.classList.add('text-green-600'); // Using Tailwind for color
+        totalBoxProfitEl.classList.add('profit-positive');
     } else {
-        totalBoxProfitEl.classList.add('text-red-600'); // Using Tailwind for color
+        totalBoxProfitEl.classList.add('profit-negative');
     }
 }
 
@@ -263,7 +303,6 @@ function calculateGST() {
 
 basePriceGSTInput.addEventListener('input', calculateGST);
 gstRateInput.addEventListener('input', calculateGST);
-
 resetGSTCalcBtn.addEventListener('click', () => {
     basePriceGSTInput.value = '';
     gstRateInput.value = '';
@@ -298,11 +337,7 @@ function calculateDiscount() {
     }
 
     const discountAmount = mrp - salePrice;
-    let discountPercentage = 0;
-
-    if (mrp > 0) {
-        discountPercentage = (discountAmount / mrp) * 100;
-    }
+    const discountPercentage = (mrp > 0) ? (discountAmount / mrp) * 100 : 0;
 
     discountAmountEl.textContent = `Discount Amount: ${formatIndianRupees(discountAmount)}`;
     discountPercentageEl.textContent = `Discount Percentage: ${discountPercentage.toFixed(2)}%`;
@@ -310,7 +345,6 @@ function calculateDiscount() {
 
 mrpInput.addEventListener('input', calculateDiscount);
 salePriceInput.addEventListener('input', calculateDiscount);
-
 resetDiscountCalcBtn.addEventListener('click', () => {
     mrpInput.value = '';
     salePriceInput.value = '';
@@ -383,16 +417,16 @@ function calculateTotal() {
         const quantity = parseFloat(input.value) || 0;
         const price = parseFloat(input.dataset.price) || 0;
         const rowTotal = quantity * price;
-        costCell.textContent = formatIndianRupees(rowTotal); // Use formatIndianRupees
+        costCell.textContent = rowTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         grandTotal += rowTotal;
     }
 
-    document.getElementById('grandTotal').textContent = formatIndianRupees(grandTotal); // Use formatIndianRupees
+    document.getElementById('grandTotal').textContent = `₹${grandTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 }
 
 // Function to generate the order text and display in textarea
 function generateOrderText() {
-    let orderText = `${todayDateFormatted}\n`;
+    let orderText = `${todayDateFormatted}\n`; // Changed "Today's Order:" to just the date
     const rows = document.getElementById('reorderTableBody').rows;
     let itemCounter = 1;
 
@@ -441,7 +475,7 @@ function generateOrderText() {
     const orderOutputContainer = document.getElementById('orderOutputContainer');
 
     if (itemCounter === 1) {
-        orderOutputElement.value = `${todayDateFormatted}\nNo items selected for order.`;
+        orderOutputElement.value = `${todayDateFormatted}\nNo items selected for order.`; // Changed "Today's Order:"
     } else {
         orderOutputElement.value = orderText;
     }
@@ -455,7 +489,7 @@ function copyOrderText() {
     const orderOutputElement = document.getElementById('orderOutput');
     orderOutputElement.select();
     document.execCommand('copy');
-    console.log('Order text copied to clipboard!');
+    alert('Order text copied to clipboard!');
 }
 
 // Initialize reorder list inputs with event listeners
@@ -471,7 +505,7 @@ function initializeReorderListInputs() {
 
 // Initialize all calculators and reorder list on page load
 document.addEventListener('DOMContentLoaded', () => {
-    initializeCashCounter(); // Now selects existing inputs
+    initializeCashCounter();
     calculatePricePerPiece();
     calculateBoxProfit();
     calculateMargin();
