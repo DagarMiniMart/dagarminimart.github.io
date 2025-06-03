@@ -58,34 +58,38 @@ function formatIndianRupees(amount) {
     return `₹${amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
-// --- Indian Cash Counter ---
+// --- Cash Counter Logic ---
 const cashCounterDiv = document.querySelector('#cashCounter .denomination-grid');
 const cashTotalAmountEl = document.getElementById('cashTotalAmount');
 const resetCashCounterBtn = document.getElementById('resetCashCounter');
+const expectedCashInput = document.getElementById('expectedCash'); // New: Expected Cash input
+const cashDifferenceInput = document.getElementById('cashDifference'); // New: Difference output
 
-const denominations = [500, 200, 100, 50, 20, 10, 5, 2, 1];
+// Denominations in ascending order as per user request
+const denominations = [1, 2, 5, 10, 20, 50, 100, 200, 500, 2000];
 let denominationInputs = []; // Stores references to the dynamically created input elements
 
 function initializeCashCounter() {
     cashCounterDiv.innerHTML = ''; // Clear existing inputs to prevent duplicates on re-init
     denominationInputs = []; // Reset the array
 
+    // Sort denominations in ascending order for display
+    denominations.sort((a, b) => a - b);
+
     denominations.forEach(denom => {
         const wrapperDiv = document.createElement('div');
-        wrapperDiv.classList.add('denomination-input-wrapper');
+        wrapperDiv.classList.add('denomination-item'); // Use the existing class for styling
 
-        const label = document.createElement('label');
-        label.setAttribute('for', `denom-${denom}`);
-        label.classList.add('font-medium', 'text-gray-700');
-        label.textContent = `₹${denom} x `;
+        const label = document.createElement('span');
+        label.classList.add('denomination-label');
+        label.textContent = `₹${denom}`;
 
         const input = document.createElement('input');
         input.type = 'number';
-        input.id = `denom-${denom}`;
         input.min = '0';
-        input.classList.add('input-field', 'text-center');
+        input.value = '0'; // Set default value to 0
+        input.classList.add('denomination-input');
         input.dataset.value = denom; // Store the denomination value in a data attribute
-        input.placeholder = "0";
         input.addEventListener('input', calculateCashTotal);
 
         denominationInputs.push(input);
@@ -106,12 +110,37 @@ function calculateCashTotal() {
         }
     });
     cashTotalAmountEl.textContent = formatIndianRupees(total);
+    calculateCashDifference(total); // Call difference calculation after total is updated
 }
 
-resetCashCounterBtn.addEventListener('click', () => {
-    denominationInputs.forEach(input => input.value = ''); // Clear all input values
-    calculateCashTotal(); // Recalculate total after clearing
+function calculateCashDifference(currentTotal) {
+    const expected = parseFloat(expectedCashInput.value) || 0;
+    const difference = currentTotal - expected;
+    cashDifferenceInput.value = formatIndianRupees(difference);
+
+    // Apply styling based on difference
+    cashDifferenceInput.classList.remove('text-green-600', 'text-red-600'); // Clear previous styles
+    if (difference > 0) {
+        cashDifferenceInput.classList.add('text-green-600');
+    } else if (difference < 0) {
+        cashDifferenceInput.classList.add('text-red-600');
+    }
+}
+
+// Event listener for Expected Cash input
+expectedCashInput.addEventListener('input', () => {
+    const currentTotal = parseFloat(cashTotalAmountEl.textContent.replace('₹', '').replace(/,/g, '')) || 0;
+    calculateCashDifference(currentTotal);
 });
+
+resetCashCounterBtn.addEventListener('click', () => {
+    denominationInputs.forEach(input => input.value = '0'); // Reset to '0'
+    expectedCashInput.value = ''; // Clear expected cash
+    document.getElementById('customerName').value = ''; // Clear customer name
+    document.getElementById('accountNumber').value = ''; // Clear account number
+    calculateCashTotal(); // Recalculate total and difference after clearing
+});
+
 
 // --- Price Per Piece Calculator ---
 const mrpBoxInput = document.getElementById('mrpBox');
@@ -178,9 +207,9 @@ function calculateBoxProfit() {
     totalBoxProfitEl.textContent = formatIndianRupees(totalProfit);
     // Apply profit/loss specific classes
     if (totalProfit >= 0) {
-        totalBoxProfitEl.classList.add('profit-positive');
+        totalBoxProfitEl.classList.add('text-green-600'); // Using Tailwind for color
     } else {
-        totalBoxProfitEl.classList.add('profit-negative');
+        totalBoxProfitEl.classList.add('text-red-600'); // Using Tailwind for color
     }
 }
 
@@ -260,6 +289,7 @@ function calculateGST() {
 
 basePriceGSTInput.addEventListener('input', calculateGST);
 gstRateInput.addEventListener('input', calculateGST);
+
 resetGSTCalcBtn.addEventListener('click', () => {
     basePriceGSTInput.value = '';
     gstRateInput.value = '';
@@ -294,7 +324,11 @@ function calculateDiscount() {
     }
 
     const discountAmount = mrp - salePrice;
-    const discountPercentage = (mrp > 0) ? (discountAmount / mrp) * 100 : 0;
+    let discountPercentage = 0;
+
+    if (mrp > 0) {
+        discountPercentage = (discountAmount / mrp) * 100;
+    }
 
     discountAmountEl.textContent = `Discount Amount: ${formatIndianRupees(discountAmount)}`;
     discountPercentageEl.textContent = `Discount Percentage: ${discountPercentage.toFixed(2)}%`;
@@ -302,6 +336,7 @@ function calculateDiscount() {
 
 mrpInput.addEventListener('input', calculateDiscount);
 salePriceInput.addEventListener('input', calculateDiscount);
+
 resetDiscountCalcBtn.addEventListener('click', () => {
     mrpInput.value = '';
     salePriceInput.value = '';
@@ -374,16 +409,16 @@ function calculateTotal() {
         const quantity = parseFloat(input.value) || 0;
         const price = parseFloat(input.dataset.price) || 0;
         const rowTotal = quantity * price;
-        costCell.textContent = rowTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        costCell.textContent = formatIndianRupees(rowTotal); // Use formatIndianRupees
         grandTotal += rowTotal;
     }
 
-    document.getElementById('grandTotal').textContent = `₹${grandTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+    document.getElementById('grandTotal').textContent = formatIndianRupees(grandTotal); // Use formatIndianRupees
 }
 
 // Function to generate the order text and display in textarea
 function generateOrderText() {
-    let orderText = `${todayDateFormatted}\n`; // Changed "Today's Order:" to just the date
+    let orderText = `${todayDateFormatted}\n`;
     const rows = document.getElementById('reorderTableBody').rows;
     let itemCounter = 1;
 
@@ -432,7 +467,7 @@ function generateOrderText() {
     const orderOutputContainer = document.getElementById('orderOutputContainer');
 
     if (itemCounter === 1) {
-        orderOutputElement.value = `${todayDateFormatted}\nNo items selected for order.`; // Changed "Today's Order:"
+        orderOutputElement.value = `${todayDateFormatted}\nNo items selected for order.`;
     } else {
         orderOutputElement.value = orderText;
     }
@@ -446,7 +481,8 @@ function copyOrderText() {
     const orderOutputElement = document.getElementById('orderOutput');
     orderOutputElement.select();
     document.execCommand('copy');
-    alert('Order text copied to clipboard!');
+    // Replaced alert with a simple console log or you can implement a custom modal/message box
+    console.log('Order text copied to clipboard!');
 }
 
 // Initialize reorder list inputs with event listeners
