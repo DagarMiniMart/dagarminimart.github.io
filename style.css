@@ -27,8 +27,9 @@ body {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0,0,0,0.06); /* More pronounced shadow on hover */
 }
 
-/* Styling for input fields */
-.input-field {
+/* Styling for input fields that are NOT in a wrapper like denomination or standard */
+/* This ensures only the reorder list inputs are styled this way */
+input.input-field:not(.denomination-input-wrapper .input-field):not(.standard-input-wrapper .input-field) {
     border: 1px solid #D1D5DB; /* Medium gray border */
     border-radius: 0.625rem; /* Slightly more rounded corners for inputs (10px) */
     padding: 0.875rem 1.25rem; /* Increased padding */
@@ -38,6 +39,7 @@ body {
     font-size: 1.05rem; /* Slightly larger font size */
     color: #1F2937; /* Dark text for inputs (Tailwind gray-800) */
 }
+
 
 /* Focus state for input fields */
 .input-field:focus {
@@ -183,14 +185,11 @@ h2 {
     text-align: center;
     padding: 2rem 0; /* Increased consistent padding */
     margin-top: 5rem; /* Increased spacing above footer */
-    /*background-color: #ffffff; /* White background */
-    /*border-top: 1px solid #E5E7EB; /* Light gray border at the top */
-    /*box-shadow: 0 -0.125rem 0.3125rem rgba(0,0,0,0.03); /* Subtle top shadow */
     color: #6B7280; /* Medium gray text */
 }
 
 /* Specific styling for denomination input wrappers */
-.denomination-input-wrapper {
+.denomination-input-wrapper, .standard-input-wrapper {
     display: flex;
     align-items: center;
     background-color: #F9FAFB; /* Light background */
@@ -199,28 +198,30 @@ h2 {
     border: 1px solid #D1D5DB; /* Light border */
     transition: all 0.2s ease-in-out;
 }
-.denomination-input-wrapper:focus-within {
+.denomination-input-wrapper:focus-within, .standard-input-wrapper:focus-within {
     border-color: #5A7DFF;
     box-shadow: 0 0 0 3px rgba(90, 125, 255, 0.2);
 }
-.denomination-input-wrapper label {
+.denomination-input-wrapper label, .standard-input-wrapper label {
     margin-bottom: 0; /* Override general label margin */
     margin-right: 0.875rem; /* Increased space between label and input */
     white-space: nowrap; /* Prevent label from wrapping */
     font-weight: 600;
     color: #4B5563;
+    /* For standard input wrapper, if label width is needed for alignment */
+    /* flex-shrink: 0; */
 }
-.denomination-input-wrapper input.input-field {
+.denomination-input-wrapper input.input-field, .standard-input-wrapper input.input-field {
     background-color: transparent; /* Transparent background for the input itself */
     border: none; /* No border for the inner input */
     padding: 0; /* No padding for the inner input */
-    min-width: 4rem;
-    flex-grow: 1;
-    text-align: right;
+    min-width: 4rem; /* Minimum width for the input */
+    flex-grow: 1; /* Allow input to grow */
+    text-align: right; /* Right align text inside input */
     font-weight: 600;
     color: #1F2937;
 }
-.denomination-input-wrapper input.input-field:focus {
+.denomination-input-wrapper input.input-field:focus, .standard-input-wrapper input.input-field:focus {
     box-shadow: none; /* Remove outer glow on inner input focus */
     border-color: transparent;
 }
@@ -255,7 +256,8 @@ tr:nth-child(even) {
 tr:hover {
     background-color: #f1f1f1;
 }
-input[type="number"] {
+/* Reorder list input boxes - explicitly *not* affected by new wrapper styles */
+#reorderTableBody input[type="number"] {
     width: 60px; /* Adjusted slightly for better potential fit */
     padding: 5px;
     border: 1px solid #ccc;
@@ -310,12 +312,4 @@ input[type="number"] {
 }
 .header-info p {
     margin: 5px 0;
-}
-
-/* Specific styling for Cash Counter input fields added in the result area */
-#cashCounter .result-area .input-field {
-    text-align: right; /* Align text to the right */
-    max-width: 250px; /* Set a maximum width for compactness */
-    margin-left: auto; /* Push the input to the right within its container */
-    margin-right: 0; /* Ensure no extra right margin */
 }
