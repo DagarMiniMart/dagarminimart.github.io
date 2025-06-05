@@ -70,6 +70,28 @@ function formatIndianRupees(amount) {
     return `₹${amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
+// --- Toast Notification Functions ---
+const toastNotificationEl = document.getElementById('toastNotification');
+
+/**
+ * Displays a temporary toast notification with the given message.
+ * @param {string} message - The message to display in the toast.
+ */
+function showToast(message) {
+    if (!toastNotificationEl) {
+        console.error('Toast notification element not found!');
+        return;
+    }
+    toastNotificationEl.textContent = message;
+    toastNotificationEl.classList.add('show');
+
+    // Hide the toast after 3 seconds
+    setTimeout(() => {
+        toastNotificationEl.classList.remove('show');
+    }, 3000);
+}
+
+
 // --- Indian Cash Counter ---
 const cashCounterDiv = document.querySelector('#cashCounter .denomination-grid');
 const cashTotalAmountEl = document.getElementById('cashTotalAmount');
@@ -98,6 +120,7 @@ function initializeCashCounter() {
         input.type = 'number';
         input.id = `denom-${denom}`;
         input.min = '0';
+        // Add `input-field` class to ensure consistent styling
         input.classList.add('input-field', 'text-center');
         input.dataset.value = denom; // Store the denomination value in a data attribute
         input.placeholder = "0";
@@ -127,7 +150,7 @@ function calculateCashAndDifference() {
     const totalCash = calculateCashTotal();
     cashTotalAmountEl.textContent = formatIndianRupees(totalCash);
 
-    const expectedCash = getValidatedFloatInput(expectedCashInput, null, 'Expected Cash'); // No specific message element for expected cash
+    const expectedCash = getValidatedFloatInput(expectedCashInput, null, 'Expected Cash'); 
     
     if (expectedCash === null || isNaN(expectedCash)) {
         cashDifferenceEl.textContent = formatIndianRupees(0);
@@ -156,7 +179,7 @@ resetCashCounterBtn.addEventListener('click', () => {
 expectedCashInput.addEventListener('input', calculateCashAndDifference);
 
 
-// --- Price Per Piece Calculator ---
+// --- Unit Price Calculator ---
 const mrpBoxInput = document.getElementById('mrpBox');
 const piecesInBoxInput = document.getElementById('piecesInBox');
 const pricePerPieceEl = document.getElementById('pricePerPiece');
@@ -166,7 +189,7 @@ const resetUnitPriceCalcBtn = document.getElementById('resetUnitPriceCalc');
 function calculatePricePerPiece() {
     unitPriceMessageEl.textContent = ''; // Clear message on input
     const mrpBox = getValidatedFloatInput(mrpBoxInput, unitPriceMessageEl, 'MRP of Box');
-    const piecesInBox = getValidatedIntInput(piecesInBoxInput, unitPriceMessageEl, 'Number of Pieces');
+    const piecesInBox = getValidatedIntInput(piecesInBoxInput, unitPriceMessageEl, 'Number of Units'); 
 
     // If any input is invalid (NaN) or empty (null), reset display and return
     if (mrpBox === null || piecesInBox === null || isNaN(mrpBox) || isNaN(piecesInBox)) {
@@ -176,7 +199,7 @@ function calculatePricePerPiece() {
 
     if (piecesInBox === 0) {
         pricePerPieceEl.textContent = formatIndianRupees(0);
-        unitPriceMessageEl.textContent = 'Number of pieces cannot be zero.';
+        unitPriceMessageEl.textContent = 'Number of units cannot be zero.'; 
         return;
     }
 
@@ -311,10 +334,10 @@ resetGSTCalcBtn.addEventListener('click', () => {
 
 // --- Discount Calculator ---
 const mrpInput = document.getElementById('mrp');
-const salePriceInput = document.getElementById('salePrice');
+const salePriceInput = document = document.getElementById('salePrice');
 const discountAmountEl = document.getElementById('discountAmount');
 const discountPercentageEl = document.getElementById('discountPercentage');
-const discountMessageEl = document.getElementById('discountMessage');
+const discountMessageEl = document = document.getElementById('discountMessage');
 const resetDiscountCalcBtn = document.getElementById('resetDiscountCalc');
 
 function calculateDiscount() {
@@ -351,7 +374,7 @@ resetDiscountCalcBtn.addEventListener('click', () => {
     calculateDiscount(); // Recalculate to reset display and clear messages
 });
 
-// --- Price of Pulse Calculator ---
+// --- Price-Based Weight Calculator ---
 const pulsePricePerKgInput = document.getElementById('pulsePricePerKg');
 const amountToSpendInput = document.getElementById('amountToSpend');
 const pulseQuantityEl = document.getElementById('pulseQuantity');
@@ -396,13 +419,9 @@ resetPulseCalcBtn.addEventListener('click', () => {
     calculatePulseQuantity(); // Recalculate to reset display and clear messages
 });
 
-// --- Daily Reorder List Functions ---
-// Set the current date
-const dateElement = document.getElementById('currentDate'); // Not used in provided HTML, but kept for context
+// --- Dairy Stock Reorder List Functions ---
 const today = new Date();
-// Format for display date (e.g., "Wednesday, May 28, 2025")
-// const longDateFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; // Not used
-// Format for order text date (e.g., "29/05/2025")
+// Format for order text date (e.g., "05/06/2025")
 const shortDateFormatOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
 const todayDateFormatted = today.toLocaleDateString('en-IN', shortDateFormatOptions);
 
@@ -426,15 +445,15 @@ function calculateTotal() {
 
 // Function to generate the order text and display in textarea
 function generateOrderText() {
-    let orderText = `${todayDateFormatted}\n`; // Changed "Today's Order:" to just the date
+    let orderText = `${todayDateFormatted}\n`;
     const rows = document.getElementById('reorderTableBody').rows;
     let itemCounter = 1;
 
     const unitMap = { // Centralized unit management
         "ml": {factor: 1000, displayUnit: "L"},
         "g": {factor: 1000, displayUnit: "Kg"},
-        "packs": {factor: 1, displayUnit: "Pack"},
-        "default": {factor: 1, displayUnit: "Pcs"}
+        "packs": {factor: 1, displayUnit: "Packet"}, 
+        "default": {factor: 1, displayUnit: "Packet"} 
     };
 
     for (let i = 0; i < rows.length; i++) {
@@ -450,18 +469,39 @@ function generateOrderText() {
             let totalAmount;
             let unitDisplay;
 
-            // Special handling for Dahi, 400g
+            // Special handling for Dahi, 400g (2 pieces = 1 Kg)
             if (productName.includes('Dahi, 400g')) {
-                // For every 2 pieces, it's 1 Kg. So, (quantity / 2) Kg.
-                totalAmount = quantity / 2;
+                totalAmount = quantity / 2; // For every 2 pieces, it's 1 Kg
                 unitDisplay = 'Kg';
-            } else {
+            }
+            // Special handling for Dahi, 200g (5 pieces = 1 Kg)
+            else if (productName.includes('Dahi, 200g')) {
+                totalAmount = quantity / 5; // For every 5 pieces, it's 1 Kg
+                unitDisplay = 'Kg';
+            }
+            // Special handling for Ananda Cow Paneer, 200g (5 pieces = 1 Kg)
+            else if (productName.includes('Ananda Cow Paneer, 200g')) {
+                totalAmount = quantity / 5; // For every 5 pieces, it's 1 Kg
+                unitDisplay = 'Kg';
+            }
+            // Special handling for Amul Paneer, 200g (5 pieces = 1 Kg)
+            else if (productName.includes('Amul Paneer, 200g')) {
+                totalAmount = quantity / 5; // For every 5 pieces, it's 1 Kg
+                unitDisplay = 'Kg';
+            }
+            // Special handling for Green Pea, 200g (5 pieces = 1 Kg)
+            else if (productName.includes('Green Pea, 200g')) {
+                totalAmount = quantity / 5; // For every 5 pieces, it's 1 Kg
+                unitDisplay = 'Kg';
+            }
+            else {
                 const unitInfo = unitMap[unitType] || unitMap['default']; // Get unit info from map
                 totalAmount = (quantity * unitValue) / unitInfo.factor;
                 unitDisplay = unitInfo.displayUnit;
             }
 
             let formattedAmount = totalAmount.toFixed(1);
+            // Remove trailing .0 for whole numbers
             if (formattedAmount.endsWith('.0')) {
                 formattedAmount = formattedAmount.slice(0, -2);
             }
@@ -475,12 +515,12 @@ function generateOrderText() {
     const orderOutputContainer = document.getElementById('orderOutputContainer');
 
     if (itemCounter === 1) {
-        orderOutputElement.value = `${todayDateFormatted}\nNo items selected for order.`; // Changed "Today's Order:"
+        orderOutputElement.value = `${todayDateFormatted}\nNo items selected for order.`;
     } else {
         orderOutputElement.value = orderText;
     }
 
-    orderOutputContainer.style.display = 'block';
+    orderOutputContainer.style.display = 'flex'; // Make container visible
     orderOutputElement.select();
 }
 
@@ -489,7 +529,7 @@ function copyOrderText() {
     const orderOutputElement = document.getElementById('orderOutput');
     orderOutputElement.select();
     document.execCommand('copy');
-    alert('Order text copied to clipboard!');
+    showToast('Order text copied to clipboard!'); // Use custom toast instead of alert
 }
 
 // Initialize reorder list inputs with event listeners
