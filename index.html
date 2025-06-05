@@ -6,17 +6,23 @@
     <title>Dagar Mini Mart</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Link to external CSS file -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="p-6 sm:p-8 md:p-10">
     <div class="content-wrapper max-w-4xl mx-auto w-full">
         <h1 class="total-amount mb-4">Dagar Mini Mart</h1>
-        <p class="text-center text-xl text-gray-600 mb-12 -mt-4 font-light">Your All-in-One Retail Calculation Tool</p>
+        <p class="text-center text-xl tagline">For All You Need, Just Around the Corner.</p>
 
         <div id="cashCounter" class="calculator-card">
-            <h2 class="mb-6"><span class="currency-symbol">💰</span> Indian Cash Counter</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8 denomination-grid mb-8 max-h-[400px] sm:max-h-none overflow-y-auto sm:overflow-visible pr-2 sm:pr-0">
-                </div>
+            <h2 class="mb-6"><span class="currency-symbol">💰</span> Cash Denomination Counter</h2>
+            <!-- Added md:grid-cols-3 and lg:grid-cols-4 for responsive grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8 denomination-grid mb-8 max-h-[400px] sm:max-h-none overflow-y-auto sm:overflow-visible pr-2 sm:pr-0">
+                <!-- Denomination inputs will be dynamically generated here by script.js -->
+            </div>
             <div class="result-area flex flex-col items-start">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8 w-full">
                     <div class="standard-input-wrapper">
@@ -29,7 +35,7 @@
                     </div>
                     <div class="standard-input-wrapper">
                         <label for="expectedCash">Expected Cash (₹):</label>
-                        <input type="number" id="expectedCash" class="input-field" placeholder="e.g.," min="0">
+                        <input type="number" id="expectedCash" class="input-field" placeholder="e.g., 5000" min="0">
                     </div>
                     <div>
                         <p class="label-text">Difference (₹):</p>
@@ -43,19 +49,19 @@
         </div>
 
         <div id="unitPriceCalculator" class="calculator-card">
-            <h2 class="mb-6"><span class="currency-symbol">🏷️</span> Price Per Piece Calculator</h2>
+            <h2 class="mb-6"><span class="currency-symbol">🏷️</span> Unit Price Calculator</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
                 <div class="standard-input-wrapper">
                     <label for="mrpBox">MRP (Price of the Box/Pack):</label>
                     <input type="number" id="mrpBox" class="input-field" placeholder="e.g., 590" min="0">
                 </div>
                 <div class="standard-input-wrapper">
-                    <label for="piecesInBox">Number of Pieces in Box/Pack:</label>
+                    <label for="piecesInBox">Number of Units in Box/Pack:</label>
                     <input type="number" id="piecesInBox" class="input-field" placeholder="e.g., 50" min="0">
                 </div>
             </div>
             <div class="result-area flex flex-col items-start">
-                <p class="text-lg font-semibold text-gray-700">Price Per Piece:</p>
+                <p class="text-lg font-semibold text-gray-700">Price Per Unit:</p>
                 <p id="pricePerPiece" class="result-text mt-2">₹0.00</p>
                 <p id="unitPriceMessage" class="text-sm text-red-500 mt-3 h-5"></p>
                 <button id="resetUnitPriceCalc" class="btn btn-secondary mt-4 w-full sm:w-auto">Reset Calculator</button>
@@ -63,7 +69,7 @@
         </div>
 
         <div id="boxProfitCalculator" class="calculator-card">
-            <h2 class="mb-6"><span class="currency-symbol">📈</span> Total Box Profit Calculator</h2>
+            <h2 class="mb-6"><span class="currency-symbol">📈</span> Box Profit Analyzer</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
                 <div class="standard-input-wrapper">
                     <label for="sellingPricePerPc">Selling Price Per Piece (₹):</label>
@@ -152,14 +158,14 @@
         </div>
 
         <div id="pulseCalculator" class="calculator-card">
-            <h2 class="mb-6"><span class="currency-symbol">🍚</span> Price of Pulse Calculator</h2>
+            <h2 class="mb-6"><span class="currency-symbol">🍚</span> Price-Based Weight Calculator</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
                 <div class="standard-input-wrapper">
-                    <label for="pulsePricePerKg">Price of Pulse (per 1 kg):</label>
+                    <label for="pulsePricePerKg">Price Per Kg (₹):</label>
                     <input type="number" id="pulsePricePerKg" class="input-field" placeholder="e.g., 90" min="0">
                 </div>
                 <div class="standard-input-wrapper">
-                    <label for="amountToSpend">Amount you want to spend (₹):</label>
+                    <label for="amountToSpend">Desired Spend Amount (₹):</label>
                     <input type="number" id="amountToSpend" class="input-field" placeholder="e.g., 20" min="0">
                 </div>
             </div>
@@ -172,96 +178,97 @@
         </div>
 
         <div id="reorderListSection" class="calculator-card">
-            <h2 class="mb-6"><span class="currency-symbol">📋</span> Daily Reorder List</h2>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Quantity</th>
-                        <th>Cost (₹)</th>
-                    </tr>
-                </thead>
-                <tbody id="reorderTableBody">
-                    <tr>
-                        <td data-unit-type="ml" data-unit-value="500">Full Cream Milk, 500ml</td>
-                        <td><input type="number" value="" min="0" data-price="34.00"></td>
-                        <td class="text-right">0.00</td>
-                    </tr>
-                    <tr>
-                        <td data-unit-type="ml" data-unit-value="500">Cow Milk, 500ml</td>
-                        <td><input type="number" value="" min="0" data-price="29.00"></td>
-                        <td class="text-right">0.00</td>
-                    </tr>
-                    <tr>
-                        <td data-unit-type="ml" data-unit-value="500">Double Toned Milk, 500ml</td>
-                        <td><input type="number" value="" min="0" data-price="25.00"></td>
-                        <td class="text-right">0.00</td>
-                    </tr>
-                    <tr>
-                        <td data-unit-type="g" data-unit-value="400">Dahi, 400g</td>
-                        <td><input type="number" value="" min="0" data-price="32.00"></td>
-                        <td class="text-right">0.00</td>
-                    </tr>
-                    <tr>
-                        <td data-unit-type="g" data-unit-value="200">Dahi, 200g</td>
-                        <td><input type="number" value="" min="0" data-price="18.00"></td>
-                        <td class="text-right">0.00</td>
-                    </tr>
-                    <tr>
-                        <td data-unit-type="ml" data-unit-value="500">Buttermilk, 500ml</td>
-                        <td><input type="number" value="" min="0" data-price="14.00"></td>
-                        <td class="text-right">0.00</td>
-                    </tr>
-                    <tr>
-                        <td data-unit-type="packs">Masala Buttermilk, 300ml</td>
-                        <td><input type="number" value="" min="0" data-price="9.00"></td>
-                        <td class="text-right">0.00</td>
-                    </tr>
-                    <tr>
-                        <td>Ananda Cow Paneer, 200g</td>
-                        <td><input type="number" value="" min="0" data-price="64.00"></td>
-                        <td class="text-right">0.00</td>
-                    </tr>
-                    <tr>
-                        <td>Amul Paneer, 200g</td>
-                        <td><input type="number" value="" min="0" data-price="80.00"></td>
-                        <td class="text-right">0.00</td>
-                    </tr>
-                    <tr>
-                        <td data-unit-type="packs">Plain Bread, 200g</td>
-                        <td><input type="number" value="" min="0" data-price="20.00"></td>
-                        <td class="text-right">0.00</td>
-                    </tr>
-                    <tr>
-                        <td data-unit-type="packs">Brown Bread, 400g</td>
-                        <td><input type="number" value="" min="0" data-price="50.00"></td>
-                        <td class="text-right">0.00</td>
-                    </tr>
-                    <tr>
-                        <td>Green Pea, 200g</td>
-                        <td><input type="number" value="" min="0" data-price="24.00"></td>
-                        <td class="text-right">0.00</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr class="total-row">
-                        <td colspan="2" class="text-right">Grand Total:</td>
-                        <td id="grandTotal" class="text-right">₹0.00</td>
-                    </tr>
-                </tfoot>
-            </table>
+            <h2 class="mb-6"><span class="currency-symbol">📋</span> Dairy Stock Reorder</h2>
+            <div class="table-responsive"> <!-- Added for responsive table behavior -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Cost (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reorderTableBody">
+                        <tr>
+                            <td data-unit-type="ml" data-unit-value="500">Full Cream Milk, 500ml</td>
+                            <td><input type="number" value="" min="0" data-price="34.00" class="input-field-table"></td>
+                            <td class="text-right">0.00</td>
+                        </tr>
+                        <tr>
+                            <td data-unit-type="ml" data-unit-value="500">Cow Milk, 500ml</td>
+                            <td><input type="number" value="" min="0" data-price="29.00" class="input-field-table"></td>
+                            <td class="text-right">0.00</td>
+                        </tr>
+                        <tr>
+                            <td data-unit-type="ml" data-unit-value="500">Double Toned Milk, 500ml</td>
+                            <td><input type="number" value="" min="0" data-price="25.00" class="input-field-table"></td>
+                            <td class="text-right">0.00</td>
+                        </tr>
+                        <tr>
+                            <td data-unit-type="g" data-unit-value="400">Dahi, 400g</td>
+                            <td><input type="number" value="" min="0" data-price="32.00" class="input-field-table"></td>
+                            <td class="text-right">0.00</td>
+                        </tr>
+                        <tr>
+                            <td data-unit-type="g" data-unit-value="200">Dahi, 200g</td>
+                            <td><input type="number" value="" min="0" data-price="18.00" class="input-field-table"></td>
+                            <td class="text-right">0.00</td>
+                        </tr>
+                        <tr>
+                            <td data-unit-type="ml" data-unit-value="500">Buttermilk, 500ml</td>
+                            <td><input type="number" value="" min="0" data-price="14.00" class="input-field-table"></td>
+                            <td class="text-right">0.00</td>
+                        </tr>
+                        <tr>
+                            <td data-unit-type="packs">Masala Buttermilk, 300ml</td>
+                            <td><input type="number" value="" min="0" data-price="9.00" class="input-field-table"></td>
+                            <td class="text-right">0.00</td>
+                        </tr>
+                        <tr>
+                            <td>Ananda Cow Paneer, 200g</td>
+                            <td><input type="number" value="" min="0" data-price="64.00" class="input-field-table"></td>
+                            <td class="text-right">0.00</td>
+                        </tr>
+                        <tr>
+                            <td>Amul Paneer, 200g</td>
+                            <td><input type="number" value="" min="0" data-price="80.00" class="input-field-table"></td>
+                            <td class="text-right">0.00</td>
+                        </tr>
+                        <tr>
+                            <td data-unit-type="packs">Plain Bread, 200g</td>
+                            <td><input type="number" value="" min="0" data-price="20.00" class="input-field-table"></td>
+                            <td class="text-right">0.00</td>
+                        </tr>
+                        <tr>
+                            <td data-unit-type="packs">Brown Bread, 400g</td>
+                            <td><input type="number" value="" min="0" data-price="50.00" class="input-field-table"></td>
+                            <td class="text-right">0.00</td>
+                        </tr>
+                        <tr>
+                            <td>Green Pea, 200g</td>
+                            <td><input type="number" value="" min="0" data-price="24.00" class="input-field-table"></td>
+                            <td class="text-right">0.00</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="2" class="text-right">Grand Total:</td>
+                            <td id="grandTotal" class="text-right">₹0.00</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div> <!-- End table-responsive -->
 
             <div class="button-container">
-                <button onclick="generateOrderText()" class="btn btn-primary">Generate Order Text</button>
+                <button onclick="generateOrderText()" class="btn btn-secondary"><i class="fas fa-file-alt mr-2"></i> Generate</button>
             </div>
 
-            <div id="orderOutputContainer" style="display: none;">
+            <div id="orderOutputContainer">
                 <textarea id="orderOutput" readonly></textarea>
-                <button onclick="copyOrderText()" class="btn btn-secondary mt-4">Copy</button>
+                <button onclick="copyOrderText()" class="btn btn-secondary"><i class="fas fa-clipboard mr-2"></i> Copy</button>
             </div>
         </div>
-        </div>
+    </div>
 
     <footer class="footer">
         <p class="text-sm">
@@ -272,6 +279,10 @@
         </p>
     </footer>
 
+    <!-- Toast Notification Container -->
+    <div id="toastNotification" class="toast-notification"></div>
+
+    <!-- Link to external JavaScript file -->
     <script src="script.js"></script>
 </body>
 </html>
