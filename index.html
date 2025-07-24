@@ -2,19 +2,467 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- This meta tag is crucial for responsive design -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dagar Mini Mart</title>
-    <!-- Tailwind CSS for utility classes (kept for grid system, can be removed if not needed) -->
+    <!-- Tailwind CSS for utility classes -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary-blue: #60A5FA;
+            --primary-purple: #A78BFA;
+            --primary-pink: #F472B6;
+            --bg-light: #F0F5FF;
+            --glass-bg-light: rgba(255, 255, 255, 0.5);
+            --glass-border-light: rgba(255, 255, 255, 0.8);
+            --text-primary-light: #1e293b;
+            --text-secondary-light: #475569;
+            --nav-hover-bg-light: rgba(96, 165, 250, 0.1);
+            --nav-hover-text-light: #3b82f6;
+            --bg-dark: #0B1120;
+            --glass-bg-dark: rgba(30, 41, 59, 0.5);
+            --glass-border-dark: rgba(51, 65, 85, 0.5);
+            --text-primary-dark: #e2e8f0;
+            --text-secondary-dark: #94a3b8;
+            --nav-hover-bg-dark: rgba(96, 165, 250, 0.1);
+            --nav-hover-text-dark: #93c5fd;
+            --success-green: #4CAF50;
+            --error-red: #F44336;
+        }
+
+        html {
+            /* Smooth scrolling behavior */
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-primary-light);
+            line-height: 1.6;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            /* Use dynamic viewport height to account for mobile browser bars */
+            min-height: 100vh; 
+            min-height: 100dvh;
+        }
+        body.dark {
+            background-color: var(--bg-dark);
+            color: var(--text-primary-dark);
+        }
+
+        /* Modern Scrollbar */
+        .main-content::-webkit-scrollbar, #orderOutput::-webkit-scrollbar {
+            width: 8px;
+        }
+        .main-content::-webkit-scrollbar-track, #orderOutput::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .main-content::-webkit-scrollbar-thumb, #orderOutput::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--primary-blue), var(--primary-purple));
+            border-radius: 10px;
+        }
+        
+        .aurora-background {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+        }
+        .aurora-background::before, .aurora-background::after {
+            content: ''; position: absolute; width: 800px; height: 800px;
+            border-radius: 50%; opacity: 0.3; mix-blend-mode: screen;
+            filter: blur(100px); animation: aurora-move 20s infinite alternate;
+        }
+        .aurora-background::before {
+            background: radial-gradient(circle, var(--primary-blue), transparent 60%);
+            top: -200px; left: -200px;
+        }
+        .aurora-background::after {
+            background: radial-gradient(circle, var(--primary-purple), transparent 60%);
+            bottom: -200px; right: -200px; animation-delay: -10s;
+        }
+        @keyframes aurora-move {
+            from { transform: translate(0, 0) rotate(0deg); }
+            to { transform: translate(200px, 100px) rotate(180deg); }
+        }
+
+        .main-container {
+            display: flex;
+            min-height: 100vh;
+            min-height: 100dvh;
+            position: relative;
+        }
+
+        /* Sidebar */
+        .side-nav {
+            background-color: var(--glass-bg-light);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            padding: 1.5rem; border-right: 1px solid var(--glass-border-light);
+            width: 260px; z-index: 10;
+            transition: all 0.5s ease; display: flex; flex-direction: column;
+            flex-shrink: 0; /* Prevent sidebar from shrinking */
+        }
+        .side-nav.collapsed {
+            width: 80px; padding: 1.5rem 0.5rem;
+        }
+        body.dark .side-nav {
+            background-color: var(--glass-bg-dark);
+            border-right-color: var(--glass-border-dark);
+        }
+
+        .side-nav .logo {
+            font-family: 'Montserrat', sans-serif; font-size: 1.3rem; font-weight: 700;
+            color: var(--text-primary-light); margin-bottom: 2rem; padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-blue); transition: all 0.3s ease;
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        body.dark .side-nav .logo { color: var(--text-primary-dark); }
+        .side-nav.collapsed .logo { font-size: 1rem; justify-content: center; }
+        .side-nav.collapsed .logo .logo-text { display: none; }
+
+        .nav-menu a {
+            display: flex; align-items: center; padding: 0.75rem 1rem; margin-bottom: 0.75rem;
+            border-radius: 0.75rem; font-weight: 500; color: var(--text-secondary-light);
+            text-decoration: none; transition: all 0.25s ease-in-out; font-size: 0.95rem;
+        }
+        body.dark .nav-menu a { color: var(--text-secondary-dark); }
+        .nav-menu a:hover {
+            background-color: var(--nav-hover-bg-light); color: var(--nav-hover-text-light);
+        }
+        body.dark .nav-menu a:hover {
+            background-color: var(--nav-hover-bg-dark); color: var(--nav-hover-text-dark);
+        }
+        .nav-menu a.active {
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-purple));
+            color: white; box-shadow: 0 5px 20px -5px rgba(96, 165, 250, 0.5);
+        }
+        .nav-menu a i {
+            width: 24px; text-align: center; margin-right: 1rem; font-size: 1.1rem;
+            transition: transform 0.2s;
+        }
+        .side-nav.collapsed .nav-menu a { justify-content: center; }
+        .side-nav.collapsed .nav-menu a .nav-text { display: none; }
+        .side-nav.collapsed .nav-menu a i { margin-right: 0; }
+        .nav-menu a.active i { transform: scale(1.1); }
+
+        /* Sidebar Toggle */
+        #sidebar-toggle {
+            position: absolute; top: 20px; right: -15px; transform: translateY(-50%);
+            width: 30px; height: 30px; background-color: var(--glass-bg-light);
+            border: 1px solid var(--glass-border-light); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            color: var(--text-secondary-light); box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            z-index: 11; transition: all 0.3s ease;
+        }
+        body.dark #sidebar-toggle {
+            background-color: var(--glass-bg-dark); border-color: var(--glass-border-dark);
+            color: var(--text-secondary-dark);
+        }
+        #sidebar-toggle:hover {
+            background-color: var(--primary-blue); color: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+        #sidebar-toggle-icon { transition: transform 0.5s ease; }
+        .side-nav.collapsed #sidebar-toggle-icon { transform: rotate(180deg); }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1; padding: 2rem; overflow-y: auto; 
+            height: 100vh;
+            height: 100dvh;
+        }
+        .content-page { display: none; }
+        .content-page.active { display: block; animation: fadeIn 0.7s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Components */
+        .glass-card {
+            background: var(--glass-bg-light); backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07); padding: 2rem;
+            border: 1px solid var(--glass-border-light);
+        }
+        body.dark .glass-card {
+            background: var(--glass-bg-dark); border-color: var(--glass-border-dark);
+        }
+        .component-title {
+            font-size: 1.75rem; font-weight: 700; color: var(--text-primary-light);
+            margin-bottom: 1.5rem; padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--primary-blue); display: flex;
+            align-items: center; gap: 0.75rem;
+        }
+        body.dark .component-title {
+            color: var(--text-primary-dark); border-bottom-color: var(--primary-purple);
+        }
+
+        .modern-input, .input-field-table {
+            border: 1px solid var(--glass-border-light); border-radius: 0.625rem;
+            padding: 0.75rem 1rem; width: 100%; font-size: 1rem;
+            color: var(--text-primary-light); background-color: rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+        body.dark .modern-input, body.dark .input-field-table {
+            border-color: var(--glass-border-dark); color: var(--text-primary-dark);
+            background-color: rgba(0,0,0,0.2);
+        }
+        .modern-input:focus, .input-field-table:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+            outline: none; background-color: var(--glass-bg-light);
+        }
+        body.dark .modern-input:focus, body.dark .input-field-table:focus {
+            background-color: var(--glass-bg-dark);
+        }
+        .input-field-table {
+            padding: 0.4rem 0.6rem; text-align: right;
+        }
+
+        .modern-label {
+            font-size: 0.9rem; font-weight: 500; color: var(--text-secondary-light);
+            margin-bottom: 0.5rem; display: block;
+        }
+        body.dark .modern-label { color: var(--text-secondary-dark); }
+
+        .modern-btn {
+            padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-weight: 600;
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-purple));
+            color: white; border: none; cursor: pointer; display: inline-flex;
+            align-items: center; justify-content: center; gap: 0.625rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: all 0.3s ease;
+        }
+        .modern-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(120, 150, 255, 0.35);
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle { margin-top: auto; padding-top: 1.5rem; text-align: center; }
+        .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc; transition: .4s; border-radius: 28px;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 20px; width: 20px; left: 4px;
+            bottom: 4px; background-color: white; transition: .4s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--primary-blue); }
+        input:checked + .slider:before { transform: translateX(22px); }
+        .toggle-label {
+            margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-secondary-light);
+            font-weight: 500;
+        }
+        body.dark .toggle-label { color: var(--text-secondary-dark); }
+        .side-nav.collapsed .toggle-label { display: none; }
+
+        /* Result Area Styling */
+        .result-area {
+            margin-top: 2rem; padding-top: 2rem;
+            border-top: 1px solid var(--glass-border-light);
+        }
+        body.dark .result-area { border-top-color: var(--glass-border-dark); }
+        .result-text {
+            font-size: 1.1rem; font-weight: 600; color: var(--text-primary-light);
+            margin-bottom: 0.5rem;
+        }
+        body.dark .result-text { color: var(--text-primary-dark); }
+        .total-amount {
+            font-size: 2.25rem; font-weight: 800; color: var(--primary-blue);
+            letter-spacing: -0.025em; line-height: 1.2;
+        }
+        body.dark .total-amount { color: var(--primary-purple); }
+        .profit-positive { color: var(--success-green); }
+        .profit-negative { color: var(--error-red); }
+
+        /* Table styles */
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td {
+            padding: 0.8rem 1rem; text-align: left;
+            border-bottom: 1px solid var(--glass-border-light);
+        }
+        body.dark th, body.dark td { border-bottom-color: var(--glass-border-dark); }
+        th {
+            background-color: rgba(96, 165, 250, 0.1); color: var(--primary-blue);
+            font-weight: 600; text-transform: uppercase; font-size: 0.8rem;
+        }
+        body.dark th {
+            background-color: rgba(167, 139, 250, 0.1); color: var(--primary-purple);
+        }
+        .total-row td {
+            font-weight: bold; background-color: rgba(96, 165, 250, 0.1);
+            color: var(--primary-blue); border-top: 2px solid var(--primary-blue);
+        }
+        body.dark .total-row td {
+            background-color: rgba(167, 139, 250, 0.1);
+            color: var(--primary-purple); border-top-color: var(--primary-purple);
+        }
+
+        #orderOutputContainer {
+            display: none; width: 100%; max-width: 600px; flex-direction: column;
+            align-items: center; gap: 1rem;
+        }
+        #orderOutput {
+            width: 100%; max-width: 600px; height: 180px; padding: 12px;
+            border: 1px solid var(--glass-border-light); border-radius: 0.75rem;
+            font-family: monospace; resize: vertical; background-color: transparent;
+            color: var(--text-primary-light);
+        }
+        body.dark #orderOutput {
+            border-color: var(--glass-border-dark); color: var(--text-primary-dark);
+        }
+
+        /* Toast Notification */
+        .toast-notification {
+            position: fixed; bottom: -100px; left: 50%;
+            transform: translateX(-50%); background-color: #333;
+            color: white; padding: 1rem 2rem; border-radius: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: bottom 0.5s ease-in-out;
+            z-index: 2000;
+        }
+        .toast-notification.show { bottom: 30px; }
+
+        /* --- MOBILE RESPONSIVE STYLES --- */
+        .mobile-header { display: none; }
+        .overlay { display: none; }
+
+        @media (max-width: 768px) {
+            .mobile-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 1rem;
+                background-color: var(--glass-bg-light);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border-bottom: 1px solid var(--glass-border-light);
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 500;
+            }
+            body.dark .mobile-header {
+                 background-color: var(--glass-bg-dark);
+                 border-bottom-color: var(--glass-border-dark);
+            }
+            #mobile-menu-toggle {
+                font-size: 1.5rem;
+                cursor: pointer;
+                color: var(--text-primary-light);
+            }
+            body.dark #mobile-menu-toggle {
+                color: var(--text-primary-dark);
+            }
+            .mobile-header .logo {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 1.2rem;
+                font-weight: 700;
+                color: var(--text-primary-light);
+            }
+            body.dark .mobile-header .logo {
+                color: var(--text-primary-dark);
+            }
+            
+            .side-nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
+                transform: translateX(-100%);
+                z-index: 1000;
+                transition: transform 0.3s ease-in-out;
+            }
+            .side-nav.open {
+                transform: translateX(0);
+                box-shadow: 5px 0 25px rgba(0,0,0,0.1);
+            }
+            .side-nav.collapsed {
+                width: 260px; /* Full width when open on mobile */
+            }
+            .side-nav.collapsed .logo .logo-text,
+            .side-nav.collapsed .nav-menu .nav-text,
+            .side-nav.collapsed .toggle-label {
+                display: inline-block; /* Show text when open on mobile */
+            }
+            .side-nav.collapsed .logo,
+            .side-nav.collapsed .nav-menu a {
+                justify-content: flex-start;
+            }
+            .side-nav.collapsed .nav-menu a i {
+                margin-right: 1rem;
+            }
+
+            #sidebar-toggle {
+                display: none; /* Hide desktop toggle on mobile */
+            }
+            
+            .main-content {
+                /* Reduced padding on mobile */
+                padding: 1rem; 
+                /* Add significant padding to the bottom to avoid browser UI */
+                padding-top: 70px; /* Space for fixed mobile header */
+                padding-bottom: 100px; /* Extra space at the bottom */
+            }
+            .glass-card {
+                /* Reduced padding inside cards on mobile */
+                padding: 1rem;
+            }
+            .component-title {
+                /* Smaller title font on mobile */
+                font-size: 1.3rem;
+            }
+            .total-amount {
+                /* Smaller total font on mobile */
+                font-size: 1.8rem;
+            }
+            .modern-input, .modern-label, .modern-btn {
+                /* Smaller form elements on mobile */
+                font-size: 0.9rem;
+            }
+            .modern-btn {
+                padding: 0.6rem 1.2rem;
+            }
+            .denomination-grid {
+                /* 2 columns for cash counter on mobile */
+                grid-template-columns: repeat(2, minmax(0, 1fr)); 
+                gap: 1rem; /* Reduced gap */
+            }
+            
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+                display: none; /* Hidden by default */
+            }
+            .overlay.active {
+                display: block;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="aurora-background"></div>
+
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <i id="mobile-menu-toggle" class="fas fa-bars"></i>
+        <div class="logo">Dagar Mart</div>
+        <div></div> <!-- Spacer -->
+    </header>
 
     <div class="main-container">
         <!-- Side Navigation -->
@@ -47,6 +495,9 @@
                 <div class="toggle-label">Dark Mode</div>
             </div>
         </nav>
+
+        <!-- Overlay for mobile menu -->
+        <div class="overlay"></div>
 
         <!-- Main Content -->
         <main class="main-content">
@@ -83,7 +534,7 @@
                 </div>
             </div>
 
-            <!-- All other calculators follow the same new structure -->
+            <!-- Unit Price Calculator -->
             <div id="unitPriceCalculator" class="content-page">
                 <div class="glass-card">
                     <h2 class="component-title"><i class="fas fa-tag"></i> Unit Price Calculator</h2>
@@ -106,6 +557,7 @@
                 </div>
             </div>
 
+            <!-- Box Profit Calculator -->
             <div id="boxProfitCalculator" class="content-page">
                 <div class="glass-card">
                     <h2 class="component-title"><i class="fas fa-chart-line"></i> Box Profit Analyzer</h2>
@@ -131,8 +583,10 @@
                     </div>
                 </div>
             </div>
-
-            <div id="marginCalculator" class="content-page">
+            
+            <!-- Other calculators go here, following the same structure -->
+            
+             <div id="marginCalculator" class="content-page">
                 <div class="glass-card">
                     <h2 class="component-title"><i class="fas fa-percentage"></i> Margin Calculator</h2>
                      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -303,6 +757,7 @@
                 </div>
             </div>
 
+            <!-- Dairy Stock Reorder -->
             <div id="reorderListSection" class="content-page">
                 <div class="glass-card">
                     <h2 class="component-title"><i class="fas fa-clipboard-list"></i> Dairy Stock Reorder</h2>
@@ -402,6 +857,7 @@
                     </div>
                 </div>
             </div>
+
         </main>
     </div>
 
@@ -409,6 +865,525 @@
     <div id="toastNotification" class="toast-notification"></div>
 
     <!-- Custom JavaScript -->
-    <script src="script.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        // --- UI Elements ---
+        const sidebar = document.querySelector('.side-nav');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const overlay = document.querySelector('.overlay');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const contentPages = document.querySelectorAll('.content-page');
+
+        // --- Sidebar & Navigation Logic ---
+
+        // Desktop Sidebar Toggle
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+        });
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+        overlay.addEventListener('click', toggleMobileMenu);
+
+        // Dark Mode Toggle
+        darkModeToggle.addEventListener('change', () => {
+            document.body.classList.toggle('dark');
+        });
+        
+        // Navigation Logic
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                contentPages.forEach(page => page.classList.remove('active'));
+
+                link.classList.add('active');
+                const targetId = link.getAttribute('data-target');
+                document.querySelector(targetId).classList.add('active');
+
+                // Close mobile menu on navigation
+                if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+        // --- Utility Functions ---
+        function getValidatedFloatInput(inputElement, messageElement, fieldName) {
+            if (messageElement) messageElement.textContent = '';
+            const value = parseFloat(inputElement.value);
+            if (inputElement.value.trim() === '') return null;
+            if (isNaN(value) || value < 0) {
+                if (messageElement) messageElement.textContent = `Invalid ${fieldName}. Please enter a positive number.`;
+                return NaN;
+            }
+            return value;
+        }
+
+        function getValidatedIntInput(inputElement, messageElement, fieldName) {
+            if (messageElement) messageElement.textContent = '';
+            const value = parseInt(inputElement.value, 10);
+            if (inputElement.value.trim() === '') return null;
+            if (isNaN(value) || value < 0) {
+                if (messageElement) messageElement.textContent = `Invalid ${fieldName}. Please enter a positive whole number.`;
+                return NaN;
+            }
+            return value;
+        }
+
+        function formatIndianRupees(amount) {
+            return `₹${amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+
+        // --- Toast Notification ---
+        const toastNotificationEl = document.getElementById('toastNotification');
+        function showToast(message) {
+            if (!toastNotificationEl) return;
+            toastNotificationEl.textContent = message;
+            toastNotificationEl.classList.add('show');
+            setTimeout(() => {
+                toastNotificationEl.classList.remove('show');
+            }, 3000);
+        }
+
+        // --- Cash Counter ---
+        const cashCounterDiv = document.querySelector('#cashCounter .denomination-grid');
+        const cashTotalAmountEl = document.getElementById('cashTotalAmount');
+        const cashDifferenceEl = document.getElementById('cashDifference');
+        const expectedCashInput = document.getElementById('expectedCash');
+        const resetCashCounterBtn = document.getElementById('resetCashCounter');
+        const denominations = [500, 200, 100, 50, 20, 10, 5, 2, 1];
+        let denominationInputs = [];
+
+        function initializeCashCounter() {
+            cashCounterDiv.innerHTML = '';
+            denominationInputs = [];
+            denominations.forEach(denom => {
+                const wrapperDiv = document.createElement('div');
+                wrapperDiv.className = 'flex flex-col gap-2';
+
+                const label = document.createElement('label');
+                label.className = 'modern-label';
+                label.textContent = `₹${denom} Notes/Coins`;
+
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.min = '0';
+                input.className = 'modern-input text-center';
+                input.dataset.value = denom;
+                input.placeholder = "0";
+                input.addEventListener('input', calculateCashAndDifference);
+
+                denominationInputs.push(input);
+                wrapperDiv.appendChild(label);
+                wrapperDiv.appendChild(input);
+                cashCounterDiv.appendChild(wrapperDiv);
+            });
+            calculateCashAndDifference();
+        }
+
+        function calculateCashTotal() {
+            return denominationInputs.reduce((total, input) => {
+                const count = parseInt(input.value) || 0;
+                const denominationValue = parseInt(input.dataset.value);
+                return total + (count * denominationValue);
+            }, 0);
+        }
+
+        function calculateCashAndDifference() {
+            const totalCash = calculateCashTotal();
+            cashTotalAmountEl.textContent = formatIndianRupees(totalCash);
+            const expectedCash = getValidatedFloatInput(expectedCashInput, null, 'Expected Cash');
+            if (expectedCash === null || isNaN(expectedCash)) {
+                cashDifferenceEl.textContent = formatIndianRupees(0);
+                cashDifferenceEl.className = 'result-text mt-2 text-2xl font-bold';
+            } else {
+                const difference = totalCash - expectedCash;
+                cashDifferenceEl.textContent = formatIndianRupees(difference);
+                cashDifferenceEl.className = 'result-text mt-2 text-2xl font-bold';
+                if (difference > 0) cashDifferenceEl.classList.add('profit-positive');
+                else if (difference < 0) cashDifferenceEl.classList.add('profit-negative');
+            }
+        }
+
+        resetCashCounterBtn.addEventListener('click', () => {
+            denominationInputs.forEach(input => input.value = '');
+            document.getElementById('customerName').value = '';
+            document.getElementById('accountNumber').value = '';
+            expectedCashInput.value = '';
+            calculateCashAndDifference();
+        });
+        expectedCashInput.addEventListener('input', calculateCashAndDifference);
+
+        // --- Unit Price Calculator ---
+        const mrpBoxInput = document.getElementById('mrpBox');
+        const piecesInBoxInput = document.getElementById('piecesInBox');
+        const pricePerPieceEl = document.getElementById('pricePerPiece');
+        const unitPriceMessageEl = document.getElementById('unitPriceMessage');
+        const resetUnitPriceCalcBtn = document.getElementById('resetUnitPriceCalc');
+
+        function calculatePricePerPiece() {
+            const mrpBox = getValidatedFloatInput(mrpBoxInput, unitPriceMessageEl, 'MRP of Box');
+            const piecesInBox = getValidatedIntInput(piecesInBoxInput, unitPriceMessageEl, 'Number of Units');
+            if (mrpBox === null || piecesInBox === null || isNaN(mrpBox) || isNaN(piecesInBox)) {
+                pricePerPieceEl.textContent = formatIndianRupees(0); return;
+            }
+            if (piecesInBox === 0) {
+                pricePerPieceEl.textContent = formatIndianRupees(0);
+                unitPriceMessageEl.textContent = 'Number of units cannot be zero.'; return;
+            }
+            pricePerPieceEl.textContent = formatIndianRupees(mrpBox / piecesInBox);
+        }
+        [mrpBoxInput, piecesInBoxInput].forEach(el => el.addEventListener('input', calculatePricePerPiece));
+        resetUnitPriceCalcBtn.addEventListener('click', () => {
+            mrpBoxInput.value = ''; piecesInBoxInput.value = ''; calculatePricePerPiece();
+        });
+
+        // --- Total Box Profit Calculator ---
+        const sellingPricePerPcInput = document.getElementById('sellingPricePerPc');
+        const costOfBoxInput = document.getElementById('costOfBox');
+        const piecesInBoxProfitInput = document.getElementById('piecesInBoxProfit');
+        const totalBoxProfitEl = document.getElementById('totalBoxProfit');
+        const boxProfitMessageEl = document.getElementById('boxProfitMessage');
+        const resetBoxProfitCalcBtn = document.getElementById('resetBoxProfitCalc');
+
+        function calculateBoxProfit() {
+            const sellingPricePerPc = getValidatedFloatInput(sellingPricePerPcInput, boxProfitMessageEl, 'Selling Price');
+            const costOfBox = getValidatedFloatInput(costOfBoxInput, boxProfitMessageEl, 'Cost of Box');
+            const piecesInBoxProfit = getValidatedIntInput(piecesInBoxProfitInput, boxProfitMessageEl, 'Pieces in Box');
+            totalBoxProfitEl.classList.remove('profit-positive', 'profit-negative');
+            if (sellingPricePerPc === null || costOfBox === null || piecesInBoxProfit === null || isNaN(sellingPricePerPc) || isNaN(costOfBox) || isNaN(piecesInBoxProfit)) {
+                totalBoxProfitEl.textContent = formatIndianRupees(0); return;
+            }
+            const totalProfit = (sellingPricePerPc * piecesInBoxProfit) - costOfBox;
+            totalBoxProfitEl.textContent = formatIndianRupees(totalProfit);
+            if (totalProfit >= 0) totalBoxProfitEl.classList.add('profit-positive');
+            else totalBoxProfitEl.classList.add('profit-negative');
+        }
+        [sellingPricePerPcInput, costOfBoxInput, piecesInBoxProfitInput].forEach(el => el.addEventListener('input', calculateBoxProfit));
+        resetBoxProfitCalcBtn.addEventListener('click', () => {
+            sellingPricePerPcInput.value = ''; costOfBoxInput.value = ''; piecesInBoxProfitInput.value = ''; calculateBoxProfit();
+        });
+        
+        // --- All other calculator initializations would follow a similar pattern ---
+        // (Code for other calculators is omitted for brevity but follows the same logic as above)
+        
+        // --- Dairy Stock Reorder List Functions ---
+        const reorderTableBody = document.getElementById('reorderTableBody');
+        const orderOutputContainer = document.getElementById('orderOutputContainer');
+        const orderOutputElement = document.getElementById('orderOutput');
+        
+        function calculateTotal() {
+            let grandTotal = 0;
+            reorderTableBody.querySelectorAll('tr').forEach(row => {
+                const input = row.querySelector('input');
+                const costCell = row.cells[2];
+                const quantity = parseFloat(input.value) || 0;
+                const price = parseFloat(input.dataset.price) || 0;
+                const rowTotal = quantity * price;
+                costCell.textContent = rowTotal.toFixed(2);
+                grandTotal += rowTotal;
+            });
+            document.getElementById('grandTotal').textContent = formatIndianRupees(grandTotal);
+        }
+
+        window.generateOrderText = function() {
+            const today = new Date();
+            const formattedDate = today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+            let orderText = `Dagar Mini Mart\nOrder Date: ${formattedDate}\nDaily Order Summary\n\n`;
+            let itemCounter = 1;
+            reorderTableBody.querySelectorAll('tr').forEach(row => {
+                const input = row.querySelector('input');
+                const quantity = parseFloat(input.value) || 0;
+                if (quantity > 0) {
+                    const productCellText = row.cells[0].textContent;
+                    const parts = productCellText.split(', ');
+                    let productName = parts[0];
+                    let productSize = parts.length > 1 ? `(${parts[1]})` : '';
+                    orderText += `${itemCounter}. ${productName} ${productSize} – ${quantity} Pieces\n`;
+                    itemCounter++;
+                }
+            });
+            
+            orderOutputElement.value = (itemCounter === 1) 
+                ? `Dagar Mini Mart\nOrder Date: ${formattedDate}\nDaily Order Summary\n\nNo items selected.`
+                : orderText;
+           
+            orderOutputContainer.style.display = 'flex';
+            orderOutputElement.style.height = 'auto';
+            orderOutputElement.style.height = (orderOutputElement.scrollHeight) + 'px';
+            orderOutputElement.select();
+        }
+
+        window.copyOrderText = function() {
+            orderOutputElement.select();
+            // Using navigator.clipboard for modern browsers, with fallback
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(orderOutputElement.value).then(() => {
+                    showToast('Order text copied to clipboard!');
+                }).catch(err => {
+                    showToast('Could not copy text.');
+                });
+            } else {
+                try {
+                    document.execCommand('copy');
+                    showToast('Order text copied to clipboard!');
+                } catch (err) {
+                    showToast('Could not copy text.');
+                }
+            }
+        }
+
+        window.sendToWhatsApp = function() {
+            const orderText = orderOutputElement.value;
+            if (!orderText || orderText.includes('No items selected')) {
+                showToast('Please generate an order with items first.');
+                return;
+            }
+            const phoneNumber = '918218312037'; // Replace with the target phone number
+            const encodedText = encodeURIComponent(orderText);
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedText}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function initializeReorderListInputs() {
+            reorderTableBody.querySelectorAll('input[type="number"]').forEach(input => {
+                input.addEventListener('input', calculateTotal);
+                input.value = '';
+            });
+        }
+
+        // --- Initialize all calculators on page load ---
+        initializeCashCounter();
+        calculatePricePerPiece();
+        calculateBoxProfit();
+        // Margin Calculator
+        const costPriceMarginInput = document.getElementById('costPriceMargin');
+        const sellingPriceMarginInput = document.getElementById('sellingPriceMargin');
+        const grossProfitAmountEl = document.getElementById('grossProfitAmount');
+        const grossMarginPercentageEl = document.getElementById('grossMarginPercentage');
+        const marginMessageEl = document.getElementById('marginMessage');
+        const resetMarginCalcBtn = document.getElementById('resetMarginCalc');
+
+        function calculateMargin() {
+            const costPrice = getValidatedFloatInput(costPriceMarginInput, marginMessageEl, 'Cost Price');
+            const sellingPrice = getValidatedFloatInput(sellingPriceMarginInput, marginMessageEl, 'Selling Price');
+            if (costPrice === null || sellingPrice === null || isNaN(costPrice) || isNaN(sellingPrice)) {
+                grossProfitAmountEl.textContent = formatIndianRupees(0);
+                grossMarginPercentageEl.textContent = '0.00%';
+                return;
+            }
+            if (sellingPrice < costPrice) marginMessageEl.textContent = 'Warning: Selling price is less than cost price.';
+            else marginMessageEl.textContent = '';
+            const grossProfit = sellingPrice - costPrice;
+            const grossMarginPercentage = (sellingPrice > 0) ? (grossProfit / sellingPrice) * 100 : 0;
+            grossProfitAmountEl.textContent = formatIndianRupees(grossProfit);
+            grossMarginPercentageEl.textContent = `${grossMarginPercentage.toFixed(2)}%`;
+        }
+        [costPriceMarginInput, sellingPriceMarginInput].forEach(el => el.addEventListener('input', calculateMargin));
+        resetMarginCalcBtn.addEventListener('click', () => {
+            costPriceMarginInput.value = ''; sellingPriceMarginInput.value = ''; calculateMargin();
+        });
+
+
+        // GST Calculator
+        const basePriceGSTInput = document.getElementById('basePriceGST');
+        const gstRateInput = document.getElementById('gstRate');
+        const gstAmountEl = document.getElementById('gstAmount');
+        const totalPriceWithGSTEl = document.getElementById('totalPriceWithGST');
+        const gstMessageEl = document.getElementById('gstMessage');
+        const resetGSTCalcBtn = document.getElementById('resetGSTCalc');
+
+        function calculateGST() {
+            const basePrice = getValidatedFloatInput(basePriceGSTInput, gstMessageEl, 'Base Price');
+            const gstRate = getValidatedFloatInput(gstRateInput, gstMessageEl, 'GST Rate');
+            if (basePrice === null || gstRate === null || isNaN(basePrice) || isNaN(gstRate)) {
+                gstAmountEl.textContent = formatIndianRupees(0);
+                totalPriceWithGSTEl.textContent = formatIndianRupees(0);
+                return;
+            }
+            const gstAmount = basePrice * (gstRate / 100);
+            totalPriceWithGSTEl.textContent = formatIndianRupees(basePrice + gstAmount);
+            gstAmountEl.textContent = formatIndianRupees(gstAmount);
+        }
+        [basePriceGSTInput, gstRateInput].forEach(el => el.addEventListener('input', calculateGST));
+        resetGSTCalcBtn.addEventListener('click', () => {
+            basePriceGSTInput.value = ''; gstRateInput.value = ''; calculateGST();
+        });
+
+
+        // Discount Calculator
+        const mrpInput = document.getElementById('mrp');
+        const salePriceInput = document.getElementById('salePrice');
+        const discountAmountEl = document.getElementById('discountAmount');
+        const discountPercentageEl = document.getElementById('discountPercentage');
+        const discountMessageEl = document.getElementById('discountMessage');
+        const resetDiscountCalcBtn = document.getElementById('resetDiscountCalc');
+
+        function calculateDiscount() {
+            const mrp = getValidatedFloatInput(mrpInput, discountMessageEl, 'MRP');
+            const salePrice = getValidatedFloatInput(salePriceInput, discountMessageEl, 'Sale Price');
+            if (mrp === null || salePrice === null || isNaN(mrp) || isNaN(salePrice)) {
+                discountAmountEl.textContent = '₹0.00';
+                discountPercentageEl.textContent = 'Which is a 0.00% discount';
+                return;
+            }
+            if (salePrice > mrp) {
+                discountMessageEl.textContent = 'Sale price cannot be greater than MRP.';
+                return;
+            } else {
+                 discountMessageEl.textContent = '';
+            }
+            const discountAmount = mrp - salePrice;
+            const discountPercentage = (mrp > 0) ? (discountAmount / mrp) * 100 : 0;
+            discountAmountEl.textContent = formatIndianRupees(discountAmount);
+            discountPercentageEl.textContent = `Which is a ${discountPercentage.toFixed(2)}% discount`;
+        }
+        [mrpInput, salePriceInput].forEach(el => el.addEventListener('input', calculateDiscount));
+        resetDiscountCalcBtn.addEventListener('click', () => {
+            mrpInput.value = ''; salePriceInput.value = ''; calculateDiscount();
+        });
+
+
+        // Price-Based Weight Calculator
+        const pulsePricePerKgInput = document.getElementById('pulsePricePerKg');
+        const amountToSpendInput = document.getElementById('amountToSpend');
+        const pulseQuantityEl = document.getElementById('pulseQuantity');
+        const pulseMessageEl = document.getElementById('pulseMessage');
+        const resetPulseCalcBtn = document.getElementById('resetPulseCalc');
+
+        function calculatePulseQuantity() {
+            const pricePerKg = getValidatedFloatInput(pulsePricePerKgInput, pulseMessageEl, 'Price Per Kg');
+            const amountToSpend = getValidatedFloatInput(amountToSpendInput, pulseMessageEl, 'Amount to Spend');
+            if (pricePerKg === null || amountToSpend === null || isNaN(pricePerKg) || isNaN(amountToSpend)) {
+                pulseQuantityEl.textContent = '0.00 grams';
+                return;
+            }
+            if (pricePerKg === 0) {
+                pulseQuantityEl.textContent = (amountToSpend > 0) ? 'Infinite' : '0.00 grams';
+                return;
+            }
+            const quantityInGrams = (amountToSpend / pricePerKg) * 1000;
+            pulseQuantityEl.textContent = quantityInGrams >= 1000 ? `${(quantityInGrams / 1000).toFixed(2)} kg` : `${quantityInGrams.toFixed(2)} grams`;
+        }
+        [pulsePricePerKgInput, amountToSpendInput].forEach(el => el.addEventListener('input', calculatePulseQuantity));
+        resetPulseCalcBtn.addEventListener('click', () => {
+            pulsePricePerKgInput.value = ''; amountToSpendInput.value = ''; calculatePulseQuantity();
+        });
+
+
+        // Loose Item Profit Calculator
+        const lipCostPricePackInput = document.getElementById('lipCostPricePack');
+        const lipTotalItemsInput = document.getElementById('lipTotalItems');
+        const lipSellingPriceItemInput = document.getElementById('lipSellingPriceItem');
+        const lipCostPerItemEl = document.getElementById('lipCostPerItem');
+        const lipProfitPerItemEl = document.getElementById('lipProfitPerItem');
+        const lipMessageEl = document.getElementById('lipMessage');
+        const resetLipCalcBtn = document.getElementById('resetLipCalc');
+
+        function calculateLooseItemProfit() {
+            const costPricePack = getValidatedFloatInput(lipCostPricePackInput, lipMessageEl, 'Cost Price of Pack');
+            const totalItems = getValidatedIntInput(lipTotalItemsInput, lipMessageEl, 'Total Items');
+            const sellingPriceItem = getValidatedFloatInput(lipSellingPriceItemInput, lipMessageEl, 'Selling Price per Item');
+            lipProfitPerItemEl.classList.remove('profit-positive', 'profit-negative');
+            if (costPricePack === null || totalItems === null || sellingPriceItem === null || isNaN(costPricePack) || isNaN(totalItems) || isNaN(sellingPriceItem)) {
+                lipCostPerItemEl.textContent = formatIndianRupees(0);
+                lipProfitPerItemEl.textContent = formatIndianRupees(0);
+                return;
+            }
+            if (totalItems === 0) {
+                lipMessageEl.textContent = 'Total items cannot be zero.';
+                lipCostPerItemEl.textContent = formatIndianRupees(0);
+                lipProfitPerItemEl.textContent = formatIndianRupees(0);
+                return;
+            }
+            const costPerItem = costPricePack / totalItems;
+            const profitPerItem = sellingPriceItem - costPerItem;
+            lipCostPerItemEl.textContent = formatIndianRupees(costPerItem);
+            lipProfitPerItemEl.textContent = formatIndianRupees(profitPerItem);
+            if (profitPerItem >= 0) lipProfitPerItemEl.classList.add('profit-positive');
+            else lipProfitPerItemEl.classList.add('profit-negative');
+        }
+        [lipCostPricePackInput, lipTotalItemsInput, lipSellingPriceItemInput].forEach(el => el.addEventListener('input', calculateLooseItemProfit));
+        resetLipCalcBtn.addEventListener('click', () => {
+            lipCostPricePackInput.value = ''; lipTotalItemsInput.value = ''; lipSellingPriceItemInput.value = ''; calculateLooseItemProfit();
+        });
+        
+
+        // Scheme / Offer Calculator
+        const schemePricePerItemInput = document.getElementById('schemePricePerItem');
+        const schemeBuyQtyInput = document.getElementById('schemeBuyQty');
+        const schemeGetQtyInput = document.getElementById('schemeGetQty');
+        const schemeEffectivePriceEl = document.getElementById('schemeEffectivePrice');
+        const schemeTotalCostEl = document.getElementById('schemeTotalCost');
+        const schemeMessageEl = document.getElementById('schemeMessage');
+        const resetSchemeCalcBtn = document.getElementById('resetSchemeCalc');
+
+        function calculateScheme() {
+            const pricePerItem = getValidatedFloatInput(schemePricePerItemInput, schemeMessageEl, 'Price per Item');
+            const buyQty = getValidatedIntInput(schemeBuyQtyInput, schemeMessageEl, 'Buy Quantity');
+            const getQty = getValidatedIntInput(schemeGetQtyInput, schemeMessageEl, 'Get Quantity');
+            if (pricePerItem === null || buyQty === null || getQty === null || isNaN(pricePerItem) || isNaN(buyQty) || isNaN(getQty)) {
+                schemeEffectivePriceEl.textContent = formatIndianRupees(0);
+                schemeTotalCostEl.textContent = formatIndianRupees(0);
+                return;
+            }
+            const totalItems = buyQty + getQty;
+            if (totalItems === 0) {
+                schemeMessageEl.textContent = 'Total items (Buy + Get) cannot be zero.';
+                schemeEffectivePriceEl.textContent = formatIndianRupees(0);
+                schemeTotalCostEl.textContent = formatIndianRupees(0);
+                return;
+            }
+            const totalCost = pricePerItem * buyQty;
+            const effectivePrice = totalCost / totalItems;
+            schemeEffectivePriceEl.textContent = formatIndianRupees(effectivePrice);
+            schemeTotalCostEl.textContent = formatIndianRupees(totalCost);
+        }
+        [schemePricePerItemInput, schemeBuyQtyInput, schemeGetQtyInput].forEach(el => el.addEventListener('input', calculateScheme));
+        resetSchemeCalcBtn.addEventListener('click', () => {
+            schemePricePerItemInput.value = ''; schemeBuyQtyInput.value = ''; schemeGetQtyInput.value = ''; calculateScheme();
+        });
+
+
+        // Leftover Calculator
+        const totalQuantityInput = document.getElementById('totalQuantity');
+        const soldQuantityInput = document.getElementById('soldQuantity');
+        const leftoverQuantityEl = document.getElementById('leftoverQuantity');
+        const leftoverMessageEl = document.getElementById('leftoverMessage');
+        const resetLeftoverCalcBtn = document.getElementById('resetLeftoverCalc');
+
+        function calculateLeftovers() {
+            const totalQty = getValidatedIntInput(totalQuantityInput, leftoverMessageEl, 'Total Quantity');
+            const soldQty = getValidatedIntInput(soldQuantityInput, leftoverMessageEl, 'Sold Quantity');
+            if (totalQty === null || soldQty === null || isNaN(totalQty) || isNaN(soldQty)) {
+                leftoverQuantityEl.textContent = '0';
+                return;
+            }
+            if (soldQty > totalQty) {
+                leftoverMessageEl.textContent = 'Sold quantity cannot be greater than total quantity.';
+                leftoverQuantityEl.textContent = '0';
+                return;
+            }
+            leftoverMessageEl.textContent = '';
+            const leftoverQty = totalQty - soldQty;
+            leftoverQuantityEl.textContent = leftoverQty;
+        }
+        [totalQuantityInput, soldQuantityInput].forEach(el => el.addEventListener('input', calculateLeftovers));
+        resetLeftoverCalcBtn.addEventListener('click', () => {
+            totalQuantityInput.value = ''; soldQuantityInput.value = ''; calculateLeftovers();
+        });
+        
+        initializeReorderListInputs();
+        calculateTotal(); // Initial calculation for reorder list
+    });
+    </script>
 </body>
 </html>
