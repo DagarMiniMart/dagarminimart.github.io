@@ -4,285 +4,411 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dagar Mini Mart</title>
+    <!-- Tailwind CSS for utility classes (kept for grid system, can be removed if not needed) -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <!-- Link to external CSS file -->
+    <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="p-6 sm:p-8 md:p-10">
-    <div class="content-wrapper max-w-4xl mx-auto w-full">
-        <h1 class="total-amount mb-4">Dagar Mini Mart</h1>
-        <p class="text-center text-xl tagline">For All You Need, Just Around the Corner.</p>
+<body>
+    <div class="aurora-background"></div>
 
-        <div id="cashCounter" class="calculator-card">
-            <h2 class="mb-6"><span class="currency-symbol">💰</span> Cash Denomination Counter</h2>
-            <!-- Added md:grid-cols-3 and lg:grid-cols-4 for responsive grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8 denomination-grid mb-8 max-h-[400px] sm:max-h-none overflow-y-auto sm:overflow-visible pr-2 sm:pr-0">
-                <!-- Denomination inputs will be dynamically generated here by script.js -->
+    <div class="main-container">
+        <!-- Side Navigation -->
+        <nav class="side-nav">
+            <div id="sidebar-toggle">
+                <i id="sidebar-toggle-icon" class="fas fa-chevron-left"></i>
             </div>
-            <div class="result-area flex flex-col items-start">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8 w-full">
-                    <div class="standard-input-wrapper">
-                        <label for="customerName">Customer Name:</label>
-                        <input type="text" id="customerName" class="input-field" placeholder="Anil Kumar">
+            <div class="logo">
+                <i class="fas fa-store text-primary-blue"></i>
+                <span class="logo-text">Dagar Mart</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#" class="nav-link active" data-target="#cashCounter"><i class="fas fa-cash-register"></i> <span class="nav-text">Cash Counter</span></a>
+                <a href="#" class="nav-link" data-target="#reorderListSection"><i class="fas fa-clipboard-list"></i> <span class="nav-text">Dairy Reorder</span></a>
+                <a href="#" class="nav-link" data-target="#unitPriceCalculator"><i class="fas fa-tag"></i> <span class="nav-text">Unit Price</span></a>
+                <a href="#" class="nav-link" data-target="#boxProfitCalculator"><i class="fas fa-chart-line"></i> <span class="nav-text">Box Profit</span></a>
+                <a href="#" class="nav-link" data-target="#marginCalculator"><i class="fas fa-percentage"></i> <span class="nav-text">Margin Calc</span></a>
+                <a href="#" class="nav-link" data-target="#gstCalculator"><i class="fas fa-file-invoice-dollar"></i> <span class="nav-text">GST Calc</span></a>
+                <a href="#" class="nav-link" data-target="#discountCalculator"><i class="fas fa-tags"></i> <span class="nav-text">Discount Calc</span></a>
+                <a href="#" class="nav-link" data-target="#pulseCalculator"><i class="fas fa-balance-scale-right"></i> <span class="nav-text">Weight Calc</span></a>
+                <a href="#" class="nav-link" data-target="#looseItemProfitCalculator"><i class="fas fa-leaf"></i> <span class="nav-text">Loose Item Profit</span></a>
+                <a href="#" class="nav-link" data-target="#schemeCalculator"><i class="fas fa-gift"></i> <span class="nav-text">Scheme / Offer</span></a>
+                <a href="#" class="nav-link" data-target="#leftoverCalculator"><i class="fas fa-box-open"></i> <span class="nav-text">Leftover Calc</span></a>
+            </div>
+            <div class="dark-mode-toggle">
+                <label class="switch">
+                  <input type="checkbox" id="darkModeToggle">
+                  <span class="slider"></span>
+                </label>
+                <div class="toggle-label">Dark Mode</div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Cash Denomination Counter -->
+            <div id="cashCounter" class="content-page active">
+                <div class="glass-card">
+                    <h2 class="component-title"><i class="fas fa-cash-register"></i> Cash Denomination Counter</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8 denomination-grid">
+                        <!-- Denomination inputs will be dynamically generated here -->
                     </div>
-                    <div class="standard-input-wrapper">
-                        <label for="accountNumber">Account Number:</label>
-                        <input type="text" id="accountNumber" class="input-field" placeholder="0922001500006818">
+                    <div class="result-area flex flex-col items-start">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 w-full">
+                            <div>
+                                <label for="customerName" class="modern-label">Customer Name:</label>
+                                <input type="text" id="customerName" class="modern-input" placeholder="Anil Kumar">
+                            </div>
+                            <div>
+                                <label for="accountNumber" class="modern-label">Account Number:</label>
+                                <input type="text" id="accountNumber" class="modern-input" placeholder="0922001500006818">
+                            </div>
+                            <div>
+                                <label for="expectedCash" class="modern-label">Expected Cash (₹):</label>
+                                <input type="number" id="expectedCash" class="modern-input" placeholder="e.g., 5000" min="0">
+                            </div>
+                            <div>
+                                <p class="modern-label">Difference (₹):</p>
+                                <p id="cashDifference" class="result-text mt-2 text-2xl font-bold">₹0.00</p>
+                            </div>
+                        </div>
+                        <p class="text-xl font-semibold">Total Amount:</p>
+                        <p id="cashTotalAmount" class="total-amount mt-2">₹0.00</p>
+                        <button id="resetCashCounter" class="modern-btn mt-8 w-full sm:w-auto">Reset Counter</button>
                     </div>
-                    <div class="standard-input-wrapper">
-                        <label for="expectedCash">Expected Cash (₹):</label>
-                        <input type="number" id="expectedCash" class="input-field" placeholder="e.g., 5000" min="0">
+                </div>
+            </div>
+
+            <!-- All other calculators follow the same new structure -->
+            <div id="unitPriceCalculator" class="content-page">
+                <div class="glass-card">
+                    <h2 class="component-title"><i class="fas fa-tag"></i> Unit Price Calculator</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label for="mrpBox" class="modern-label">MRP (Price of the Box/Pack):</label>
+                            <input type="number" id="mrpBox" class="modern-input" placeholder="e.g., 590" min="0">
+                        </div>
+                        <div>
+                            <label for="piecesInBox" class="modern-label">Number of Units in Box/Pack:</label>
+                            <input type="number" id="piecesInBox" class="modern-input" placeholder="e.g., 50" min="0">
+                        </div>
                     </div>
-                    <div>
-                        <p class="label-text">Difference (₹):</p>
-                        <p id="cashDifference" class="result-text mt-2">₹0.00</p>
+                    <div class="result-area flex flex-col items-start">
+                        <p class="text-lg font-semibold">Price Per Unit:</p>
+                        <p id="pricePerPiece" class="total-amount mt-2">₹0.00</p>
+                        <p id="unitPriceMessage" class="text-sm text-red-500 mt-3 h-5"></p>
+                        <button id="resetUnitPriceCalc" class="modern-btn mt-4 w-full sm:w-auto">Reset Calculator</button>
                     </div>
                 </div>
-                <p class="text-xl font-semibold text-gray-700">Total Amount:</p>
-                <p id="cashTotalAmount" class="total-amount mt-2">₹0.00</p>
-                <button id="resetCashCounter" class="btn btn-secondary mt-8 w-full sm:w-auto">Reset Counter</button>
-            </div>
-        </div>
-
-        <div id="unitPriceCalculator" class="calculator-card">
-            <h2 class="mb-6"><span class="currency-symbol">🏷️</span> Unit Price Calculator</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
-                <div class="standard-input-wrapper">
-                    <label for="mrpBox">MRP (Price of the Box/Pack):</label>
-                    <input type="number" id="mrpBox" class="input-field" placeholder="e.g., 590" min="0">
-                </div>
-                <div class="standard-input-wrapper">
-                    <label for="piecesInBox">Number of Units in Box/Pack:</label>
-                    <input type="number" id="piecesInBox" class="input-field" placeholder="e.g., 50" min="0">
-                </div>
-            </div>
-            <div class="result-area flex flex-col items-start">
-                <p class="text-lg font-semibold text-gray-700">Price Per Unit:</p>
-                <p id="pricePerPiece" class="result-text mt-2">₹0.00</p>
-                <p id="unitPriceMessage" class="text-sm text-red-500 mt-3 h-5"></p>
-                <button id="resetUnitPriceCalc" class="btn btn-secondary mt-4 w-full sm:w-auto">Reset Calculator</button>
-            </div>
-        </div>
-
-        <div id="boxProfitCalculator" class="calculator-card">
-            <h2 class="mb-6"><span class="currency-symbol">📈</span> Box Profit Analyzer</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
-                <div class="standard-input-wrapper">
-                    <label for="sellingPricePerPc">Selling Price Per Piece (₹):</label>
-                    <input type="number" id="sellingPricePerPc" class="input-field" placeholder="e.g., 15" min="0">
-                </div>
-                <div class="standard-input-wrapper">
-                    <label for="costOfBox">Cost of Box (₹):</label>
-                    <input type="number" id="costOfBox" class="input-field" placeholder="e.g., 590" min="0">
-                </div>
-                <div class="standard-input-wrapper">
-                    <label for="piecesInBoxProfit">Number of Pieces in Box:</label>
-                    <input type="number" id="piecesInBoxProfit" class="input-field" placeholder="e.g., 50" min="0">
-                </div>
-            </div>
-            <div class="result-area flex flex-col items-start">
-                <p class="text-lg font-semibold text-gray-700">Total Profit Per Box:</p>
-                <p id="totalBoxProfit" class="total-amount mt-2">₹0.00</p>
-                <p id="boxProfitMessage" class="text-sm text-red-500 mt-3 h-5"></p>
-                <button id="resetBoxProfitCalc" class="btn btn-secondary mt-4 w-full sm:w-auto">Reset Calculator</button>
-            </div>
-        </div>
-
-        <div id="marginCalculator" class="calculator-card">
-            <h2 class="mb-6"><span class="currency-symbol">📊</span> Margin Calculator</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
-                <div class="standard-input-wrapper">
-                    <label for="costPriceMargin">Cost Price (₹):</label>
-                    <input type="number" id="costPriceMargin" class="input-field" placeholder="e.g., 100" min="0">
-                </div>
-                <div class="standard-input-wrapper">
-                    <label for="sellingPriceMargin">Selling Price (₹):</label>
-                    <input type="number" id="sellingPriceMargin" class="input-field" placeholder="e.g., 120" min="0">
-                </div>
-            </div>
-            <div class="result-area flex flex-col items-start">
-                <p class="text-lg font-semibold text-gray-700">Gross Profit:</p>
-                <p id="grossProfitAmount" class="result-text mt-2">₹0.00</p>
-                <p class="text-lg font-semibold text-gray-700 mt-4">Gross Margin Percentage:</p>
-                <p id="grossMarginPercentage" class="result-text">0.00%</p>
-                <p id="marginMessage" class="text-sm text-red-500 mt-3 h-5"></p>
-                <button id="resetMarginCalc" class="btn btn-secondary mt-4 w-full sm:w-auto">Reset Calculator</button>
-            </div>
-        </div>
-
-        <div id="gstCalculator" class="calculator-card">
-            <h2 class="mb-6"><span class="currency-symbol">🧾</span> GST Calculator</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
-                <div class="standard-input-wrapper">
-                    <label for="basePriceGST">Base Price (₹):</label>
-                    <input type="number" id="basePriceGST" class="input-field" placeholder="e.g., 1000" min="0">
-                </div>
-                <div class="standard-input-wrapper">
-                    <label for="gstRate">GST Rate (%):</label>
-                    <input type="number" id="gstRate" class="input-field" placeholder="e.g., 18" min="0">
-                </div>
-            </div>
-            <div class="result-area flex flex-col items-start">
-                <p class="text-lg font-semibold text-gray-700">GST Amount:</p>
-                <p id="gstAmount" class="result-text mt-2">₹0.00</p>
-                <p class="text-lg font-semibold text-gray-700 mt-4">Total Price (with GST):</p>
-                <p id="totalPriceWithGST" class="result-text">₹0.00</p>
-                <p id="gstMessage" class="text-sm text-red-500 mt-3 h-5"></p>
-                <button id="resetGSTCalc" class="btn btn-secondary mt-4 w-full sm:w-auto">Reset Calculator</button>
-            </div>
-        </div>
-
-        <div id="discountCalculator" class="calculator-card">
-            <h2 class="mb-6"><span class="currency-symbol">📉</span> Discount Calculator</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
-                <div class="standard-input-wrapper">
-                    <label for="mrp">MRP (Maximum Retail Price):</label>
-                    <input type="number" id="mrp" class="input-field" placeholder="e.g., 1000" min="0">
-                </div>
-                <div class="standard-input-wrapper">
-                    <label for="salePrice">Sale Price:</label>
-                    <input type="number" id="salePrice" class="input-field" placeholder="e.g., 800" min="0">
-                </div>
-            </div>
-            <div class="result-area flex flex-col items-start">
-                <p class="text-lg font-semibold text-gray-700">Discount Details:</p>
-                <p id="discountAmount" class="result-text mt-2">Discount Amount: ₹0.00</p>
-                <p id="discountPercentage" class="result-text">Discount Percentage: 0.00%</p>
-                <p id="discountMessage" class="text-sm text-red-500 mt-3 h-5"></p>
-                <button id="resetDiscountCalc" class="btn btn-secondary mt-4 w-full sm:w-auto">Reset Calculator</button>
-            </div>
-        </div>
-
-        <div id="pulseCalculator" class="calculator-card">
-            <h2 class="mb-6"><span class="currency-symbol">🍚</span> Price-Based Weight Calculator</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 mb-8">
-                <div class="standard-input-wrapper">
-                    <label for="pulsePricePerKg">Price Per Kg (₹):</label>
-                    <input type="number" id="pulsePricePerKg" class="input-field" placeholder="e.g., 90" min="0">
-                </div>
-                <div class="standard-input-wrapper">
-                    <label for="amountToSpend">Desired Spend Amount (₹):</label>
-                    <input type="number" id="amountToSpend" class="input-field" placeholder="e.g., 20" min="0">
-                </div>
-            </div>
-            <div class="result-area flex flex-col items-start">
-                <p class="text-lg font-semibold text-gray-700">Quantity you will get:</p>
-                <p id="pulseQuantity" class="result-text mt-2">0.00 grams</p>
-                <p id="pulseMessage" class="text-sm text-red-500 mt-3 h-5"></p>
-                <button id="resetPulseCalc" class="btn btn-secondary mt-4 w-full sm:w-auto">Reset Calculator</button>
-            </div>
-        </div>
-
-        <div id="reorderListSection" class="calculator-card">
-            <h2 class="mb-6"><span class="currency-symbol">📋</span> Dairy Stock Reorder</h2>
-            <div class="table-responsive"> <!-- Added for responsive table behavior -->
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Product Name</th>
-                            <th>Quantity</th>
-                            <th>Cost (₹)</th>
-                        </tr>
-                    </thead>
-                    <tbody id="reorderTableBody">
-                        <tr>
-                            <td data-unit-type="ml" data-unit-value="500">Full Cream Milk, 500ml</td>
-                            <td><input type="number" value="" min="0" data-price="34.00" class="input-field-table"></td>
-                            <td class="text-right">0.00</td>
-                        </tr>
-                        <tr>
-                            <td data-unit-type="ml" data-unit-value="500">Cow Milk, 500ml</td>
-                            <td><input type="number" value="" min="0" data-price="29.00" class="input-field-table"></td>
-                            <td class="text-right">0.00</td>
-                        </tr>
-                        <tr>
-                            <td data-unit-type="ml" data-unit-value="500">Double Toned Milk, 500ml</td>
-                            <td><input type="number" value="" min="0" data-price="25.00" class="input-field-table"></td>
-                            <td class="text-right">0.00</td>
-                        </tr>
-                        <tr>
-                            <td data-unit-type="g" data-unit-value="400">Dahi, 400g</td>
-                            <td><input type="number" value="" min="0" data-price="32.00" class="input-field-table"></td>
-                            <td class="text-right">0.00</td>
-                        </tr>
-                        <tr>
-                            <td data-unit-type="g" data-unit-value="200">Dahi, 200g</td>
-                            <td><input type="number" value="" min="0" data-price="18.00" class="input-field-table"></td>
-                            <td class="text-right">0.00</td>
-                        </tr>
-                        <tr>
-                            <td data-unit-type="ml" data-unit-value="500">Buttermilk, 500ml</td>
-                            <td><input type="number" value="" min="0" data-price="14.00" class="input-field-table"></td>
-                            <td class="text-right">0.00</td>
-                        </tr>
-                        <tr>
-                            <td data-unit-type="packs">Masala Buttermilk, 300ml</td>
-                            <td><input type="number" value="" min="0" data-price="9.00" class="input-field-table"></td>
-                            <td class="text-right">0.00</td>
-                        </tr>
-                        <tr>
-                            <td>Ananda Cow Paneer, 200g</td>
-                            <td><input type="number" value="" min="0" data-price="64.00" class="input-field-table"></td>
-                            <td class="text-right">0.00</td>
-                        </tr>
-                        <tr>
-                            <td>Amul Paneer, 200g</td>
-                            <td><input type="number" value="" min="0" data-price="80.00" class="input-field-table"></td>
-                            <td class="text-right">0.00</td>
-                        </tr>
-                        <tr>
-                            <td data-unit-type="packs">Plain Bread, 200g</td>
-                            <td><input type="number" value="" min="0" data-price="20.00" class="input-field-table"></td>
-                            <td class="text-right">0.00</td>
-                        </tr>
-                        <tr>
-                            <td data-unit-type="packs">Brown Bread, 400g</td>
-                            <td><input type="number" value="" min="0" data-price="50.00" class="input-field-table"></td>
-                            <td class="text-right">0.00</td>
-                        </tr>
-                        <tr>
-                            <td>Green Pea, 200g</td>
-                            <td><input type="number" value="" min="0" data-price="24.00" class="input-field-table"></td>
-                            <td class="text-right">0.00</td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr class="total-row">
-                            <td colspan="2" class="text-right">Grand Total:</td>
-                            <td id="grandTotal" class="text-right">₹0.00</td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div> <!-- End table-responsive -->
-
-            <div class="button-container">
-                <button onclick="generateOrderText()" class="btn btn-secondary"><i class="fas fa-file-alt mr-2"></i> Generate</button>
             </div>
 
-            <div id="orderOutputContainer">
-                <textarea id="orderOutput" readonly></textarea>
-                <button onclick="copyOrderText()" class="btn btn-secondary"><i class="fas fa-clipboard mr-2"></i> Copy</button>
+            <div id="boxProfitCalculator" class="content-page">
+                <div class="glass-card">
+                    <h2 class="component-title"><i class="fas fa-chart-line"></i> Box Profit Analyzer</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label for="sellingPricePerPc" class="modern-label">Selling Price Per Piece (₹):</label>
+                            <input type="number" id="sellingPricePerPc" class="modern-input" placeholder="e.g., 15" min="0">
+                        </div>
+                        <div>
+                            <label for="costOfBox" class="modern-label">Cost of Box (₹):</label>
+                            <input type="number" id="costOfBox" class="modern-input" placeholder="e.g., 590" min="0">
+                        </div>
+                        <div>
+                            <label for="piecesInBoxProfit" class="modern-label">Number of Pieces in Box:</label>
+                            <input type="number" id="piecesInBoxProfit" class="modern-input" placeholder="e.g., 50" min="0">
+                        </div>
+                    </div>
+                    <div class="result-area flex flex-col items-start">
+                        <p class="text-lg font-semibold">Total Profit Per Box:</p>
+                        <p id="totalBoxProfit" class="total-amount mt-2">₹0.00</p>
+                        <p id="boxProfitMessage" class="text-sm text-red-500 mt-3 h-5"></p>
+                        <button id="resetBoxProfitCalc" class="modern-btn mt-4 w-full sm:w-auto">Reset Calculator</button>
+                    </div>
+                </div>
             </div>
-        </div>
+
+            <div id="marginCalculator" class="content-page">
+                <div class="glass-card">
+                    <h2 class="component-title"><i class="fas fa-percentage"></i> Margin Calculator</h2>
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label for="costPriceMargin" class="modern-label">Cost Price (₹):</label>
+                            <input type="number" id="costPriceMargin" class="modern-input" placeholder="e.g., 100" min="0">
+                        </div>
+                        <div>
+                            <label for="sellingPriceMargin" class="modern-label">Selling Price (₹):</label>
+                            <input type="number" id="sellingPriceMargin" class="modern-input" placeholder="e.g., 120" min="0">
+                        </div>
+                    </div>
+                    <div class="result-area flex flex-col items-start">
+                        <p class="text-lg font-semibold">Gross Profit:</p>
+                        <p id="grossProfitAmount" class="total-amount mt-2">₹0.00</p>
+                        <p class="text-lg font-semibold mt-4">Gross Margin Percentage:</p>
+                        <p id="grossMarginPercentage" class="result-text text-2xl font-bold">0.00%</p>
+                        <p id="marginMessage" class="text-sm text-red-500 mt-3 h-5"></p>
+                        <button id="resetMarginCalc" class="modern-btn mt-4 w-full sm:w-auto">Reset Calculator</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="gstCalculator" class="content-page">
+                 <div class="glass-card">
+                    <h2 class="component-title"><i class="fas fa-file-invoice-dollar"></i> GST Calculator</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label for="basePriceGST" class="modern-label">Base Price (₹):</label>
+                            <input type="number" id="basePriceGST" class="modern-input" placeholder="e.g., 1000" min="0">
+                        </div>
+                        <div>
+                            <label for="gstRate" class="modern-label">GST Rate (%):</label>
+                            <input type="number" id="gstRate" class="modern-input" placeholder="e.g., 18" min="0">
+                        </div>
+                    </div>
+                    <div class="result-area flex flex-col items-start">
+                        <p class="text-lg font-semibold">Total Price (with GST):</p>
+                        <p id="totalPriceWithGST" class="total-amount mt-2">₹0.00</p>
+                        <p class="text-lg font-semibold mt-4">GST Amount:</p>
+                        <p id="gstAmount" class="result-text text-2xl font-bold">₹0.00</p>
+                        <p id="gstMessage" class="text-sm text-red-500 mt-3 h-5"></p>
+                        <button id="resetGSTCalc" class="modern-btn mt-4 w-full sm:w-auto">Reset Calculator</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="discountCalculator" class="content-page">
+                 <div class="glass-card">
+                    <h2 class="component-title"><i class="fas fa-tags"></i> Discount Calculator</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label for="mrp" class="modern-label">MRP (Maximum Retail Price):</label>
+                            <input type="number" id="mrp" class="modern-input" placeholder="e.g., 1000" min="0">
+                        </div>
+                        <div>
+                            <label for="salePrice" class="modern-label">Sale Price:</label>
+                            <input type="number" id="salePrice" class="modern-input" placeholder="e.g., 800" min="0">
+                        </div>
+                    </div>
+                    <div class="result-area flex flex-col items-start">
+                        <p class="text-lg font-semibold">You Save:</p>
+                        <p id="discountAmount" class="total-amount mt-2">₹0.00</p>
+                        <p id="discountPercentage" class="result-text text-xl font-semibold">Which is a 0.00% discount</p>
+                        <p id="discountMessage" class="text-sm text-red-500 mt-3 h-5"></p>
+                        <button id="resetDiscountCalc" class="modern-btn mt-4 w-full sm:w-auto">Reset Calculator</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="pulseCalculator" class="content-page">
+                <div class="glass-card">
+                    <h2 class="component-title"><i class="fas fa-balance-scale-right"></i> Price-Based Weight Calculator</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label for="pulsePricePerKg" class="modern-label">Price Per Kg (₹):</label>
+                            <input type="number" id="pulsePricePerKg" class="modern-input" placeholder="e.g., 90" min="0">
+                        </div>
+                        <div>
+                            <label for="amountToSpend" class="modern-label">Desired Spend Amount (₹):</label>
+                            <input type="number" id="amountToSpend" class="modern-input" placeholder="e.g., 20" min="0">
+                        </div>
+                    </div>
+                    <div class="result-area flex flex-col items-start">
+                        <p class="text-lg font-semibold">Quantity you will get:</p>
+                        <p id="pulseQuantity" class="total-amount mt-2">0.00 grams</p>
+                        <p id="pulseMessage" class="text-sm text-red-500 mt-3 h-5"></p>
+                        <button id="resetPulseCalc" class="modern-btn mt-4 w-full sm:w-auto">Reset Calculator</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="looseItemProfitCalculator" class="content-page">
+                <div class="glass-card">
+                    <h2 class="component-title"><i class="fas fa-leaf"></i> Loose Item Profit Calculator</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label for="lipCostPricePack" class="modern-label">Cost Price of Pack (₹):</label>
+                            <input type="number" id="lipCostPricePack" class="modern-input" placeholder="e.g., 450" min="0">
+                        </div>
+                        <div>
+                            <label for="lipTotalItems" class="modern-label">Total Items in Pack:</label>
+                            <input type="number" id="lipTotalItems" class="modern-input" placeholder="e.g., 50" min="0">
+                        </div>
+                        <div>
+                            <label for="lipSellingPriceItem" class="modern-label">Selling Price per Item (₹):</label>
+                            <input type="number" id="lipSellingPriceItem" class="modern-input" placeholder="e.g., 12" min="0">
+                        </div>
+                    </div>
+                    <div class="result-area flex flex-col items-start">
+                        <p class="text-lg font-semibold">Cost Per Item:</p>
+                        <p id="lipCostPerItem" class="result-text text-2xl font-bold">₹0.00</p>
+                        <p class="text-lg font-semibold mt-4">Profit Per Item:</p>
+                        <p id="lipProfitPerItem" class="result-text text-2xl font-bold">₹0.00</p>
+                        <p id="lipMessage" class="text-sm text-red-500 mt-3 h-5"></p>
+                        <button id="resetLipCalc" class="modern-btn mt-4 w-full sm:w-auto">Reset Calculator</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="schemeCalculator" class="content-page">
+                <div class="glass-card">
+                    <h2 class="component-title"><i class="fas fa-gift"></i> Scheme / Offer Calculator</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div>
+                            <label for="schemePricePerItem" class="modern-label">Price per Item (₹):</label>
+                            <input type="number" id="schemePricePerItem" class="modern-input" placeholder="e.g., 10" min="0">
+                        </div>
+                        <div>
+                            <label for="schemeBuyQty" class="modern-label">Buy Quantity (X):</label>
+                            <input type="number" id="schemeBuyQty" class="modern-input" placeholder="e.g., 5" min="0">
+                        </div>
+                        <div>
+                            <label for="schemeGetQty" class="modern-label">Get Quantity (Y Free):</label>
+                            <input type="number" id="schemeGetQty" class="modern-input" placeholder="e.g., 1" min="0">
+                        </div>
+                    </div>
+                    <div class="result-area flex flex-col items-start">
+                        <p class="text-lg font-semibold">Effective Price per Item:</p>
+                        <p id="schemeEffectivePrice" class="total-amount mt-2">₹0.00</p>
+                        <p class="text-lg font-semibold mt-4">Total Cost for Offer:</p>
+                        <p id="schemeTotalCost" class="result-text text-2xl font-bold">₹0.00</p>
+                        <p id="schemeMessage" class="text-sm text-red-500 mt-3 h-5"></p>
+                        <button id="resetSchemeCalc" class="modern-btn mt-4 w-full sm:w-auto">Reset Calculator</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="leftoverCalculator" class="content-page">
+                <div class="glass-card">
+                    <h2 class="component-title"><i class="fas fa-box-open"></i> Leftover Calculator</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label for="totalQuantity" class="modern-label">Total Quantity:</label>
+                            <input type="number" id="totalQuantity" class="modern-input" placeholder="e.g., 100" min="0">
+                        </div>
+                        <div>
+                            <label for="soldQuantity" class="modern-label">Sold Quantity:</label>
+                            <input type="number" id="soldQuantity" class="modern-input" placeholder="e.g., 75" min="0">
+                        </div>
+                    </div>
+                    <div class="result-area flex flex-col items-start">
+                        <p class="text-lg font-semibold">Leftover Quantity:</p>
+                        <p id="leftoverQuantity" class="total-amount mt-2">0</p>
+                        <p id="leftoverMessage" class="text-sm text-red-500 mt-3 h-5"></p>
+                        <button id="resetLeftoverCalc" class="modern-btn mt-4 w-full sm:w-auto">Reset Calculator</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reorderListSection" class="content-page">
+                <div class="glass-card">
+                    <h2 class="component-title"><i class="fas fa-clipboard-list"></i> Dairy Stock Reorder</h2>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Quantity</th>
+                                    <th>Cost (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reorderTableBody">
+                                <tr>
+                                    <td data-unit-type="ml" data-unit-value="500">Full Cream Milk, 500ml</td>
+                                    <td><input type="number" value="" min="0" data-price="34.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td data-unit-type="ml" data-unit-value="500">Cow Milk, 500ml</td>
+                                    <td><input type="number" value="" min="0" data-price="29.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td data-unit-type="ml" data-unit-value="500">Double Toned Milk, 500ml</td>
+                                    <td><input type="number" value="" min="0" data-price="25.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td data-unit-type="g" data-unit-value="400">Dahi, 400g</td>
+                                    <td><input type="number" value="" min="0" data-price="32.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td data-unit-type="g" data-unit-value="200">Dahi, 200g</td>
+                                    <td><input type="number" value="" min="0" data-price="18.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                 <tr>
+                                    <td data-unit-type="g" data-unit-value="200">Dahi Cup, 200g</td>
+                                    <td><input type="number" value="" min="0" data-price="21.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td data-unit-type="ml" data-unit-value="500">Buttermilk, 500ml</td>
+                                    <td><input type="number" value="" min="0" data-price="14.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td data-unit-type="packs">Masala Buttermilk, 300ml</td>
+                                    <td><input type="number" value="" min="0" data-price="9.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Ananda Cow Paneer, 200g</td>
+                                    <td><input type="number" value="" min="0" data-price="64.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Amul Paneer, 200g</td>
+                                    <td><input type="number" value="" min="0" data-price="80.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td data-unit-type="packs">Plain Bread, 200g</td>
+                                    <td><input type="number" value="" min="0" data-price="20.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td data-unit-type="packs">Brown Bread, 400g</td>
+                                    <td><input type="number" value="" min="0" data-price="50.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Green Pea, 200g</td>
+                                    <td><input type="number" value="" min="0" data-price="24.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="total-row">
+                                    <td colspan="2" class="text-right">Grand Total:</td>
+                                    <td id="grandTotal" class="text-right">₹0.00</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="mt-8 flex flex-col items-center gap-4">
+                        <button onclick="generateOrderText()" class="modern-btn"><i class="fas fa-file-alt mr-2"></i> Generate</button>
+                        <div id="orderOutputContainer">
+                            <textarea id="orderOutput" readonly></textarea>
+                             <div class="flex gap-4">
+                                <button onclick="copyOrderText()" class="modern-btn"><i class="fas fa-clipboard mr-2"></i> Copy</button>
+                                <button onclick="sendToWhatsApp()" class="modern-btn" style="background: linear-gradient(90deg, #25D366, #128C7E);"><i class="fab fa-whatsapp mr-2"></i> Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
-
-    <footer class="footer">
-        <p class="text-sm">
-            Copyright © 2023-2025 | Designed with ❤️ by Annu Stark
-        </p>
-        <p class="text-xs mt-1">
-            (Sole Proprietor of Dagar Mini Mart)
-        </p>
-    </footer>
 
     <!-- Toast Notification Container -->
     <div id="toastNotification" class="toast-notification"></div>
 
-    <!-- Link to external JavaScript file -->
+    <!-- Custom JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
