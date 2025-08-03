@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dagar Mini Mart - Business Tools</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter and Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Custom Stylesheet for Redesign -->
     <style>
         :root {
             /* Color Palette */
@@ -36,13 +40,17 @@
             --card-border-light: var(--slate-200);
             --text-primary-light: var(--slate-800);
             --text-secondary-light: var(--slate-500);
+            --nav-hover-bg-light: var(--primary-50);
+            --nav-hover-text-light: var(--primary-600);
             
             /* Dark Theme Variables */
-            --bg-dark: #0b1120;
+            --bg-dark: #0b1120; /* Slightly darker than slate-900 for more depth */
             --card-bg-dark: var(--slate-800);
             --card-border-dark: var(--slate-700);
             --text-primary-dark: var(--slate-100);
             --text-secondary-dark: var(--slate-400);
+            --nav-hover-bg-dark: rgba(59, 130, 246, 0.1);
+            --nav-hover-text-dark: #93c5fd;
 
             --success-green: #22c55e;
             --error-red: #ef4444;
@@ -58,7 +66,8 @@
             transition: background-color 0.3s ease, color 0.3s ease;
             overflow-x: hidden;
             min-height: 100vh;
-            /* Subtle background pattern */
+            min-height: 100dvh;
+            /* Refined: Added a subtle background pattern */
             background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e2e8f0' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
         body.dark {
@@ -68,21 +77,109 @@
         }
 
         /* Modern Scrollbar */
-        body::-webkit-scrollbar, #orderOutput::-webkit-scrollbar { width: 8px; }
-        body::-webkit-scrollbar-track, #orderOutput::-webkit-scrollbar-track { background: transparent; }
-        body::-webkit-scrollbar-thumb, #orderOutput::-webkit-scrollbar-thumb {
+        .main-content::-webkit-scrollbar, #orderOutput::-webkit-scrollbar { width: 8px; }
+        .main-content::-webkit-scrollbar-track, #orderOutput::-webkit-scrollbar-track { background: transparent; }
+        .main-content::-webkit-scrollbar-thumb, #orderOutput::-webkit-scrollbar-thumb {
             background: var(--slate-300);
             border-radius: 10px;
         }
-        body.dark::-webkit-scrollbar-thumb, body.dark #orderOutput::-webkit-scrollbar-thumb {
+        body.dark .main-content::-webkit-scrollbar-thumb, body.dark #orderOutput::-webkit-scrollbar-thumb {
             background: var(--slate-600);
         }
 
+        .main-container { display: flex; min-height: 100vh; min-height: 100dvh; }
+
+        /* Sidebar */
+        .side-nav {
+            background-color: var(--card-bg-light);
+            padding: 1.5rem;
+            border-right: 1px solid var(--card-border-light);
+            width: 260px; z-index: 10;
+            transition: width 0.3s ease, padding 0.3s ease;
+            display: flex; flex-direction: column; flex-shrink: 0;
+        }
+        .side-nav.collapsed { width: 80px; padding: 1.5rem 0.5rem; }
+        body.dark .side-nav {
+            background-color: var(--card-bg-dark);
+            border-right-color: var(--card-border-dark);
+        }
+
+        .side-nav .logo {
+            font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 700;
+            color: var(--text-primary-light); margin-bottom: 2.5rem;
+            display: flex; align-items: center; gap: 0.75rem;
+            padding-left: 0.5rem;
+        }
+        body.dark .side-nav .logo { color: var(--text-primary-dark); }
+        .side-nav.collapsed .logo { justify-content: center; padding-left: 0; }
+        .side-nav.collapsed .logo .logo-text { display: none; }
+
+        .nav-menu a {
+            display: flex; align-items: center; padding: 0.75rem 1rem; margin-bottom: 0.5rem;
+            border-radius: 0.5rem; font-weight: 500; color: var(--text-secondary-light);
+            text-decoration: none; transition: all 0.2s ease-in-out; font-size: 0.9rem;
+        }
+        body.dark .nav-menu a { color: var(--text-secondary-dark); }
+        .nav-menu a:hover {
+            background-color: var(--nav-hover-bg-light); color: var(--nav-hover-text-light);
+            transform: translateX(4px); /* Refined: Subtle hover effect */
+        }
+        body.dark .nav-menu a:hover {
+            background-color: var(--nav-hover-bg-dark); color: var(--nav-hover-text-dark);
+        }
+        .nav-menu a.active {
+            background-color: var(--primary-500); color: white;
+            box-shadow: 0 4px 14px -4px var(--primary-500);
+            transform: translateX(4px);
+        }
+        .nav-menu a i {
+            width: 24px; text-align: center; margin-right: 1rem; font-size: 1rem;
+        }
+        .side-nav.collapsed .nav-menu a { justify-content: center; }
+        .side-nav.collapsed .nav-menu a .nav-text { display: none; }
+        .side-nav.collapsed .nav-menu a i { margin-right: 0; }
+
+        /* Sidebar Toggle */
+        #sidebar-toggle {
+            position: absolute; top: 24px; right: -15px;
+            width: 30px; height: 30px; background-color: white;
+            border: 1px solid var(--card-border-light); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            color: var(--text-secondary-light); box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 11; transition: all 0.3s ease;
+        }
+        body.dark #sidebar-toggle {
+            background-color: var(--slate-700); border-color: var(--slate-600);
+            color: var(--text-secondary-dark);
+        }
+        #sidebar-toggle:hover {
+            background-color: var(--primary-500); color: white; transform: scale(1.1);
+        }
+        #sidebar-toggle-icon { transition: transform 0.3s ease; }
+        .side-nav.collapsed #sidebar-toggle-icon { transform: rotate(180deg); }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1; padding: 2.5rem; overflow-y: auto; height: 100vh; height: 100dvh;
+        }
+        .content-page { display: none; }
+        .content-page.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* Components */
-        .glass-card {
+        .glass-card { /* Renamed from glass-card but keeping class for JS compatibility */
             background: var(--card-bg-light); border-radius: 0.75rem;
+            /* Refined: Softer, more modern shadow */
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.1);
             padding: 2rem; border: 1px solid var(--card-border-light);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.07), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
         body.dark .glass-card {
             background: var(--card-bg-dark); border-color: var(--card-border-dark);
@@ -94,6 +191,16 @@
         }
         body.dark .component-title { color: var(--text-primary-dark); }
         .component-title i { color: var(--primary-500); }
+        
+        /* Card title for dashboard view */
+        .card-title {
+            font-family: 'Poppins', sans-serif; font-size: 1.125rem; font-weight: 600;
+            color: var(--text-primary-light); margin-bottom: 1.5rem;
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        body.dark .card-title { color: var(--text-primary-dark); }
+        .card-title i { color: var(--primary-500); }
+
 
         .modern-input, .input-field-table {
             border: 1px solid var(--slate-300); border-radius: 0.5rem;
@@ -107,7 +214,7 @@
         }
         .modern-input:focus, .input-field-table:focus {
             border-color: var(--primary-500);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Refined: More visible focus ring */
             outline: none; background-color: white;
         }
         body.dark .modern-input:focus, body.dark .input-field-table:focus {
@@ -131,6 +238,7 @@
         }
         .modern-btn:hover { background-color: var(--primary-600); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2); }
         
+        /* Refined: Secondary button style for reset actions */
         .btn-secondary {
             background-color: var(--slate-100);
             color: var(--slate-700);
@@ -152,6 +260,33 @@
             border-color: var(--slate-500);
         }
 
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle { margin-top: auto; padding-top: 1.5rem; text-align: center; }
+        .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--slate-300); transition: .4s; border-radius: 28px;
+        }
+        .slider:before {
+            position: absolute; content: "\f186"; font-family: "Font Awesome 6 Free";
+            font-weight: 900; color: var(--slate-500);
+            display: flex; align-items: center; justify-content: center;
+            height: 20px; width: 20px; left: 4px; bottom: 4px;
+            background-color: white; transition: .4s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--primary-500); }
+        input:checked + .slider:before {
+            content: "\f185"; transform: translateX(22px);
+        }
+        .toggle-label {
+            margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-secondary-light);
+            font-weight: 500;
+        }
+        body.dark .toggle-label { color: var(--text-secondary-dark); }
+        .side-nav.collapsed .toggle-label { display: none; }
+
         /* Result Area Styling */
         .result-area {
             margin-top: 2rem; padding-top: 2rem;
@@ -164,7 +299,7 @@
         }
         body.dark .result-text { color: var(--text-primary-dark); }
         .total-amount {
-            font-family: 'Poppins', sans-serif; font-size: 2.5rem;
+            font-family: 'Poppins', sans-serif; font-size: 2.5rem; /* Refined: Larger font size */
             font-weight: 700;
             color: var(--primary-600); 
             letter-spacing: -0.025em; line-height: 1.2;
@@ -188,8 +323,10 @@
         body.dark th {
             background-color: var(--slate-700); color: var(--text-secondary-dark);
         }
+        /* Refined: Zebra striping for better readability */
         tbody tr:nth-child(even) { background-color: var(--slate-50); }
         body.dark tbody tr:nth-child(even) { background-color: rgba(30, 41, 59, 0.5); }
+
         .total-row td {
             font-weight: bold; background-color: var(--slate-100) !important;
             color: var(--primary-600); border-top: 2px solid var(--primary-500);
@@ -223,160 +360,456 @@
             z-index: 2000; opacity: 0;
         }
         .toast-notification.show { bottom: 30px; opacity: 1; }
-        
+
+        /* Mobile Responsive Styles */
+        .mobile-header { display: none; }
+        .overlay { display: none; }
+
         @media (max-width: 768px) {
-            .main-content { padding: 1.5rem 1rem; }
+            .mobile-header {
+                display: flex; align-items: center; justify-content: space-between;
+                padding: 1rem; background-color: var(--card-bg-light);
+                border-bottom: 1px solid var(--card-border-light);
+                position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+            }
+            body.dark .mobile-header {
+                 background-color: var(--card-bg-dark);
+                 border-bottom-color: var(--card-border-dark);
+            }
+            #mobile-menu-toggle {
+                font-size: 1.5rem; cursor: pointer; color: var(--text-primary-light);
+            }
+            body.dark #mobile-menu-toggle { color: var(--text-primary-dark); }
+            .mobile-header .logo {
+                font-family: 'Poppins', sans-serif; font-size: 1.25rem; font-weight: 700;
+                color: var(--text-primary-light);
+            }
+            body.dark .mobile-header .logo { color: var(--text-primary-dark); }
+            
+            .side-nav {
+                position: fixed; top: 0; left: 0; height: 100%;
+                transform: translateX(-100%); z-index: 1000;
+                transition: transform 0.3s ease-in-out;
+            }
+            .side-nav.open {
+                transform: translateX(0); box-shadow: 5px 0 25px rgba(0,0,0,0.1);
+            }
+            .side-nav.collapsed {
+                width: 260px; padding: 1.5rem;
+            }
+            .side-nav.collapsed .logo .logo-text,
+            .side-nav.collapsed .nav-menu .nav-text,
+            .side-nav.collapsed .toggle-label {
+                display: inline-block;
+            }
+            .side-nav.collapsed .logo,
+            .side-nav.collapsed .nav-menu a {
+                justify-content: flex-start;
+            }
+            .side-nav.collapsed .nav-menu a i { margin-right: 1rem; }
+            #sidebar-toggle { display: none; }
+            
+            .main-content {
+                padding: 1.5rem 1rem; padding-top: 80px; padding-bottom: 100px;
+            }
             .glass-card { padding: 1.5rem; }
             .component-title { font-size: 1.25rem; }
             .total-amount { font-size: 2rem; }
             .modern-btn { width: 100%; }
             .denomination-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+            
+            .overlay {
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0, 0, 0, 0.5); z-index: 999; display: none;
+            }
+            .overlay.active { display: block; }
         }
     </style>
 </head>
 <body class="antialiased">
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <i id="mobile-menu-toggle" class="fas fa-bars"></i>
+        <div class="logo">Dagar Mart</div>
+        <div></div> <!-- Spacer -->
+    </header>
 
-    <main class="main-content p-4 md:p-8">
-        <div class="grid grid-cols-1 gap-8">
+    <div class="main-container">
+        <!-- Side Navigation -->
+        <nav class="side-nav">
+            <div class="relative">
+                <div id="sidebar-toggle">
+                    <i id="sidebar-toggle-icon" class="fas fa-chevron-left"></i>
+                </div>
+            </div>
+            <div class="logo">
+                <i class="fas fa-store text-primary-500"></i>
+                <span class="logo-text">Dagar Mart</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#" class="nav-link active" data-target="#dashboard"><i class="fas fa-th-large"></i> <span class="nav-text">Dashboard</span></a>
+                <a href="#" class="nav-link" data-target="#cashCounter"><i class="fas fa-cash-register"></i> <span class="nav-text">Cash Counter</span></a>
+                <a href="#" class="nav-link" data-target="#reorderListSection"><i class="fas fa-clipboard-list"></i> <span class="nav-text">Dairy Reorder</span></a>
+                <a href="#" class="nav-link" data-target="#marginCalculator"><i class="fas fa-percentage"></i> <span class="nav-text">Margin Calc</span></a>
+            </div>
+            <div class="dark-mode-toggle">
+                <label class="switch">
+                  <input type="checkbox" id="darkModeToggle">
+                  <span class="slider"></span>
+                </label>
+                <div class="toggle-label">Theme</div>
+            </div>
+        </nav>
+
+        <!-- Overlay for mobile menu -->
+        <div class="overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
             
-            <div class="glass-card">
-                <h2 class="component-title"><i class="fas fa-clipboard-list"></i> Dairy Stock Reorder</h2>
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Product Name</th>
-                                <th>Quantity</th>
-                                <th>Cost (₹)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="reorderTableBody">
-                            <tr>
-                                <td data-unit-type="ml" data-unit-value="500">Full Cream Milk, 500ml</td>
-                                <td><input type="number" value="" min="0" data-price="34.00" class="input-field-table"></td>
-                                <td class="text-right">0.00</td>
-                            </tr>
-                            <tr>
-                                <td data-unit-type="ml" data-unit-value="500">Cow Milk, 500ml</td>
-                                <td><input type="number" value="" min="0" data-price="29.00" class="input-field-table"></td>
-                                <td class="text-right">0.00</td>
-                            </tr>
-                            <tr>
-                                <td data-unit-type="ml" data-unit-value="500">Double Toned Milk, 500ml</td>
-                                <td><input type="number" value="" min="0" data-price="25.00" class="input-field-table"></td>
-                                <td class="text-right">0.00</td>
-                            </tr>
-                            <tr>
-                                <td data-unit-type="g" data-unit-value="400">Dahi, 400g</td>
-                                <td><input type="number" value="" min="0" data-price="32.00" class="input-field-table"></td>
-                                <td class="text-right">0.00</td>
-                            </tr>
-                            <tr>
-                                <td data-unit-type="g" data-unit-value="200">Dahi, 200g</td>
-                                <td><input type="number" value="" min="0" data-price="18.00" class="input-field-table"></td>
-                                <td class="text-right">0.00</td>
-                            </tr>
-                             <tr>
-                                <td data-unit-type="g" data-unit-value="200">Dahi Cup, 200g</td>
-                                <td><input type="number" value="" min="0" data-price="21.00" class="input-field-table"></td>
-                                <td class="text-right">0.00</td>
-                            </tr>
-                            <tr>
-                                <td data-unit-type="ml" data-unit-value="500">Buttermilk, 500ml</td>
-                                <td><input type="number" value="" min="0" data-price="14.00" class="input-field-table"></td>
-                                <td class="text-right">0.00</td>
-                            </tr>
-                            <tr>
-                                <td data-unit-type="packs">Masala Buttermilk, 300ml</td>
-                                <td><input type="number" value="" min="0" data-price="9.00" class="input-field-table"></td>
-                                <td class="text-right">0.00</td>
-                            </tr>
-                            <tr>
-                                <td>Ananda Cow Paneer, 200g</td>
-                                <td><input type="number" value="" min="0" data-price="68.00" class="input-field-table"></td>
-                                <td class="text-right">0.00</td>
-                            </tr>
-                            <tr>
-                                <td>Amul Paneer, 200g</td>
-                                <td><input type="number" value="" min="0" data-price="82.00" class="input-field-table"></td>
-                                <td class="text-right">0.00</td>
-                            </tr>
-                            <tr>
-                                <td data-unit-type="packs">Plain Bread, 200g</td>
-                                <td><input type="number" value="" min="0" data-price="20.00" class="input-field-table"></td>
-                                <td class="text-right">0.00</td>
-                            </tr>
-                            <tr>
-                                <td data-unit-type="packs">Brown Bread, 400g</td>
-                                <td><input type="number" value="" min="0" data-price="50.00" class="input-field-table"></td>
-                                <td class="text-right">0.00</td>
-                            </tr>
-                            <tr>
-                                <td>Green Pea, 200g</td>
-                                <td><input type="number" value="" min="0" data-price="22.00" class="input-field-table"></td>
-                                <td class="text-right">0.00</td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr class="total-row">
-                                <td colspan="2" class="text-right">Grand Total:</td>
-                                <td id="grandTotal" class="text-right">₹0.00</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-                <div class="mt-8 flex flex-col items-center gap-4">
-                    <button onclick="generateOrderText()" class="modern-btn"><i class="fas fa-file-alt mr-2"></i> Generate Order</button>
-                    <div id="orderOutputContainer" class="w-full">
-                        <textarea id="orderOutput" readonly></textarea>
-                         <div class="flex gap-4 mt-4">
-                            <button onclick="copyOrderText()" class="modern-btn btn-secondary flex-1"><i class="fas fa-clipboard mr-2"></i> Copy</button>
-                            <button onclick="sendToWhatsApp()" class="modern-btn flex-1" style="background-color: #25D366; --tw-shadow-color: #25D366;"><i class="fab fa-whatsapp mr-2"></i> Send</button>
+            <div id="dashboard" class="content-page active">
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                    <!-- Unit Price Calculator Card -->
+                    <div class="glass-card">
+                        <h2 class="card-title"><i class="fas fa-tag"></i> Unit Price Calculator</h2>
+                        <div class="space-y-4 mb-8">
+                            <div>
+                                <label for="mrpBox" class="modern-label">MRP (Price of the Box/Pack):</label>
+                                <input type="number" id="mrpBox" class="modern-input" placeholder="e.g., 590" min="0">
+                            </div>
+                            <div>
+                                <label for="piecesInBox" class="modern-label">Number of Units in Box/Pack:</label>
+                                <input type="number" id="piecesInBox" class="modern-input" placeholder="e.g., 50" min="0">
+                            </div>
+                        </div>
+                        <div class="result-area flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+                            <div>
+                                 <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">Price Per Unit:</p>
+                                <p id="pricePerPiece" class="total-amount">₹0.00</p>
+                                <p id="unitPriceMessage" class="text-sm text-red-500 mt-1 h-5"></p>
+                            </div>
+                            <button id="resetUnitPriceCalc" class="modern-btn btn-secondary w-full sm:w-auto"><i class="fas fa-undo mr-2"></i>Reset</button>
+                        </div>
+                    </div>
+                    <!-- GST Calculator Card -->
+                    <div class="glass-card">
+                        <h2 class="card-title"><i class="fas fa-file-invoice-dollar"></i> GST Calculator</h2>
+                        <div class="space-y-4 mb-8">
+                            <div>
+                                <label for="basePriceGST" class="modern-label">Base Price (₹):</label>
+                                <input type="number" id="basePriceGST" class="modern-input" placeholder="e.g., 1000" min="0">
+                            </div>
+                            <div>
+                                <label for="gstRate" class="modern-label">GST Rate (%):</label>
+                                <input type="number" id="gstRate" class="modern-input" placeholder="e.g., 18" min="0">
+                            </div>
+                        </div>
+                        <div class="result-area">
+                             <div class="grid grid-cols-1 mb-6">
+                                <div>
+                                    <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">GST Amount:</p>
+                                    <p id="gstAmount" class="total-amount text-3xl">₹0.00</p>
+                                </div>
+                                <div class="mt-4">
+                                    <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">Total Price (incl. GST):</p>
+                                    <p id="totalPriceWithGST" class="total-amount">₹0.00</p>
+                                </div>
+                            </div>
+                            <p id="gstMessage" class="text-sm text-red-500 h-5 mb-4"></p>
+                            <button id="resetGSTCalc" class="modern-btn btn-secondary w-full sm:w-auto"><i class="fas fa-undo mr-2"></i>Reset</button>
+                        </div>
+                    </div>
+                    <!-- Discount Calculator Card -->
+                    <div class="glass-card">
+                        <h2 class="card-title"><i class="fas fa-tags"></i> Discount Calculator</h2>
+                        <div class="space-y-4 mb-8">
+                            <div>
+                                <label for="mrp" class="modern-label">MRP (Maximum Retail Price):</label>
+                                <input type="number" id="mrp" class="modern-input" placeholder="e.g., 1000" min="0">
+                            </div>
+                            <div>
+                                <label for="salePrice" class="modern-label">Sale Price:</label>
+                                <input type="number" id="salePrice" class="modern-input" placeholder="e.g., 800" min="0">
+                            </div>
+                        </div>
+                        <div class="result-area flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+                            <div>
+                                 <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">You Save:</p>
+                                <p id="discountAmount" class="total-amount">₹0.00</p>
+                                <p id="discountPercentage" class="result-text text-lg font-semibold">Which is a 0.00% discount</p>
+                                <p id="discountMessage" class="text-sm text-red-500 mt-1 h-5"></p>
+                            </div>
+                            <button id="resetDiscountCalc" class="modern-btn btn-secondary w-full sm:w-auto"><i class="fas fa-undo mr-2"></i>Reset</button>
+                        </div>
+                    </div>
+                    <!-- Price-Weight Calculator Card -->
+                    <div class="glass-card">
+                        <h2 class="card-title"><i class="fas fa-balance-scale-right"></i> Price-Weight Calculator</h2>
+                        <div class="space-y-4 mb-8">
+                            <div>
+                                <label for="pulsePricePerKg" class="modern-label">Price Per Kg (₹):</label>
+                                <input type="number" id="pulsePricePerKg" class="modern-input" placeholder="e.g., 90" min="0">
+                            </div>
+                            <div>
+                                <label for="amountToSpend" class="modern-label">Desired Spend Amount (₹):</label>
+                                <input type="number" id="amountToSpend" class="modern-input" placeholder="e.g., 20" min="0">
+                            </div>
+                        </div>
+                        <div class="result-area flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+                            <div>
+                                 <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">Quantity:</p>
+                                <p id="pulseQuantity" class="total-amount">0.00g</p>
+                                <p id="pulseMessage" class="text-sm text-red-500 mt-1 h-5"></p>
+                            </div>
+                            <button id="resetPulseCalc" class="modern-btn btn-secondary w-full sm:w-auto"><i class="fas fa-undo mr-2"></i>Reset</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="glass-card">
-                <h2 class="component-title"><i class="fas fa-cash-register"></i> Cash Denomination Counter</h2>
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-8 denomination-grid">
+            <!-- Cash Denomination Counter -->
+            <div id="cashCounter" class="content-page">
+                <div class="glass-card">
+                    <h2 class="component-title"><i class="fas fa-cash-register"></i> Cash Denomination Counter</h2>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-8 denomination-grid">
+                        <!-- Denomination inputs will be dynamically generated here -->
                     </div>
-                <div class="result-area">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mb-8 w-full">
-                        <div>
-                            <label for="customerName" class="modern-label">Customer Name:</label>
-                            <input type="text" id="customerName" class="modern-input" placeholder="Anil Kumar">
+                    <div class="result-area">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mb-8 w-full">
+                            <div>
+                                <label for="customerName" class="modern-label">Customer Name:</label>
+                                <input type="text" id="customerName" class="modern-input" placeholder="Anil Kumar">
+                            </div>
+                            <div>
+                                <label for="accountNumber" class="modern-label">Account Number:</label>
+                                <input type="text" id="accountNumber" class="modern-input" placeholder="0922001500006818">
+                            </div>
+                            <div>
+                                <label for="expectedCash" class="modern-label">Expected Cash (₹):</label>
+                                <input type="number" id="expectedCash" class="modern-input" placeholder="e.g., 5000" min="0">
+                            </div>
+                            <div>
+                                <p class="modern-label">Difference (₹):</p>
+                                <p id="cashDifference" class="result-text mt-2 text-2xl font-bold">₹0.00</p>
+                            </div>
                         </div>
-                        <div>
-                            <label for="accountNumber" class="modern-label">Account Number:</label>
-                            <input type="text" id="accountNumber" class="modern-input" placeholder="0922001500006818">
-                        </div>
-                        <div>
-                            <label for="expectedCash" class="modern-label">Expected Cash (₹):</label>
-                            <input type="number" id="expectedCash" class="modern-input" placeholder="e.g., 5000" min="0">
-                        </div>
-                        <div>
-                            <p class="modern-label">Difference (₹):</p>
-                            <p id="cashDifference" class="result-text mt-2 text-2xl font-bold">₹0.00</p>
+                        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+                            <div>
+                                <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">Total Amount:</p>
+                                <p id="cashTotalAmount" class="total-amount">₹0.00</p>
+                            </div>
+                            <button id="resetCashCounter" class="modern-btn btn-secondary w-full sm:w-auto"><i class="fas fa-undo mr-2"></i>Reset Counter</button>
                         </div>
                     </div>
-                    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+                </div>
+            </div>
+            
+            <div id="marginCalculator" class="content-page">
+                <div class="glass-card">
+                    <h2 class="component-title"><i class="fas fa-percentage"></i> Margin Calculator</h2>
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                         <div>
-                            <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">Total Amount:</p>
-                            <p id="cashTotalAmount" class="total-amount">₹0.00</p>
+                            <label for="costPriceMargin" class="modern-label">Cost Price (₹):</label>
+                            <input type="number" id="costPriceMargin" class="modern-input" placeholder="e.g., 100" min="0">
                         </div>
-                        <button id="resetCashCounter" class="modern-btn btn-secondary w-full sm:w-auto"><i class="fas fa-undo mr-2"></i>Reset Counter</button>
+                        <div>
+                            <label for="sellingPriceMargin" class="modern-label">Selling Price (₹):</label>
+                            <input type="number" id="sellingPriceMargin" class="modern-input" placeholder="e.g., 120" min="0">
+                        </div>
+                    </div>
+                    <div class="result-area">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">Gross Profit:</p>
+                                <p id="grossProfitAmount" class="total-amount">₹0.00</p>
+                            </div>
+                            <div>
+                                <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">Gross Margin:</p>
+                                <p id="grossMarginPercentage" class="total-amount text-3xl">0.00%</p>
+                            </div>
+                        </div>
+                        <p id="marginMessage" class="text-sm text-red-500 h-5 mb-4"></p>
+                        <button id="resetMarginCalc" class="modern-btn btn-secondary w-full sm:w-auto"><i class="fas fa-undo mr-2"></i>Reset</button>
                     </div>
                 </div>
             </div>
 
-        </div>
-    </main>
+            <!-- Dairy Stock Reorder -->
+            <div id="reorderListSection" class="content-page">
+                <div class="glass-card">
+                    <h2 class="component-title"><i class="fas fa-clipboard-list"></i> Dairy Stock Reorder</h2>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Quantity</th>
+                                    <th>Cost (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reorderTableBody">
+                                <!-- JS will populate this, but structure is preserved -->
+                                <tr>
+                                    <td data-unit-type="ml" data-unit-value="500">Full Cream Milk, 500ml</td>
+                                    <td><input type="number" value="" min="0" data-price="34.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td data-unit-type="ml" data-unit-value="500">Cow Milk, 500ml</td>
+                                    <td><input type="number" value="" min="0" data-price="29.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td data-unit-type="ml" data-unit-value="500">Double Toned Milk, 500ml</td>
+                                    <td><input type="number" value="" min="0" data-price="25.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td data-unit-type="g" data-unit-value="400">Dahi, 400g</td>
+                                    <td><input type="number" value="" min="0" data-price="32.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td data-unit-type="g" data-unit-value="200">Dahi, 200g</td>
+                                    <td><input type="number" value="" min="0" data-price="18.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                 <tr>
+                                    <td data-unit-type="g" data-unit-value="200">Dahi Cup, 200g</td>
+                                    <td><input type="number" value="" min="0" data-price="21.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td data-unit-type="ml" data-unit-value="500">Buttermilk, 500ml</td>
+                                    <td><input type="number" value="" min="0" data-price="14.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td data-unit-type="packs">Masala Buttermilk, 300ml</td>
+                                    <td><input type="number" value="" min="0" data-price="9.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Ananda Cow Paneer, 200g</td>
+                                    <td><input type="number" value="" min="0" data-price="68.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Amul Paneer, 200g</td>
+                                    <td><input type="number" value="" min="0" data-price="82.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td data-unit-type="packs">Plain Bread, 200g</td>
+                                    <td><input type="number" value="" min="0" data-price="20.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td data-unit-type="packs">Brown Bread, 400g</td>
+                                    <td><input type="number" value="" min="0" data-price="50.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Green Pea, 200g</td>
+                                    <td><input type="number" value="" min="0" data-price="22.00" class="input-field-table"></td>
+                                    <td class="text-right">0.00</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="total-row">
+                                    <td colspan="2" class="text-right">Grand Total:</td>
+                                    <td id="grandTotal" class="text-right">₹0.00</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="mt-8 flex flex-col items-center gap-4">
+                        <button onclick="generateOrderText()" class="modern-btn"><i class="fas fa-file-alt mr-2"></i> Generate Order</button>
+                        <div id="orderOutputContainer" class="w-full">
+                            <textarea id="orderOutput" readonly></textarea>
+                             <div class="flex gap-4 mt-4">
+                                <button onclick="copyOrderText()" class="modern-btn btn-secondary flex-1"><i class="fas fa-clipboard mr-2"></i> Copy</button>
+                                <button onclick="sendToWhatsApp()" class="modern-btn flex-1" style="background-color: #25D366; --tw-shadow-color: #25D366;"><i class="fab fa-whatsapp mr-2"></i> Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+        </main>
+    </div>
+
+    <!-- Toast Notification Container -->
     <div id="toastNotification" class="toast-notification"></div>
 
+    <!-- Custom JavaScript (Unchanged) -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
+        
+        // --- UI Elements ---
+        const sidebar = document.querySelector('.side-nav');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const overlay = document.querySelector('.overlay');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const contentPages = document.querySelectorAll('.content-page');
+
+        // --- Sidebar & Navigation Logic ---
+
+        // Desktop Sidebar Toggle
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('collapsed');
+            });
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+        if (mobileMenuToggle) mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+        if(overlay) overlay.addEventListener('click', toggleMobileMenu);
+
+        // Dark Mode Toggle
+        if (darkModeToggle) {
+            // Check for saved dark mode preference
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark');
+                darkModeToggle.checked = true;
+            }
+            darkModeToggle.addEventListener('change', () => {
+                document.body.classList.toggle('dark');
+                // Save preference
+                if (document.body.classList.contains('dark')) {
+                    localStorage.setItem('darkMode', 'enabled');
+                } else {
+                    localStorage.removeItem('darkMode');
+                }
+            });
+        }
+        
+        // Navigation Logic
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                contentPages.forEach(page => page.classList.remove('active'));
+
+                link.classList.add('active');
+                const targetId = link.getAttribute('data-target');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.classList.add('active');
+                }
+
+                // Close mobile menu on navigation
+                if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
+                    toggleMobileMenu();
+                }
+            });
+        });
 
         // --- Utility Functions ---
         function getValidatedFloatInput(inputElement, messageElement, fieldName) {
@@ -386,6 +819,18 @@
             if (inputElement.value.trim() === '') return null;
             if (isNaN(value) || value < 0) {
                 if (messageElement) messageElement.textContent = `Invalid ${fieldName}. Please enter a positive number.`;
+                return NaN;
+            }
+            return value;
+        }
+
+        function getValidatedIntInput(inputElement, messageElement, fieldName) {
+            if (!inputElement) return null;
+            if (messageElement) messageElement.textContent = '';
+            const value = parseInt(inputElement.value, 10);
+            if (inputElement.value.trim() === '') return null;
+            if (isNaN(value) || value < 0) {
+                if (messageElement) messageElement.textContent = `Invalid ${fieldName}. Please enter a positive whole number.`;
                 return NaN;
             }
             return value;
@@ -407,7 +852,7 @@
         }
 
         // --- Cash Counter ---
-        const cashCounterDiv = document.querySelector('.denomination-grid');
+        const cashCounterDiv = document.querySelector('#cashCounter .denomination-grid');
         const cashTotalAmountEl = document.getElementById('cashTotalAmount');
         const cashDifferenceEl = document.getElementById('cashDifference');
         const expectedCashInput = document.getElementById('expectedCash');
@@ -482,6 +927,33 @@
             });
         }
         if (expectedCashInput) expectedCashInput.addEventListener('input', calculateCashAndDifference);
+
+        // --- Unit Price Calculator ---
+        const mrpBoxInput = document.getElementById('mrpBox');
+        const piecesInBoxInput = document.getElementById('piecesInBox');
+        const pricePerPieceEl = document.getElementById('pricePerPiece');
+        const unitPriceMessageEl = document.getElementById('unitPriceMessage');
+        const resetUnitPriceCalcBtn = document.getElementById('resetUnitPriceCalc');
+
+        function calculatePricePerPiece() {
+            const mrpBox = getValidatedFloatInput(mrpBoxInput, unitPriceMessageEl, 'MRP of Box');
+            const piecesInBox = getValidatedIntInput(piecesInBoxInput, unitPriceMessageEl, 'Number of Units');
+            if (!pricePerPieceEl) return;
+            if (mrpBox === null || piecesInBox === null || isNaN(mrpBox) || isNaN(piecesInBox)) {
+                pricePerPieceEl.textContent = formatIndianRupees(0); return;
+            }
+            if (piecesInBox === 0) {
+                pricePerPieceEl.textContent = formatIndianRupees(0);
+                if(unitPriceMessageEl) unitPriceMessageEl.textContent = 'Number of units cannot be zero.'; return;
+            }
+            pricePerPieceEl.textContent = formatIndianRupees(mrpBox / piecesInBox);
+        }
+        if (mrpBoxInput && piecesInBoxInput) [mrpBoxInput, piecesInBoxInput].forEach(el => el.addEventListener('input', calculatePricePerPiece));
+        if (resetUnitPriceCalcBtn) resetUnitPriceCalcBtn.addEventListener('click', () => {
+            if(mrpBoxInput) mrpBoxInput.value = ''; 
+            if(piecesInBoxInput) piecesInBoxInput.value = ''; 
+            calculatePricePerPiece();
+        });
         
         // --- Dairy Stock Reorder List Functions ---
         const reorderTableBody = document.getElementById('reorderTableBody');
@@ -577,11 +1049,148 @@
             });
         }
 
-        // --- Initialize all components on page load ---
+        // --- Initialize all calculators on page load ---
         initializeCashCounter();
+        calculatePricePerPiece();
+
+        // Margin Calculator
+        const costPriceMarginInput = document.getElementById('costPriceMargin');
+        const sellingPriceMarginInput = document.getElementById('sellingPriceMargin');
+        const grossProfitAmountEl = document.getElementById('grossProfitAmount');
+        const grossMarginPercentageEl = document.getElementById('grossMarginPercentage');
+        const marginMessageEl = document.getElementById('marginMessage');
+        const resetMarginCalcBtn = document.getElementById('resetMarginCalc');
+
+        function calculateMargin() {
+            const costPrice = getValidatedFloatInput(costPriceMarginInput, marginMessageEl, 'Cost Price');
+            const sellingPrice = getValidatedFloatInput(sellingPriceMarginInput, marginMessageEl, 'Selling Price');
+            if (!grossProfitAmountEl || !grossMarginPercentageEl) return;
+            if (costPrice === null || sellingPrice === null || isNaN(costPrice) || isNaN(sellingPrice)) {
+                grossProfitAmountEl.textContent = formatIndianRupees(0);
+                grossMarginPercentageEl.textContent = '0.00%';
+                return;
+            }
+            if (marginMessageEl) {
+                if (sellingPrice < costPrice) marginMessageEl.textContent = 'Warning: Selling price is less than cost price.';
+                else marginMessageEl.textContent = '';
+            }
+            const grossProfit = sellingPrice - costPrice;
+            const grossMarginPercentage = (sellingPrice > 0) ? (grossProfit / sellingPrice) * 100 : 0;
+            grossProfitAmountEl.textContent = formatIndianRupees(grossProfit);
+            grossMarginPercentageEl.textContent = `${grossMarginPercentage.toFixed(2)}%`;
+        }
+        if(costPriceMarginInput && sellingPriceMarginInput) [costPriceMarginInput, sellingPriceMarginInput].forEach(el => el.addEventListener('input', calculateMargin));
+        if(resetMarginCalcBtn) resetMarginCalcBtn.addEventListener('click', () => {
+            if(costPriceMarginInput) costPriceMarginInput.value = ''; 
+            if(sellingPriceMarginInput) sellingPriceMarginInput.value = ''; 
+            calculateMargin();
+        });
+
+
+        // GST Calculator
+        const basePriceGSTInput = document.getElementById('basePriceGST');
+        const gstRateInput = document.getElementById('gstRate');
+        const gstAmountEl = document.getElementById('gstAmount');
+        const totalPriceWithGSTEl = document.getElementById('totalPriceWithGST');
+        const gstMessageEl = document.getElementById('gstMessage');
+        const resetGSTCalcBtn = document.getElementById('resetGSTCalc');
+
+        function calculateGST() {
+            const basePrice = getValidatedFloatInput(basePriceGSTInput, gstMessageEl, 'Base Price');
+            const gstRate = getValidatedFloatInput(gstRateInput, gstMessageEl, 'GST Rate');
+            if(!gstAmountEl || !totalPriceWithGSTEl) return;
+            if (basePrice === null || gstRate === null || isNaN(basePrice) || isNaN(gstRate)) {
+                gstAmountEl.textContent = formatIndianRupees(0);
+                totalPriceWithGSTEl.textContent = formatIndianRupees(0);
+                return;
+            }
+            const gstAmount = basePrice * (gstRate / 100);
+            totalPriceWithGSTEl.textContent = formatIndianRupees(basePrice + gstAmount);
+            gstAmountEl.textContent = formatIndianRupees(gstAmount);
+        }
+        if(basePriceGSTInput && gstRateInput) [basePriceGSTInput, gstRateInput].forEach(el => el.addEventListener('input', calculateGST));
+        if(resetGSTCalcBtn) resetGSTCalcBtn.addEventListener('click', () => {
+            if(basePriceGSTInput) basePriceGSTInput.value = ''; 
+            if(gstRateInput) gstRateInput.value = ''; 
+            calculateGST();
+        });
+
+
+        // Discount Calculator
+        const mrpInput = document.getElementById('mrp');
+        const salePriceInput = document.getElementById('salePrice');
+        const discountAmountEl = document.getElementById('discountAmount');
+        const discountPercentageEl = document.getElementById('discountPercentage');
+        const discountMessageEl = document.getElementById('discountMessage');
+        const resetDiscountCalcBtn = document.getElementById('resetDiscountCalc');
+
+        function calculateDiscount() {
+            const mrp = getValidatedFloatInput(mrpInput, discountMessageEl, 'MRP');
+            const salePrice = getValidatedFloatInput(salePriceInput, discountMessageEl, 'Sale Price');
+            if(!discountAmountEl || !discountPercentageEl) return;
+            if (mrp === null || salePrice === null || isNaN(mrp) || isNaN(salePrice)) {
+                discountAmountEl.textContent = '₹0.00';
+                discountPercentageEl.textContent = 'Which is a 0.00% discount';
+                return;
+            }
+            if(discountMessageEl) {
+                if (salePrice > mrp) {
+                    discountMessageEl.textContent = 'Sale price cannot be greater than MRP.';
+                } else {
+                     discountMessageEl.textContent = '';
+                }
+            }
+            const discountAmount = mrp - salePrice;
+            const discountPercentage = (mrp > 0) ? (discountAmount / mrp) * 100 : 0;
+            discountAmountEl.textContent = formatIndianRupees(discountAmount);
+            discountPercentageEl.textContent = `Which is a ${discountPercentage.toFixed(2)}% discount`;
+        }
+        if(mrpInput && salePriceInput) [mrpInput, salePriceInput].forEach(el => el.addEventListener('input', calculateDiscount));
+        if(resetDiscountCalcBtn) resetDiscountCalcBtn.addEventListener('click', () => {
+            if(mrpInput) mrpInput.value = ''; 
+            if(salePriceInput) salePriceInput.value = ''; 
+            calculateDiscount();
+        });
+
+
+        // Price-Based Weight Calculator
+        const pulsePricePerKgInput = document.getElementById('pulsePricePerKg');
+        const amountToSpendInput = document.getElementById('amountToSpend');
+        const pulseQuantityEl = document.getElementById('pulseQuantity');
+        const pulseMessageEl = document.getElementById('pulseMessage');
+        const resetPulseCalcBtn = document.getElementById('resetPulseCalc');
+
+        function calculatePulseQuantity() {
+            const pricePerKg = getValidatedFloatInput(pulsePricePerKgInput, pulseMessageEl, 'Price Per Kg');
+            const amountToSpend = getValidatedFloatInput(amountToSpendInput, pulseMessageEl, 'Amount to Spend');
+            if(!pulseQuantityEl) return;
+            if (pricePerKg === null || amountToSpend === null || isNaN(pricePerKg) || isNaN(amountToSpend)) {
+                pulseQuantityEl.textContent = '0.00g';
+                return;
+            }
+            if (pricePerKg === 0) {
+                pulseQuantityEl.textContent = (amountToSpend > 0) ? 'Infinite' : '0.00g';
+                return;
+            }
+            const quantityInGrams = (amountToSpend / pricePerKg) * 1000;
+            pulseQuantityEl.textContent = quantityInGrams >= 1000 ? `${(quantityInGrams / 1000).toFixed(2)} kg` : `${quantityInGrams.toFixed(2)} g`;
+        }
+        if(pulsePricePerKgInput && amountToSpendInput) [pulsePricePerKgInput, amountToSpendInput].forEach(el => el.addEventListener('input', calculatePulseQuantity));
+        if(resetPulseCalcBtn) resetPulseCalcBtn.addEventListener('click', () => {
+            if(pulsePricePerKgInput) pulsePricePerKgInput.value = ''; 
+            if(amountToSpendInput) amountToSpendInput.value = ''; 
+            calculatePulseQuantity();
+        });
+        
         initializeReorderListInputs();
         calculateTotal(); // Initial calculation for reorder list
+        calculateMargin();
+        calculateGST();
+        calculateDiscount();
+        calculatePulseQuantity();
     });
     </script>
 </body>
 </html>
+
+
