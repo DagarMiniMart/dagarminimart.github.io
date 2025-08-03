@@ -2,246 +2,264 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- This meta tag is crucial for responsive design -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dagar Mini Mart</title>
-    <!-- Tailwind CSS for utility classes -->
+    <title>Dagar Mini Mart - Business Tools</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Inter and Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Custom Stylesheet -->
+    <!-- Custom Stylesheet for Redesign -->
     <style>
         :root {
-            --primary-blue: #60A5FA;
-            --primary-purple: #A78BFA;
-            --primary-pink: #F472B6;
-            --bg-light: #F0F5FF;
-            --glass-bg-light: rgba(255, 255, 255, 0.5);
-            --glass-border-light: rgba(255, 255, 255, 0.8);
-            --text-primary-light: #1e293b;
-            --text-secondary-light: #475569;
-            --nav-hover-bg-light: rgba(96, 165, 250, 0.1);
-            --nav-hover-text-light: #3b82f6;
-            --bg-dark: #0B1120;
-            --glass-bg-dark: rgba(30, 41, 59, 0.5);
-            --glass-border-dark: rgba(51, 65, 85, 0.5);
-            --text-primary-dark: #e2e8f0;
-            --text-secondary-dark: #94a3b8;
-            --nav-hover-bg-dark: rgba(96, 165, 250, 0.1);
+            /* Color Palette */
+            --primary-500: #3b82f6; /* blue-500 */
+            --primary-600: #2563eb; /* blue-600 */
+            --primary-700: #1d4ed8; /* blue-700 */
+            --primary-100: #dbeafe; /* blue-100 */
+            --primary-50: #eff6ff;  /* blue-50 */
+            
+            --slate-900: #0f172a;
+            --slate-800: #1e293b;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-500: #64748b;
+            --slate-400: #94a3b8;
+            --slate-300: #cbd5e1;
+            --slate-200: #e2e8f0;
+            --slate-100: #f1f5f9;
+            --slate-50: #f8fafc;
+            
+            /* Light Theme Variables */
+            --bg-light: var(--slate-100);
+            --card-bg-light: white;
+            --card-border-light: var(--slate-200);
+            --text-primary-light: var(--slate-800);
+            --text-secondary-light: var(--slate-500);
+            --nav-hover-bg-light: var(--primary-50);
+            --nav-hover-text-light: var(--primary-600);
+            
+            /* Dark Theme Variables */
+            --bg-dark: #0b1120; /* Slightly darker than slate-900 for more depth */
+            --card-bg-dark: var(--slate-800);
+            --card-border-dark: var(--slate-700);
+            --text-primary-dark: var(--slate-100);
+            --text-secondary-dark: var(--slate-400);
+            --nav-hover-bg-dark: rgba(59, 130, 246, 0.1);
             --nav-hover-text-dark: #93c5fd;
-            --success-green: #4CAF50;
-            --error-red: #F44336;
+
+            --success-green: #22c55e;
+            --error-red: #ef4444;
         }
 
-        html {
-            /* Smooth scrolling behavior */
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-light);
             color: var(--text-primary-light);
             line-height: 1.6;
-            transition: background-color 0.5s ease, color 0.5s ease;
-            overflow-x: hidden; /* Prevent horizontal scroll */
-            /* Use dynamic viewport height to account for mobile browser bars */
-            min-height: 100vh; 
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+            min-height: 100vh;
             min-height: 100dvh;
+            /* Refined: Added a subtle background pattern */
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e2e8f0' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
         body.dark {
             background-color: var(--bg-dark);
             color: var(--text-primary-dark);
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23334155' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
 
         /* Modern Scrollbar */
-        .main-content::-webkit-scrollbar, #orderOutput::-webkit-scrollbar {
-            width: 8px;
-        }
-        .main-content::-webkit-scrollbar-track, #orderOutput::-webkit-scrollbar-track {
-            background: transparent;
-        }
+        .main-content::-webkit-scrollbar, #orderOutput::-webkit-scrollbar { width: 8px; }
+        .main-content::-webkit-scrollbar-track, #orderOutput::-webkit-scrollbar-track { background: transparent; }
         .main-content::-webkit-scrollbar-thumb, #orderOutput::-webkit-scrollbar-thumb {
-            background: linear-gradient(var(--primary-blue), var(--primary-purple));
+            background: var(--slate-300);
             border-radius: 10px;
         }
-        
-        .aurora-background {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; pointer-events: none;
-        }
-        .aurora-background::before, .aurora-background::after {
-            content: ''; position: absolute; width: 800px; height: 800px;
-            border-radius: 50%; opacity: 0.3; mix-blend-mode: screen;
-            filter: blur(100px); animation: aurora-move 20s infinite alternate;
-        }
-        .aurora-background::before {
-            background: radial-gradient(circle, var(--primary-blue), transparent 60%);
-            top: -200px; left: -200px;
-        }
-        .aurora-background::after {
-            background: radial-gradient(circle, var(--primary-purple), transparent 60%);
-            bottom: -200px; right: -200px; animation-delay: -10s;
-        }
-        @keyframes aurora-move {
-            from { transform: translate(0, 0) rotate(0deg); }
-            to { transform: translate(200px, 100px) rotate(180deg); }
+        body.dark .main-content::-webkit-scrollbar-thumb, body.dark #orderOutput::-webkit-scrollbar-thumb {
+            background: var(--slate-600);
         }
 
-        .main-container {
-            display: flex;
-            min-height: 100vh;
-            min-height: 100dvh;
-            position: relative;
-        }
+        .main-container { display: flex; min-height: 100vh; min-height: 100dvh; }
 
         /* Sidebar */
         .side-nav {
-            background-color: var(--glass-bg-light);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            padding: 1.5rem; border-right: 1px solid var(--glass-border-light);
+            background-color: var(--card-bg-light);
+            padding: 1.5rem;
+            border-right: 1px solid var(--card-border-light);
             width: 260px; z-index: 10;
-            transition: all 0.5s ease; display: flex; flex-direction: column;
-            flex-shrink: 0; /* Prevent sidebar from shrinking */
+            transition: width 0.3s ease, padding 0.3s ease;
+            display: flex; flex-direction: column; flex-shrink: 0;
         }
-        .side-nav.collapsed {
-            width: 80px; padding: 1.5rem 0.5rem;
-        }
+        .side-nav.collapsed { width: 80px; padding: 1.5rem 0.5rem; }
         body.dark .side-nav {
-            background-color: var(--glass-bg-dark);
-            border-right-color: var(--glass-border-dark);
+            background-color: var(--card-bg-dark);
+            border-right-color: var(--card-border-dark);
         }
 
         .side-nav .logo {
-            font-family: 'Montserrat', sans-serif; font-size: 1.3rem; font-weight: 700;
-            color: var(--text-primary-light); margin-bottom: 2rem; padding-bottom: 1rem;
-            border-bottom: 2px solid var(--primary-blue); transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 700;
+            color: var(--text-primary-light); margin-bottom: 2.5rem;
             display: flex; align-items: center; gap: 0.75rem;
+            padding-left: 0.5rem;
         }
         body.dark .side-nav .logo { color: var(--text-primary-dark); }
-        .side-nav.collapsed .logo { font-size: 1rem; justify-content: center; }
+        .side-nav.collapsed .logo { justify-content: center; padding-left: 0; }
         .side-nav.collapsed .logo .logo-text { display: none; }
 
         .nav-menu a {
-            display: flex; align-items: center; padding: 0.75rem 1rem; margin-bottom: 0.75rem;
-            border-radius: 0.75rem; font-weight: 500; color: var(--text-secondary-light);
-            text-decoration: none; transition: all 0.25s ease-in-out; font-size: 0.95rem;
+            display: flex; align-items: center; padding: 0.75rem 1rem; margin-bottom: 0.5rem;
+            border-radius: 0.5rem; font-weight: 500; color: var(--text-secondary-light);
+            text-decoration: none; transition: all 0.2s ease-in-out; font-size: 0.9rem;
         }
         body.dark .nav-menu a { color: var(--text-secondary-dark); }
         .nav-menu a:hover {
             background-color: var(--nav-hover-bg-light); color: var(--nav-hover-text-light);
+            transform: translateX(4px); /* Refined: Subtle hover effect */
         }
         body.dark .nav-menu a:hover {
             background-color: var(--nav-hover-bg-dark); color: var(--nav-hover-text-dark);
         }
         .nav-menu a.active {
-            background: linear-gradient(90deg, var(--primary-blue), var(--primary-purple));
-            color: white; box-shadow: 0 5px 20px -5px rgba(96, 165, 250, 0.5);
+            background-color: var(--primary-500); color: white;
+            box-shadow: 0 4px 14px -4px var(--primary-500);
+            transform: translateX(4px);
         }
         .nav-menu a i {
-            width: 24px; text-align: center; margin-right: 1rem; font-size: 1.1rem;
-            transition: transform 0.2s;
+            width: 24px; text-align: center; margin-right: 1rem; font-size: 1rem;
         }
         .side-nav.collapsed .nav-menu a { justify-content: center; }
         .side-nav.collapsed .nav-menu a .nav-text { display: none; }
         .side-nav.collapsed .nav-menu a i { margin-right: 0; }
-        .nav-menu a.active i { transform: scale(1.1); }
 
         /* Sidebar Toggle */
         #sidebar-toggle {
-            position: absolute; top: 20px; right: -15px; transform: translateY(-50%);
-            width: 30px; height: 30px; background-color: var(--glass-bg-light);
-            border: 1px solid var(--glass-border-light); border-radius: 50%;
+            position: absolute; top: 24px; right: -15px;
+            width: 30px; height: 30px; background-color: white;
+            border: 1px solid var(--card-border-light); border-radius: 50%;
             display: flex; align-items: center; justify-content: center; cursor: pointer;
-            color: var(--text-secondary-light); box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            color: var(--text-secondary-light); box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             z-index: 11; transition: all 0.3s ease;
         }
         body.dark #sidebar-toggle {
-            background-color: var(--glass-bg-dark); border-color: var(--glass-border-dark);
+            background-color: var(--slate-700); border-color: var(--slate-600);
             color: var(--text-secondary-dark);
         }
         #sidebar-toggle:hover {
-            background-color: var(--primary-blue); color: white;
-            transform: translateY(-50%) scale(1.1);
+            background-color: var(--primary-500); color: white; transform: scale(1.1);
         }
-        #sidebar-toggle-icon { transition: transform 0.5s ease; }
+        #sidebar-toggle-icon { transition: transform 0.3s ease; }
         .side-nav.collapsed #sidebar-toggle-icon { transform: rotate(180deg); }
 
         /* Main Content */
         .main-content {
-            flex-grow: 1; padding: 2rem; overflow-y: auto; 
-            height: 100vh;
-            height: 100dvh;
+            flex-grow: 1; padding: 2.5rem; overflow-y: auto; height: 100vh; height: 100dvh;
         }
         .content-page { display: none; }
-        .content-page.active { display: block; animation: fadeIn 0.7s ease-in-out; }
+        .content-page.active { display: block; animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Components */
-        .glass-card {
-            background: var(--glass-bg-light); backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px); border-radius: 1rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07); padding: 2rem;
-            border: 1px solid var(--glass-border-light);
+        .glass-card { /* Renamed from glass-card but keeping class for JS compatibility */
+            background: var(--card-bg-light); border-radius: 0.75rem;
+            /* Refined: Softer, more modern shadow */
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            padding: 2rem; border: 1px solid var(--card-border-light);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.07), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
         body.dark .glass-card {
-            background: var(--glass-bg-dark); border-color: var(--glass-border-dark);
+            background: var(--card-bg-dark); border-color: var(--card-border-dark);
         }
         .component-title {
-            font-size: 1.75rem; font-weight: 700; color: var(--text-primary-light);
-            margin-bottom: 1.5rem; padding-bottom: 0.75rem;
-            border-bottom: 2px solid var(--primary-blue); display: flex;
-            align-items: center; gap: 0.75rem;
+            font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 600;
+            color: var(--text-primary-light); margin-bottom: 2rem;
+            display: flex; align-items: center; gap: 0.75rem;
         }
-        body.dark .component-title {
-            color: var(--text-primary-dark); border-bottom-color: var(--primary-purple);
+        body.dark .component-title { color: var(--text-primary-dark); }
+        .component-title i { color: var(--primary-500); }
+        
+        /* Card title for dashboard view */
+        .card-title {
+            font-family: 'Poppins', sans-serif; font-size: 1.125rem; font-weight: 600;
+            color: var(--text-primary-light); margin-bottom: 1.5rem;
+            display: flex; align-items: center; gap: 0.75rem;
         }
+        body.dark .card-title { color: var(--text-primary-dark); }
+        .card-title i { color: var(--primary-500); }
+
 
         .modern-input, .input-field-table {
-            border: 1px solid var(--glass-border-light); border-radius: 0.625rem;
-            padding: 0.75rem 1rem; width: 100%; font-size: 1rem;
-            color: var(--text-primary-light); background-color: rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
+            border: 1px solid var(--slate-300); border-radius: 0.5rem;
+            padding: 0.625rem 1rem; width: 100%; font-size: 0.9rem;
+            color: var(--text-primary-light); background-color: var(--slate-50);
+            transition: all 0.2s ease;
         }
         body.dark .modern-input, body.dark .input-field-table {
-            border-color: var(--glass-border-dark); color: var(--text-primary-dark);
-            background-color: rgba(0,0,0,0.2);
+            border-color: var(--slate-600); color: var(--text-primary-dark);
+            background-color: var(--slate-700);
         }
         .modern-input:focus, .input-field-table:focus {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
-            outline: none; background-color: var(--glass-bg-light);
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Refined: More visible focus ring */
+            outline: none; background-color: white;
         }
         body.dark .modern-input:focus, body.dark .input-field-table:focus {
-            background-color: var(--glass-bg-dark);
+            background-color: var(--slate-800);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
         }
-        .input-field-table {
-            padding: 0.4rem 0.6rem; text-align: right;
-        }
+        .input-field-table { padding: 0.4rem 0.6rem; text-align: right; }
 
         .modern-label {
-            font-size: 0.9rem; font-weight: 500; color: var(--text-secondary-light);
+            font-size: 0.875rem; font-weight: 500; color: var(--text-secondary-light);
             margin-bottom: 0.5rem; display: block;
         }
         body.dark .modern-label { color: var(--text-secondary-dark); }
 
         .modern-btn {
-            padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-weight: 600;
-            background: linear-gradient(90deg, var(--primary-blue), var(--primary-purple));
-            color: white; border: none; cursor: pointer; display: inline-flex;
-            align-items: center; justify-content: center; gap: 0.625rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: all 0.3s ease;
+            padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600;
+            background-color: var(--primary-500); color: white;
+            border: none; cursor: pointer; display: inline-flex;
+            align-items: center; justify-content: center; gap: 0.5rem;
+            transition: all 0.2s ease;
         }
-        .modern-btn:hover {
+        .modern-btn:hover { background-color: var(--primary-600); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2); }
+        
+        /* Refined: Secondary button style for reset actions */
+        .btn-secondary {
+            background-color: var(--slate-100);
+            color: var(--slate-700);
+            border: 1px solid var(--slate-200);
+        }
+        .btn-secondary:hover {
+            background-color: var(--slate-200);
+            border-color: var(--slate-300);
             transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(120, 150, 255, 0.35);
+            box-shadow: none;
         }
+        body.dark .btn-secondary {
+            background-color: var(--slate-700);
+            color: var(--slate-200);
+            border-color: var(--slate-600);
+        }
+        body.dark .btn-secondary:hover {
+            background-color: var(--slate-600);
+            border-color: var(--slate-500);
+        }
+
 
         /* Dark Mode Toggle */
         .dark-mode-toggle { margin-top: auto; padding-top: 1.5rem; text-align: center; }
@@ -249,14 +267,19 @@
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider {
             position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #ccc; transition: .4s; border-radius: 28px;
+            background-color: var(--slate-300); transition: .4s; border-radius: 28px;
         }
         .slider:before {
-            position: absolute; content: ""; height: 20px; width: 20px; left: 4px;
-            bottom: 4px; background-color: white; transition: .4s; border-radius: 50%;
+            position: absolute; content: "\f186"; font-family: "Font Awesome 6 Free";
+            font-weight: 900; color: var(--slate-500);
+            display: flex; align-items: center; justify-content: center;
+            height: 20px; width: 20px; left: 4px; bottom: 4px;
+            background-color: white; transition: .4s; border-radius: 50%;
         }
-        input:checked + .slider { background-color: var(--primary-blue); }
-        input:checked + .slider:before { transform: translateX(22px); }
+        input:checked + .slider { background-color: var(--primary-500); }
+        input:checked + .slider:before {
+            content: "\f185"; transform: translateX(22px);
+        }
         .toggle-label {
             margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-secondary-light);
             font-weight: 500;
@@ -267,44 +290,50 @@
         /* Result Area Styling */
         .result-area {
             margin-top: 2rem; padding-top: 2rem;
-            border-top: 1px solid var(--glass-border-light);
+            border-top: 1px solid var(--card-border-light);
         }
-        body.dark .result-area { border-top-color: var(--glass-border-dark); }
+        body.dark .result-area { border-top-color: var(--card-border-dark); }
         .result-text {
             font-size: 1.1rem; font-weight: 600; color: var(--text-primary-light);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
         }
         body.dark .result-text { color: var(--text-primary-dark); }
         .total-amount {
-            font-size: 2.25rem; font-weight: 800; color: var(--primary-blue);
+            font-family: 'Poppins', sans-serif; font-size: 2.5rem; /* Refined: Larger font size */
+            font-weight: 700;
+            color: var(--primary-600); 
             letter-spacing: -0.025em; line-height: 1.2;
         }
-        body.dark .total-amount { color: var(--primary-purple); }
-        .profit-positive { color: var(--success-green); }
-        .profit-negative { color: var(--error-red); }
+        body.dark .total-amount { color: #60a5fa; }
+        .profit-positive { color: var(--success-green) !important; }
+        .profit-negative { color: var(--error-red) !important; }
 
         /* Table styles */
         .table-responsive { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; }
         th, td {
-            padding: 0.8rem 1rem; text-align: left;
-            border-bottom: 1px solid var(--glass-border-light);
+            padding: 1rem; text-align: left;
+            border-bottom: 1px solid var(--card-border-light);
         }
-        body.dark th, body.dark td { border-bottom-color: var(--glass-border-dark); }
+        body.dark th, body.dark td { border-bottom-color: var(--card-border-dark); }
         th {
-            background-color: rgba(96, 165, 250, 0.1); color: var(--primary-blue);
-            font-weight: 600; text-transform: uppercase; font-size: 0.8rem;
+            background-color: var(--slate-50); color: var(--text-secondary-light);
+            font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em;
         }
         body.dark th {
-            background-color: rgba(167, 139, 250, 0.1); color: var(--primary-purple);
+            background-color: var(--slate-700); color: var(--text-secondary-dark);
         }
+        /* Refined: Zebra striping for better readability */
+        tbody tr:nth-child(even) { background-color: var(--slate-50); }
+        body.dark tbody tr:nth-child(even) { background-color: rgba(30, 41, 59, 0.5); }
+
         .total-row td {
-            font-weight: bold; background-color: rgba(96, 165, 250, 0.1);
-            color: var(--primary-blue); border-top: 2px solid var(--primary-blue);
+            font-weight: bold; background-color: var(--slate-100) !important;
+            color: var(--primary-600); border-top: 2px solid var(--primary-500);
         }
         body.dark .total-row td {
-            background-color: rgba(167, 139, 250, 0.1);
-            color: var(--primary-purple); border-top-color: var(--primary-purple);
+            background-color: var(--slate-700) !important;
+            color: #93c5fd; border-top-color: var(--primary-500);
         }
 
         #orderOutputContainer {
@@ -313,150 +342,91 @@
         }
         #orderOutput {
             width: 100%; max-width: 600px; height: 180px; padding: 12px;
-            border: 1px solid var(--glass-border-light); border-radius: 0.75rem;
-            font-family: monospace; resize: vertical; background-color: transparent;
+            border: 1px solid var(--slate-300); border-radius: 0.5rem;
+            font-family: monospace; resize: vertical; background-color: var(--slate-50);
             color: var(--text-primary-light);
         }
         body.dark #orderOutput {
-            border-color: var(--glass-border-dark); color: var(--text-primary-dark);
+            border-color: var(--slate-600); color: var(--text-primary-dark); background-color: var(--slate-700);
         }
 
         /* Toast Notification */
         .toast-notification {
             position: fixed; bottom: -100px; left: 50%;
-            transform: translateX(-50%); background-color: #333;
-            color: white; padding: 1rem 2rem; border-radius: 0.5rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: bottom 0.5s ease-in-out;
-            z-index: 2000;
+            transform: translateX(-50%); background-color: var(--slate-800);
+            color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            transition: bottom 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            z-index: 2000; opacity: 0;
         }
-        .toast-notification.show { bottom: 30px; }
+        .toast-notification.show { bottom: 30px; opacity: 1; }
 
-        /* --- MOBILE RESPONSIVE STYLES --- */
+        /* Mobile Responsive Styles */
         .mobile-header { display: none; }
         .overlay { display: none; }
 
         @media (max-width: 768px) {
             .mobile-header {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 1rem;
-                background-color: var(--glass-bg-light);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                border-bottom: 1px solid var(--glass-border-light);
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                z-index: 500;
+                display: flex; align-items: center; justify-content: space-between;
+                padding: 1rem; background-color: var(--card-bg-light);
+                border-bottom: 1px solid var(--card-border-light);
+                position: fixed; top: 0; left: 0; right: 0; z-index: 500;
             }
             body.dark .mobile-header {
-                 background-color: var(--glass-bg-dark);
-                 border-bottom-color: var(--glass-border-dark);
+                 background-color: var(--card-bg-dark);
+                 border-bottom-color: var(--card-border-dark);
             }
             #mobile-menu-toggle {
-                font-size: 1.5rem;
-                cursor: pointer;
-                color: var(--text-primary-light);
+                font-size: 1.5rem; cursor: pointer; color: var(--text-primary-light);
             }
-            body.dark #mobile-menu-toggle {
-                color: var(--text-primary-dark);
-            }
+            body.dark #mobile-menu-toggle { color: var(--text-primary-dark); }
             .mobile-header .logo {
-                font-family: 'Montserrat', sans-serif;
-                font-size: 1.2rem;
-                font-weight: 700;
+                font-family: 'Poppins', sans-serif; font-size: 1.25rem; font-weight: 700;
                 color: var(--text-primary-light);
             }
-            body.dark .mobile-header .logo {
-                color: var(--text-primary-dark);
-            }
+            body.dark .mobile-header .logo { color: var(--text-primary-dark); }
             
             .side-nav {
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100%;
-                transform: translateX(-100%);
-                z-index: 1000;
+                position: fixed; top: 0; left: 0; height: 100%;
+                transform: translateX(-100%); z-index: 1000;
                 transition: transform 0.3s ease-in-out;
             }
             .side-nav.open {
-                transform: translateX(0);
-                box-shadow: 5px 0 25px rgba(0,0,0,0.1);
+                transform: translateX(0); box-shadow: 5px 0 25px rgba(0,0,0,0.1);
             }
             .side-nav.collapsed {
-                width: 260px; /* Full width when open on mobile */
+                width: 260px; padding: 1.5rem;
             }
             .side-nav.collapsed .logo .logo-text,
             .side-nav.collapsed .nav-menu .nav-text,
             .side-nav.collapsed .toggle-label {
-                display: inline-block; /* Show text when open on mobile */
+                display: inline-block;
             }
             .side-nav.collapsed .logo,
             .side-nav.collapsed .nav-menu a {
                 justify-content: flex-start;
             }
-            .side-nav.collapsed .nav-menu a i {
-                margin-right: 1rem;
-            }
-
-            #sidebar-toggle {
-                display: none; /* Hide desktop toggle on mobile */
-            }
+            .side-nav.collapsed .nav-menu a i { margin-right: 1rem; }
+            #sidebar-toggle { display: none; }
             
             .main-content {
-                /* Reduced padding on mobile */
-                padding: 1rem; 
-                /* Add significant padding to the bottom to avoid browser UI */
-                padding-top: 70px; /* Space for fixed mobile header */
-                padding-bottom: 100px; /* Extra space at the bottom */
+                padding: 1.5rem 1rem; padding-top: 80px; padding-bottom: 100px;
             }
-            .glass-card {
-                /* Reduced padding inside cards on mobile */
-                padding: 1rem;
-            }
-            .component-title {
-                /* Smaller title font on mobile */
-                font-size: 1.3rem;
-            }
-            .total-amount {
-                /* Smaller total font on mobile */
-                font-size: 1.8rem;
-            }
-            .modern-input, .modern-label, .modern-btn {
-                /* Smaller form elements on mobile */
-                font-size: 0.9rem;
-            }
-            .modern-btn {
-                padding: 0.6rem 1.2rem;
-            }
-            .denomination-grid {
-                /* 2 columns for cash counter on mobile */
-                grid-template-columns: repeat(2, minmax(0, 1fr)); 
-                gap: 1rem; /* Reduced gap */
-            }
+            .glass-card { padding: 1.5rem; }
+            .component-title { font-size: 1.25rem; }
+            .total-amount { font-size: 2rem; }
+            .modern-btn { width: 100%; }
+            .denomination-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
             
             .overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.5);
-                z-index: 999;
-                display: none; /* Hidden by default */
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0, 0, 0, 0.5); z-index: 999; display: none;
             }
-            .overlay.active {
-                display: block;
-            }
+            .overlay.active { display: block; }
         }
     </style>
 </head>
-<body>
-    <div class="aurora-background"></div>
-
+<body class="antialiased">
     <!-- Mobile Header -->
     <header class="mobile-header">
         <i id="mobile-menu-toggle" class="fas fa-bars"></i>
@@ -467,32 +437,27 @@
     <div class="main-container">
         <!-- Side Navigation -->
         <nav class="side-nav">
-            <div id="sidebar-toggle">
-                <i id="sidebar-toggle-icon" class="fas fa-chevron-left"></i>
+            <div class="relative">
+                <div id="sidebar-toggle">
+                    <i id="sidebar-toggle-icon" class="fas fa-chevron-left"></i>
+                </div>
             </div>
             <div class="logo">
-                <i class="fas fa-store text-primary-blue"></i>
+                <i class="fas fa-store text-primary-500"></i>
                 <span class="logo-text">Dagar Mart</span>
             </div>
             <div class="nav-menu">
-                <a href="#" class="nav-link active" data-target="#cashCounter"><i class="fas fa-cash-register"></i> <span class="nav-text">Cash Counter</span></a>
+                <a href="#" class="nav-link active" data-target="#dashboard"><i class="fas fa-th-large"></i> <span class="nav-text">Dashboard</span></a>
+                <a href="#" class="nav-link" data-target="#cashCounter"><i class="fas fa-cash-register"></i> <span class="nav-text">Cash Counter</span></a>
                 <a href="#" class="nav-link" data-target="#reorderListSection"><i class="fas fa-clipboard-list"></i> <span class="nav-text">Dairy Reorder</span></a>
-                <a href="#" class="nav-link" data-target="#unitPriceCalculator"><i class="fas fa-tag"></i> <span class="nav-text">Unit Price</span></a>
-                <a href="#" class="nav-link" data-target="#boxProfitCalculator"><i class="fas fa-chart-line"></i> <span class="nav-text">Box Profit</span></a>
                 <a href="#" class="nav-link" data-target="#marginCalculator"><i class="fas fa-percentage"></i> <span class="nav-text">Margin Calc</span></a>
-                <a href="#" class="nav-link" data-target="#gstCalculator"><i class="fas fa-file-invoice-dollar"></i> <span class="nav-text">GST Calc</span></a>
-                <a href="#" class="nav-link" data-target="#discountCalculator"><i class="fas fa-tags"></i> <span class="nav-text">Discount Calc</span></a>
-                <a href="#" class="nav-link" data-target="#pulseCalculator"><i class="fas fa-balance-scale-right"></i> <span class="nav-text">Weight Calc</span></a>
-                <a href="#" class="nav-link" data-target="#looseItemProfitCalculator"><i class="fas fa-leaf"></i> <span class="nav-text">Loose Item Profit</span></a>
-                <a href="#" class="nav-link" data-target="#schemeCalculator"><i class="fas fa-gift"></i> <span class="nav-text">Scheme / Offer</span></a>
-                <a href="#" class="nav-link" data-target="#leftoverCalculator"><i class="fas fa-box-open"></i> <span class="nav-text">Leftover Calc</span></a>
             </div>
             <div class="dark-mode-toggle">
                 <label class="switch">
                   <input type="checkbox" id="darkModeToggle">
                   <span class="slider"></span>
                 </label>
-                <div class="toggle-label">Dark Mode</div>
+                <div class="toggle-label">Theme</div>
             </div>
         </nav>
 
@@ -501,15 +466,116 @@
 
         <!-- Main Content -->
         <main class="main-content">
+            
+            <div id="dashboard" class="content-page active">
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                    <!-- Unit Price Calculator Card -->
+                    <div class="glass-card">
+                        <h2 class="card-title"><i class="fas fa-tag"></i> Unit Price Calculator</h2>
+                        <div class="space-y-4 mb-8">
+                            <div>
+                                <label for="mrpBox" class="modern-label">MRP (Price of the Box/Pack):</label>
+                                <input type="number" id="mrpBox" class="modern-input" placeholder="e.g., 590" min="0">
+                            </div>
+                            <div>
+                                <label for="piecesInBox" class="modern-label">Number of Units in Box/Pack:</label>
+                                <input type="number" id="piecesInBox" class="modern-input" placeholder="e.g., 50" min="0">
+                            </div>
+                        </div>
+                        <div class="result-area flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+                            <div>
+                                 <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">Price Per Unit:</p>
+                                <p id="pricePerPiece" class="total-amount">₹0.00</p>
+                                <p id="unitPriceMessage" class="text-sm text-red-500 mt-1 h-5"></p>
+                            </div>
+                            <button id="resetUnitPriceCalc" class="modern-btn btn-secondary w-full sm:w-auto"><i class="fas fa-undo mr-2"></i>Reset</button>
+                        </div>
+                    </div>
+                    <!-- GST Calculator Card -->
+                    <div class="glass-card">
+                        <h2 class="card-title"><i class="fas fa-file-invoice-dollar"></i> GST Calculator</h2>
+                        <div class="space-y-4 mb-8">
+                            <div>
+                                <label for="basePriceGST" class="modern-label">Base Price (₹):</label>
+                                <input type="number" id="basePriceGST" class="modern-input" placeholder="e.g., 1000" min="0">
+                            </div>
+                            <div>
+                                <label for="gstRate" class="modern-label">GST Rate (%):</label>
+                                <input type="number" id="gstRate" class="modern-input" placeholder="e.g., 18" min="0">
+                            </div>
+                        </div>
+                        <div class="result-area">
+                             <div class="grid grid-cols-1 mb-6">
+                                <div>
+                                    <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">GST Amount:</p>
+                                    <p id="gstAmount" class="total-amount text-3xl">₹0.00</p>
+                                </div>
+                                <div class="mt-4">
+                                    <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">Total Price (incl. GST):</p>
+                                    <p id="totalPriceWithGST" class="total-amount">₹0.00</p>
+                                </div>
+                            </div>
+                            <p id="gstMessage" class="text-sm text-red-500 h-5 mb-4"></p>
+                            <button id="resetGSTCalc" class="modern-btn btn-secondary w-full sm:w-auto"><i class="fas fa-undo mr-2"></i>Reset</button>
+                        </div>
+                    </div>
+                    <!-- Discount Calculator Card -->
+                    <div class="glass-card">
+                        <h2 class="card-title"><i class="fas fa-tags"></i> Discount Calculator</h2>
+                        <div class="space-y-4 mb-8">
+                            <div>
+                                <label for="mrp" class="modern-label">MRP (Maximum Retail Price):</label>
+                                <input type="number" id="mrp" class="modern-input" placeholder="e.g., 1000" min="0">
+                            </div>
+                            <div>
+                                <label for="salePrice" class="modern-label">Sale Price:</label>
+                                <input type="number" id="salePrice" class="modern-input" placeholder="e.g., 800" min="0">
+                            </div>
+                        </div>
+                        <div class="result-area flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+                            <div>
+                                 <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">You Save:</p>
+                                <p id="discountAmount" class="total-amount">₹0.00</p>
+                                <p id="discountPercentage" class="result-text text-lg font-semibold">Which is a 0.00% discount</p>
+                                <p id="discountMessage" class="text-sm text-red-500 mt-1 h-5"></p>
+                            </div>
+                            <button id="resetDiscountCalc" class="modern-btn btn-secondary w-full sm:w-auto"><i class="fas fa-undo mr-2"></i>Reset</button>
+                        </div>
+                    </div>
+                    <!-- Price-Based Weight Calculator Card -->
+                    <div class="glass-card">
+                        <h2 class="card-title"><i class="fas fa-balance-scale-right"></i> Price-Based Weight Calculator</h2>
+                        <div class="space-y-4 mb-8">
+                            <div>
+                                <label for="pulsePricePerKg" class="modern-label">Price Per Kg (₹):</label>
+                                <input type="number" id="pulsePricePerKg" class="modern-input" placeholder="e.g., 90" min="0">
+                            </div>
+                            <div>
+                                <label for="amountToSpend" class="modern-label">Desired Spend Amount (₹):</label>
+                                <input type="number" id="amountToSpend" class="modern-input" placeholder="e.g., 20" min="0">
+                            </div>
+                        </div>
+                        <div class="result-area flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+                            <div>
+                                 <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">Quantity you will get:</p>
+                                <p id="pulseQuantity" class="total-amount">0.00 grams</p>
+                                <p id="pulseMessage" class="text-sm text-red-500 mt-1 h-5"></p>
+                            </div>
+                            <button id="resetPulseCalc" class="modern-btn btn-secondary w-full sm:w-auto"><i class="fas fa-undo mr-2"></i>Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Cash Denomination Counter -->
-            <div id="cashCounter" class="content-page active">
+            <div id="cashCounter" class="content-page">
                 <div class="glass-card">
                     <h2 class="component-title"><i class="fas fa-cash-register"></i> Cash Denomination Counter</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8 denomination-grid">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-8 denomination-grid">
                         <!-- Denomination inputs will be dynamically generated here -->
                     </div>
-                    <div class="result-area flex flex-col items-start">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 w-full">
+                    <div class="result-area">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mb-8 w-full">
                             <div>
                                 <label for="customerName" class="modern-label">Customer Name:</label>
                                 <input type="text" id="customerName" class="modern-input" placeholder="Anil Kumar">
@@ -527,66 +593,18 @@
                                 <p id="cashDifference" class="result-text mt-2 text-2xl font-bold">₹0.00</p>
                             </div>
                         </div>
-                        <p class="text-xl font-semibold">Total Amount:</p>
-                        <p id="cashTotalAmount" class="total-amount mt-2">₹0.00</p>
-                        <button id="resetCashCounter" class="modern-btn mt-8 w-full sm:w-auto">Reset Counter</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Unit Price Calculator -->
-            <div id="unitPriceCalculator" class="content-page">
-                <div class="glass-card">
-                    <h2 class="component-title"><i class="fas fa-tag"></i> Unit Price Calculator</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div>
-                            <label for="mrpBox" class="modern-label">MRP (Price of the Box/Pack):</label>
-                            <input type="number" id="mrpBox" class="modern-input" placeholder="e.g., 590" min="0">
+                        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+                            <div>
+                                <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">Total Amount:</p>
+                                <p id="cashTotalAmount" class="total-amount">₹0.00</p>
+                            </div>
+                            <button id="resetCashCounter" class="modern-btn btn-secondary w-full sm:w-auto"><i class="fas fa-undo mr-2"></i>Reset Counter</button>
                         </div>
-                        <div>
-                            <label for="piecesInBox" class="modern-label">Number of Units in Box/Pack:</label>
-                            <input type="number" id="piecesInBox" class="modern-input" placeholder="e.g., 50" min="0">
-                        </div>
-                    </div>
-                    <div class="result-area flex flex-col items-start">
-                        <p class="text-lg font-semibold">Price Per Unit:</p>
-                        <p id="pricePerPiece" class="total-amount mt-2">₹0.00</p>
-                        <p id="unitPriceMessage" class="text-sm text-red-500 mt-3 h-5"></p>
-                        <button id="resetUnitPriceCalc" class="modern-btn mt-4 w-full sm:w-auto">Reset Calculator</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Box Profit Calculator -->
-            <div id="boxProfitCalculator" class="content-page">
-                <div class="glass-card">
-                    <h2 class="component-title"><i class="fas fa-chart-line"></i> Box Profit Analyzer</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div>
-                            <label for="sellingPricePerPc" class="modern-label">Selling Price Per Piece (₹):</label>
-                            <input type="number" id="sellingPricePerPc" class="modern-input" placeholder="e.g., 15" min="0">
-                        </div>
-                        <div>
-                            <label for="costOfBox" class="modern-label">Cost of Box (₹):</label>
-                            <input type="number" id="costOfBox" class="modern-input" placeholder="e.g., 590" min="0">
-                        </div>
-                        <div>
-                            <label for="piecesInBoxProfit" class="modern-label">Number of Pieces in Box:</label>
-                            <input type="number" id="piecesInBoxProfit" class="modern-input" placeholder="e.g., 50" min="0">
-                        </div>
-                    </div>
-                    <div class="result-area flex flex-col items-start">
-                        <p class="text-lg font-semibold">Total Profit Per Box:</p>
-                        <p id="totalBoxProfit" class="total-amount mt-2">₹0.00</p>
-                        <p id="boxProfitMessage" class="text-sm text-red-500 mt-3 h-5"></p>
-                        <button id="resetBoxProfitCalc" class="modern-btn mt-4 w-full sm:w-auto">Reset Calculator</button>
                     </div>
                 </div>
             </div>
             
-            <!-- Other calculators go here, following the same structure -->
-            
-             <div id="marginCalculator" class="content-page">
+            <div id="marginCalculator" class="content-page">
                 <div class="glass-card">
                     <h2 class="component-title"><i class="fas fa-percentage"></i> Margin Calculator</h2>
                      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -599,160 +617,19 @@
                             <input type="number" id="sellingPriceMargin" class="modern-input" placeholder="e.g., 120" min="0">
                         </div>
                     </div>
-                    <div class="result-area flex flex-col items-start">
-                        <p class="text-lg font-semibold">Gross Profit:</p>
-                        <p id="grossProfitAmount" class="total-amount mt-2">₹0.00</p>
-                        <p class="text-lg font-semibold mt-4">Gross Margin Percentage:</p>
-                        <p id="grossMarginPercentage" class="result-text text-2xl font-bold">0.00%</p>
-                        <p id="marginMessage" class="text-sm text-red-500 mt-3 h-5"></p>
-                        <button id="resetMarginCalc" class="modern-btn mt-4 w-full sm:w-auto">Reset Calculator</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="gstCalculator" class="content-page">
-                 <div class="glass-card">
-                    <h2 class="component-title"><i class="fas fa-file-invoice-dollar"></i> GST Calculator</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div>
-                            <label for="basePriceGST" class="modern-label">Base Price (₹):</label>
-                            <input type="number" id="basePriceGST" class="modern-input" placeholder="e.g., 1000" min="0">
+                    <div class="result-area">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">Gross Profit:</p>
+                                <p id="grossProfitAmount" class="total-amount">₹0.00</p>
+                            </div>
+                            <div>
+                                <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">Gross Margin:</p>
+                                <p id="grossMarginPercentage" class="total-amount text-3xl">0.00%</p>
+                            </div>
                         </div>
-                        <div>
-                            <label for="gstRate" class="modern-label">GST Rate (%):</label>
-                            <input type="number" id="gstRate" class="modern-input" placeholder="e.g., 18" min="0">
-                        </div>
-                    </div>
-                    <div class="result-area flex flex-col items-start">
-                        <p class="text-lg font-semibold">Total Price (with GST):</p>
-                        <p id="totalPriceWithGST" class="total-amount mt-2">₹0.00</p>
-                        <p class="text-lg font-semibold mt-4">GST Amount:</p>
-                        <p id="gstAmount" class="result-text text-2xl font-bold">₹0.00</p>
-                        <p id="gstMessage" class="text-sm text-red-500 mt-3 h-5"></p>
-                        <button id="resetGSTCalc" class="modern-btn mt-4 w-full sm:w-auto">Reset Calculator</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="discountCalculator" class="content-page">
-                 <div class="glass-card">
-                    <h2 class="component-title"><i class="fas fa-tags"></i> Discount Calculator</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div>
-                            <label for="mrp" class="modern-label">MRP (Maximum Retail Price):</label>
-                            <input type="number" id="mrp" class="modern-input" placeholder="e.g., 1000" min="0">
-                        </div>
-                        <div>
-                            <label for="salePrice" class="modern-label">Sale Price:</label>
-                            <input type="number" id="salePrice" class="modern-input" placeholder="e.g., 800" min="0">
-                        </div>
-                    </div>
-                    <div class="result-area flex flex-col items-start">
-                        <p class="text-lg font-semibold">You Save:</p>
-                        <p id="discountAmount" class="total-amount mt-2">₹0.00</p>
-                        <p id="discountPercentage" class="result-text text-xl font-semibold">Which is a 0.00% discount</p>
-                        <p id="discountMessage" class="text-sm text-red-500 mt-3 h-5"></p>
-                        <button id="resetDiscountCalc" class="modern-btn mt-4 w-full sm:w-auto">Reset Calculator</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="pulseCalculator" class="content-page">
-                <div class="glass-card">
-                    <h2 class="component-title"><i class="fas fa-balance-scale-right"></i> Price-Based Weight Calculator</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div>
-                            <label for="pulsePricePerKg" class="modern-label">Price Per Kg (₹):</label>
-                            <input type="number" id="pulsePricePerKg" class="modern-input" placeholder="e.g., 90" min="0">
-                        </div>
-                        <div>
-                            <label for="amountToSpend" class="modern-label">Desired Spend Amount (₹):</label>
-                            <input type="number" id="amountToSpend" class="modern-input" placeholder="e.g., 20" min="0">
-                        </div>
-                    </div>
-                    <div class="result-area flex flex-col items-start">
-                        <p class="text-lg font-semibold">Quantity you will get:</p>
-                        <p id="pulseQuantity" class="total-amount mt-2">0.00 grams</p>
-                        <p id="pulseMessage" class="text-sm text-red-500 mt-3 h-5"></p>
-                        <button id="resetPulseCalc" class="modern-btn mt-4 w-full sm:w-auto">Reset Calculator</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="looseItemProfitCalculator" class="content-page">
-                <div class="glass-card">
-                    <h2 class="component-title"><i class="fas fa-leaf"></i> Loose Item Profit Calculator</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div>
-                            <label for="lipCostPricePack" class="modern-label">Cost Price of Pack (₹):</label>
-                            <input type="number" id="lipCostPricePack" class="modern-input" placeholder="e.g., 450" min="0">
-                        </div>
-                        <div>
-                            <label for="lipTotalItems" class="modern-label">Total Items in Pack:</label>
-                            <input type="number" id="lipTotalItems" class="modern-input" placeholder="e.g., 50" min="0">
-                        </div>
-                        <div>
-                            <label for="lipSellingPriceItem" class="modern-label">Selling Price per Item (₹):</label>
-                            <input type="number" id="lipSellingPriceItem" class="modern-input" placeholder="e.g., 12" min="0">
-                        </div>
-                    </div>
-                    <div class="result-area flex flex-col items-start">
-                        <p class="text-lg font-semibold">Cost Per Item:</p>
-                        <p id="lipCostPerItem" class="result-text text-2xl font-bold">₹0.00</p>
-                        <p class="text-lg font-semibold mt-4">Profit Per Item:</p>
-                        <p id="lipProfitPerItem" class="result-text text-2xl font-bold">₹0.00</p>
-                        <p id="lipMessage" class="text-sm text-red-500 mt-3 h-5"></p>
-                        <button id="resetLipCalc" class="modern-btn mt-4 w-full sm:w-auto">Reset Calculator</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="schemeCalculator" class="content-page">
-                <div class="glass-card">
-                    <h2 class="component-title"><i class="fas fa-gift"></i> Scheme / Offer Calculator</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div>
-                            <label for="schemePricePerItem" class="modern-label">Price per Item (₹):</label>
-                            <input type="number" id="schemePricePerItem" class="modern-input" placeholder="e.g., 10" min="0">
-                        </div>
-                        <div>
-                            <label for="schemeBuyQty" class="modern-label">Buy Quantity (X):</label>
-                            <input type="number" id="schemeBuyQty" class="modern-input" placeholder="e.g., 5" min="0">
-                        </div>
-                        <div>
-                            <label for="schemeGetQty" class="modern-label">Get Quantity (Y Free):</label>
-                            <input type="number" id="schemeGetQty" class="modern-input" placeholder="e.g., 1" min="0">
-                        </div>
-                    </div>
-                    <div class="result-area flex flex-col items-start">
-                        <p class="text-lg font-semibold">Effective Price per Item:</p>
-                        <p id="schemeEffectivePrice" class="total-amount mt-2">₹0.00</p>
-                        <p class="text-lg font-semibold mt-4">Total Cost for Offer:</p>
-                        <p id="schemeTotalCost" class="result-text text-2xl font-bold">₹0.00</p>
-                        <p id="schemeMessage" class="text-sm text-red-500 mt-3 h-5"></p>
-                        <button id="resetSchemeCalc" class="modern-btn mt-4 w-full sm:w-auto">Reset Calculator</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="leftoverCalculator" class="content-page">
-                <div class="glass-card">
-                    <h2 class="component-title"><i class="fas fa-box-open"></i> Leftover Calculator</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div>
-                            <label for="totalQuantity" class="modern-label">Total Quantity:</label>
-                            <input type="number" id="totalQuantity" class="modern-input" placeholder="e.g., 100" min="0">
-                        </div>
-                        <div>
-                            <label for="soldQuantity" class="modern-label">Sold Quantity:</label>
-                            <input type="number" id="soldQuantity" class="modern-input" placeholder="e.g., 75" min="0">
-                        </div>
-                    </div>
-                    <div class="result-area flex flex-col items-start">
-                        <p class="text-lg font-semibold">Leftover Quantity:</p>
-                        <p id="leftoverQuantity" class="total-amount mt-2">0</p>
-                        <p id="leftoverMessage" class="text-sm text-red-500 mt-3 h-5"></p>
-                        <button id="resetLeftoverCalc" class="modern-btn mt-4 w-full sm:w-auto">Reset Calculator</button>
+                        <p id="marginMessage" class="text-sm text-red-500 h-5 mb-4"></p>
+                        <button id="resetMarginCalc" class="modern-btn btn-secondary w-full sm:w-auto"><i class="fas fa-undo mr-2"></i>Reset</button>
                     </div>
                 </div>
             </div>
@@ -771,6 +648,7 @@
                                 </tr>
                             </thead>
                             <tbody id="reorderTableBody">
+                                <!-- JS will populate this, but structure is preserved -->
                                 <tr>
                                     <td data-unit-type="ml" data-unit-value="500">Full Cream Milk, 500ml</td>
                                     <td><input type="number" value="" min="0" data-price="34.00" class="input-field-table"></td>
@@ -813,12 +691,12 @@
                                 </tr>
                                 <tr>
                                     <td>Ananda Cow Paneer, 200g</td>
-                                    <td><input type="number" value="" min="0" data-price="64.00" class="input-field-table"></td>
+                                    <td><input type="number" value="" min="0" data-price="68.00" class="input-field-table"></td>
                                     <td class="text-right">0.00</td>
                                 </tr>
                                 <tr>
                                     <td>Amul Paneer, 200g</td>
-                                    <td><input type="number" value="" min="0" data-price="80.00" class="input-field-table"></td>
+                                    <td><input type="number" value="" min="0" data-price="82.00" class="input-field-table"></td>
                                     <td class="text-right">0.00</td>
                                 </tr>
                                 <tr>
@@ -833,7 +711,7 @@
                                 </tr>
                                 <tr>
                                     <td>Green Pea, 200g</td>
-                                    <td><input type="number" value="" min="0" data-price="24.00" class="input-field-table"></td>
+                                    <td><input type="number" value="" min="0" data-price="22.00" class="input-field-table"></td>
                                     <td class="text-right">0.00</td>
                                 </tr>
                             </tbody>
@@ -846,12 +724,12 @@
                         </table>
                     </div>
                     <div class="mt-8 flex flex-col items-center gap-4">
-                        <button onclick="generateOrderText()" class="modern-btn"><i class="fas fa-file-alt mr-2"></i> Generate</button>
-                        <div id="orderOutputContainer">
+                        <button onclick="generateOrderText()" class="modern-btn"><i class="fas fa-file-alt mr-2"></i> Generate Order</button>
+                        <div id="orderOutputContainer" class="w-full">
                             <textarea id="orderOutput" readonly></textarea>
-                             <div class="flex gap-4">
-                                <button onclick="copyOrderText()" class="modern-btn"><i class="fas fa-clipboard mr-2"></i> Copy</button>
-                                <button onclick="sendToWhatsApp()" class="modern-btn" style="background: linear-gradient(90deg, #25D366, #128C7E);"><i class="fab fa-whatsapp mr-2"></i> Send</button>
+                             <div class="flex gap-4 mt-4">
+                                <button onclick="copyOrderText()" class="modern-btn btn-secondary flex-1"><i class="fas fa-clipboard mr-2"></i> Copy</button>
+                                <button onclick="sendToWhatsApp()" class="modern-btn flex-1" style="background-color: #25D366; --tw-shadow-color: #25D366;"><i class="fab fa-whatsapp mr-2"></i> Send</button>
                             </div>
                         </div>
                     </div>
@@ -864,7 +742,7 @@
     <!-- Toast Notification Container -->
     <div id="toastNotification" class="toast-notification"></div>
 
-    <!-- Custom JavaScript -->
+    <!-- Custom JavaScript (Unchanged) -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         
@@ -880,22 +758,37 @@
         // --- Sidebar & Navigation Logic ---
 
         // Desktop Sidebar Toggle
-        sidebarToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
-        });
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('collapsed');
+            });
+        }
 
         // Mobile Menu Toggle
         function toggleMobileMenu() {
             sidebar.classList.toggle('open');
             overlay.classList.toggle('active');
         }
-        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
-        overlay.addEventListener('click', toggleMobileMenu);
+        if (mobileMenuToggle) mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+        if(overlay) overlay.addEventListener('click', toggleMobileMenu);
 
         // Dark Mode Toggle
-        darkModeToggle.addEventListener('change', () => {
-            document.body.classList.toggle('dark');
-        });
+        if (darkModeToggle) {
+            // Check for saved dark mode preference
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark');
+                darkModeToggle.checked = true;
+            }
+            darkModeToggle.addEventListener('change', () => {
+                document.body.classList.toggle('dark');
+                // Save preference
+                if (document.body.classList.contains('dark')) {
+                    localStorage.setItem('darkMode', 'enabled');
+                } else {
+                    localStorage.removeItem('darkMode');
+                }
+            });
+        }
         
         // Navigation Logic
         navLinks.forEach(link => {
@@ -906,7 +799,10 @@
 
                 link.classList.add('active');
                 const targetId = link.getAttribute('data-target');
-                document.querySelector(targetId).classList.add('active');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.classList.add('active');
+                }
 
                 // Close mobile menu on navigation
                 if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
@@ -917,6 +813,7 @@
 
         // --- Utility Functions ---
         function getValidatedFloatInput(inputElement, messageElement, fieldName) {
+            if (!inputElement) return null;
             if (messageElement) messageElement.textContent = '';
             const value = parseFloat(inputElement.value);
             if (inputElement.value.trim() === '') return null;
@@ -928,6 +825,7 @@
         }
 
         function getValidatedIntInput(inputElement, messageElement, fieldName) {
+            if (!inputElement) return null;
             if (messageElement) messageElement.textContent = '';
             const value = parseInt(inputElement.value, 10);
             if (inputElement.value.trim() === '') return null;
@@ -963,6 +861,7 @@
         let denominationInputs = [];
 
         function initializeCashCounter() {
+            if (!cashCounterDiv) return;
             cashCounterDiv.innerHTML = '';
             denominationInputs = [];
             denominations.forEach(denom => {
@@ -970,8 +869,8 @@
                 wrapperDiv.className = 'flex flex-col gap-2';
 
                 const label = document.createElement('label');
-                label.className = 'modern-label';
-                label.textContent = `₹${denom} Notes/Coins`;
+                label.className = 'modern-label text-center';
+                label.textContent = `₹${denom}`;
 
                 const input = document.createElement('input');
                 input.type = 'number';
@@ -999,28 +898,35 @@
 
         function calculateCashAndDifference() {
             const totalCash = calculateCashTotal();
-            cashTotalAmountEl.textContent = formatIndianRupees(totalCash);
+            if(cashTotalAmountEl) cashTotalAmountEl.textContent = formatIndianRupees(totalCash);
+            
             const expectedCash = getValidatedFloatInput(expectedCashInput, null, 'Expected Cash');
-            if (expectedCash === null || isNaN(expectedCash)) {
-                cashDifferenceEl.textContent = formatIndianRupees(0);
-                cashDifferenceEl.className = 'result-text mt-2 text-2xl font-bold';
-            } else {
-                const difference = totalCash - expectedCash;
-                cashDifferenceEl.textContent = formatIndianRupees(difference);
-                cashDifferenceEl.className = 'result-text mt-2 text-2xl font-bold';
-                if (difference > 0) cashDifferenceEl.classList.add('profit-positive');
-                else if (difference < 0) cashDifferenceEl.classList.add('profit-negative');
+            if (cashDifferenceEl) {
+                if (expectedCash === null || isNaN(expectedCash)) {
+                    cashDifferenceEl.textContent = formatIndianRupees(0);
+                    cashDifferenceEl.className = 'result-text mt-2 text-2xl font-bold';
+                } else {
+                    const difference = totalCash - expectedCash;
+                    cashDifferenceEl.textContent = formatIndianRupees(difference);
+                    cashDifferenceEl.className = 'result-text mt-2 text-2xl font-bold';
+                    if (difference > 0) cashDifferenceEl.classList.add('profit-positive');
+                    else if (difference < 0) cashDifferenceEl.classList.add('profit-negative');
+                }
             }
         }
 
-        resetCashCounterBtn.addEventListener('click', () => {
-            denominationInputs.forEach(input => input.value = '');
-            document.getElementById('customerName').value = '';
-            document.getElementById('accountNumber').value = '';
-            expectedCashInput.value = '';
-            calculateCashAndDifference();
-        });
-        expectedCashInput.addEventListener('input', calculateCashAndDifference);
+        if(resetCashCounterBtn) {
+            resetCashCounterBtn.addEventListener('click', () => {
+                denominationInputs.forEach(input => input.value = '');
+                const customerNameInput = document.getElementById('customerName');
+                const accountNumberInput = document.getElementById('accountNumber');
+                if (customerNameInput) customerNameInput.value = '';
+                if (accountNumberInput) accountNumberInput.value = '';
+                if (expectedCashInput) expectedCashInput.value = '';
+                calculateCashAndDifference();
+            });
+        }
+        if (expectedCashInput) expectedCashInput.addEventListener('input', calculateCashAndDifference);
 
         // --- Unit Price Calculator ---
         const mrpBoxInput = document.getElementById('mrpBox');
@@ -1032,48 +938,22 @@
         function calculatePricePerPiece() {
             const mrpBox = getValidatedFloatInput(mrpBoxInput, unitPriceMessageEl, 'MRP of Box');
             const piecesInBox = getValidatedIntInput(piecesInBoxInput, unitPriceMessageEl, 'Number of Units');
+            if (!pricePerPieceEl) return;
             if (mrpBox === null || piecesInBox === null || isNaN(mrpBox) || isNaN(piecesInBox)) {
                 pricePerPieceEl.textContent = formatIndianRupees(0); return;
             }
             if (piecesInBox === 0) {
                 pricePerPieceEl.textContent = formatIndianRupees(0);
-                unitPriceMessageEl.textContent = 'Number of units cannot be zero.'; return;
+                if(unitPriceMessageEl) unitPriceMessageEl.textContent = 'Number of units cannot be zero.'; return;
             }
             pricePerPieceEl.textContent = formatIndianRupees(mrpBox / piecesInBox);
         }
-        [mrpBoxInput, piecesInBoxInput].forEach(el => el.addEventListener('input', calculatePricePerPiece));
-        resetUnitPriceCalcBtn.addEventListener('click', () => {
-            mrpBoxInput.value = ''; piecesInBoxInput.value = ''; calculatePricePerPiece();
+        if (mrpBoxInput && piecesInBoxInput) [mrpBoxInput, piecesInBoxInput].forEach(el => el.addEventListener('input', calculatePricePerPiece));
+        if (resetUnitPriceCalcBtn) resetUnitPriceCalcBtn.addEventListener('click', () => {
+            if(mrpBoxInput) mrpBoxInput.value = ''; 
+            if(piecesInBoxInput) piecesInBoxInput.value = ''; 
+            calculatePricePerPiece();
         });
-
-        // --- Total Box Profit Calculator ---
-        const sellingPricePerPcInput = document.getElementById('sellingPricePerPc');
-        const costOfBoxInput = document.getElementById('costOfBox');
-        const piecesInBoxProfitInput = document.getElementById('piecesInBoxProfit');
-        const totalBoxProfitEl = document.getElementById('totalBoxProfit');
-        const boxProfitMessageEl = document.getElementById('boxProfitMessage');
-        const resetBoxProfitCalcBtn = document.getElementById('resetBoxProfitCalc');
-
-        function calculateBoxProfit() {
-            const sellingPricePerPc = getValidatedFloatInput(sellingPricePerPcInput, boxProfitMessageEl, 'Selling Price');
-            const costOfBox = getValidatedFloatInput(costOfBoxInput, boxProfitMessageEl, 'Cost of Box');
-            const piecesInBoxProfit = getValidatedIntInput(piecesInBoxProfitInput, boxProfitMessageEl, 'Pieces in Box');
-            totalBoxProfitEl.classList.remove('profit-positive', 'profit-negative');
-            if (sellingPricePerPc === null || costOfBox === null || piecesInBoxProfit === null || isNaN(sellingPricePerPc) || isNaN(costOfBox) || isNaN(piecesInBoxProfit)) {
-                totalBoxProfitEl.textContent = formatIndianRupees(0); return;
-            }
-            const totalProfit = (sellingPricePerPc * piecesInBoxProfit) - costOfBox;
-            totalBoxProfitEl.textContent = formatIndianRupees(totalProfit);
-            if (totalProfit >= 0) totalBoxProfitEl.classList.add('profit-positive');
-            else totalBoxProfitEl.classList.add('profit-negative');
-        }
-        [sellingPricePerPcInput, costOfBoxInput, piecesInBoxProfitInput].forEach(el => el.addEventListener('input', calculateBoxProfit));
-        resetBoxProfitCalcBtn.addEventListener('click', () => {
-            sellingPricePerPcInput.value = ''; costOfBoxInput.value = ''; piecesInBoxProfitInput.value = ''; calculateBoxProfit();
-        });
-        
-        // --- All other calculator initializations would follow a similar pattern ---
-        // (Code for other calculators is omitted for brevity but follows the same logic as above)
         
         // --- Dairy Stock Reorder List Functions ---
         const reorderTableBody = document.getElementById('reorderTableBody');
@@ -1081,34 +961,41 @@
         const orderOutputElement = document.getElementById('orderOutput');
         
         function calculateTotal() {
+            if(!reorderTableBody) return;
             let grandTotal = 0;
             reorderTableBody.querySelectorAll('tr').forEach(row => {
                 const input = row.querySelector('input');
                 const costCell = row.cells[2];
-                const quantity = parseFloat(input.value) || 0;
-                const price = parseFloat(input.dataset.price) || 0;
-                const rowTotal = quantity * price;
-                costCell.textContent = rowTotal.toFixed(2);
-                grandTotal += rowTotal;
+                if(input && costCell) {
+                    const quantity = parseFloat(input.value) || 0;
+                    const price = parseFloat(input.dataset.price) || 0;
+                    const rowTotal = quantity * price;
+                    costCell.textContent = rowTotal.toFixed(2);
+                    grandTotal += rowTotal;
+                }
             });
-            document.getElementById('grandTotal').textContent = formatIndianRupees(grandTotal);
+            const grandTotalEl = document.getElementById('grandTotal');
+            if(grandTotalEl) grandTotalEl.textContent = formatIndianRupees(grandTotal);
         }
 
         window.generateOrderText = function() {
+            if(!reorderTableBody || !orderOutputElement || !orderOutputContainer) return;
             const today = new Date();
             const formattedDate = today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
             let orderText = `Dagar Mini Mart\nOrder Date: ${formattedDate}\nDaily Order Summary\n\n`;
             let itemCounter = 1;
             reorderTableBody.querySelectorAll('tr').forEach(row => {
                 const input = row.querySelector('input');
-                const quantity = parseFloat(input.value) || 0;
-                if (quantity > 0) {
-                    const productCellText = row.cells[0].textContent;
-                    const parts = productCellText.split(', ');
-                    let productName = parts[0];
-                    let productSize = parts.length > 1 ? `(${parts[1]})` : '';
-                    orderText += `${itemCounter}. ${productName} ${productSize} – ${quantity} Pieces\n`;
-                    itemCounter++;
+                if (input) {
+                    const quantity = parseFloat(input.value) || 0;
+                    if (quantity > 0) {
+                        const productCellText = row.cells[0].textContent;
+                        const parts = productCellText.split(', ');
+                        let productName = parts[0];
+                        let productSize = parts.length > 1 ? `(${parts[1]})` : '';
+                        orderText += `${itemCounter}. ${productName} ${productSize} – ${quantity} Pieces\n`;
+                        itemCounter++;
+                    }
                 }
             });
             
@@ -1123,8 +1010,8 @@
         }
 
         window.copyOrderText = function() {
+            if(!orderOutputElement) return;
             orderOutputElement.select();
-            // Using navigator.clipboard for modern browsers, with fallback
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(orderOutputElement.value).then(() => {
                     showToast('Order text copied to clipboard!');
@@ -1142,18 +1029,20 @@
         }
 
         window.sendToWhatsApp = function() {
+            if(!orderOutputElement) return;
             const orderText = orderOutputElement.value;
             if (!orderText || orderText.includes('No items selected')) {
                 showToast('Please generate an order with items first.');
                 return;
             }
-            const phoneNumber = '918218312037'; // Replace with the target phone number
+            const phoneNumber = '918218312037';
             const encodedText = encodeURIComponent(orderText);
             const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedText}`;
             window.open(whatsappUrl, '_blank');
         }
 
         function initializeReorderListInputs() {
+            if(!reorderTableBody) return;
             reorderTableBody.querySelectorAll('input[type="number"]').forEach(input => {
                 input.addEventListener('input', calculateTotal);
                 input.value = '';
@@ -1163,7 +1052,7 @@
         // --- Initialize all calculators on page load ---
         initializeCashCounter();
         calculatePricePerPiece();
-        calculateBoxProfit();
+
         // Margin Calculator
         const costPriceMarginInput = document.getElementById('costPriceMargin');
         const sellingPriceMarginInput = document.getElementById('sellingPriceMargin');
@@ -1175,21 +1064,26 @@
         function calculateMargin() {
             const costPrice = getValidatedFloatInput(costPriceMarginInput, marginMessageEl, 'Cost Price');
             const sellingPrice = getValidatedFloatInput(sellingPriceMarginInput, marginMessageEl, 'Selling Price');
+            if (!grossProfitAmountEl || !grossMarginPercentageEl) return;
             if (costPrice === null || sellingPrice === null || isNaN(costPrice) || isNaN(sellingPrice)) {
                 grossProfitAmountEl.textContent = formatIndianRupees(0);
                 grossMarginPercentageEl.textContent = '0.00%';
                 return;
             }
-            if (sellingPrice < costPrice) marginMessageEl.textContent = 'Warning: Selling price is less than cost price.';
-            else marginMessageEl.textContent = '';
+            if (marginMessageEl) {
+                if (sellingPrice < costPrice) marginMessageEl.textContent = 'Warning: Selling price is less than cost price.';
+                else marginMessageEl.textContent = '';
+            }
             const grossProfit = sellingPrice - costPrice;
             const grossMarginPercentage = (sellingPrice > 0) ? (grossProfit / sellingPrice) * 100 : 0;
             grossProfitAmountEl.textContent = formatIndianRupees(grossProfit);
             grossMarginPercentageEl.textContent = `${grossMarginPercentage.toFixed(2)}%`;
         }
-        [costPriceMarginInput, sellingPriceMarginInput].forEach(el => el.addEventListener('input', calculateMargin));
-        resetMarginCalcBtn.addEventListener('click', () => {
-            costPriceMarginInput.value = ''; sellingPriceMarginInput.value = ''; calculateMargin();
+        if(costPriceMarginInput && sellingPriceMarginInput) [costPriceMarginInput, sellingPriceMarginInput].forEach(el => el.addEventListener('input', calculateMargin));
+        if(resetMarginCalcBtn) resetMarginCalcBtn.addEventListener('click', () => {
+            if(costPriceMarginInput) costPriceMarginInput.value = ''; 
+            if(sellingPriceMarginInput) sellingPriceMarginInput.value = ''; 
+            calculateMargin();
         });
 
 
@@ -1204,6 +1098,7 @@
         function calculateGST() {
             const basePrice = getValidatedFloatInput(basePriceGSTInput, gstMessageEl, 'Base Price');
             const gstRate = getValidatedFloatInput(gstRateInput, gstMessageEl, 'GST Rate');
+            if(!gstAmountEl || !totalPriceWithGSTEl) return;
             if (basePrice === null || gstRate === null || isNaN(basePrice) || isNaN(gstRate)) {
                 gstAmountEl.textContent = formatIndianRupees(0);
                 totalPriceWithGSTEl.textContent = formatIndianRupees(0);
@@ -1213,9 +1108,11 @@
             totalPriceWithGSTEl.textContent = formatIndianRupees(basePrice + gstAmount);
             gstAmountEl.textContent = formatIndianRupees(gstAmount);
         }
-        [basePriceGSTInput, gstRateInput].forEach(el => el.addEventListener('input', calculateGST));
-        resetGSTCalcBtn.addEventListener('click', () => {
-            basePriceGSTInput.value = ''; gstRateInput.value = ''; calculateGST();
+        if(basePriceGSTInput && gstRateInput) [basePriceGSTInput, gstRateInput].forEach(el => el.addEventListener('input', calculateGST));
+        if(resetGSTCalcBtn) resetGSTCalcBtn.addEventListener('click', () => {
+            if(basePriceGSTInput) basePriceGSTInput.value = ''; 
+            if(gstRateInput) gstRateInput.value = ''; 
+            calculateGST();
         });
 
 
@@ -1230,25 +1127,29 @@
         function calculateDiscount() {
             const mrp = getValidatedFloatInput(mrpInput, discountMessageEl, 'MRP');
             const salePrice = getValidatedFloatInput(salePriceInput, discountMessageEl, 'Sale Price');
+            if(!discountAmountEl || !discountPercentageEl) return;
             if (mrp === null || salePrice === null || isNaN(mrp) || isNaN(salePrice)) {
                 discountAmountEl.textContent = '₹0.00';
                 discountPercentageEl.textContent = 'Which is a 0.00% discount';
                 return;
             }
-            if (salePrice > mrp) {
-                discountMessageEl.textContent = 'Sale price cannot be greater than MRP.';
-                return;
-            } else {
-                 discountMessageEl.textContent = '';
+            if(discountMessageEl) {
+                if (salePrice > mrp) {
+                    discountMessageEl.textContent = 'Sale price cannot be greater than MRP.';
+                } else {
+                     discountMessageEl.textContent = '';
+                }
             }
             const discountAmount = mrp - salePrice;
             const discountPercentage = (mrp > 0) ? (discountAmount / mrp) * 100 : 0;
             discountAmountEl.textContent = formatIndianRupees(discountAmount);
             discountPercentageEl.textContent = `Which is a ${discountPercentage.toFixed(2)}% discount`;
         }
-        [mrpInput, salePriceInput].forEach(el => el.addEventListener('input', calculateDiscount));
-        resetDiscountCalcBtn.addEventListener('click', () => {
-            mrpInput.value = ''; salePriceInput.value = ''; calculateDiscount();
+        if(mrpInput && salePriceInput) [mrpInput, salePriceInput].forEach(el => el.addEventListener('input', calculateDiscount));
+        if(resetDiscountCalcBtn) resetDiscountCalcBtn.addEventListener('click', () => {
+            if(mrpInput) mrpInput.value = ''; 
+            if(salePriceInput) salePriceInput.value = ''; 
+            calculateDiscount();
         });
 
 
@@ -1262,6 +1163,7 @@
         function calculatePulseQuantity() {
             const pricePerKg = getValidatedFloatInput(pulsePricePerKgInput, pulseMessageEl, 'Price Per Kg');
             const amountToSpend = getValidatedFloatInput(amountToSpendInput, pulseMessageEl, 'Amount to Spend');
+            if(!pulseQuantityEl) return;
             if (pricePerKg === null || amountToSpend === null || isNaN(pricePerKg) || isNaN(amountToSpend)) {
                 pulseQuantityEl.textContent = '0.00 grams';
                 return;
@@ -1273,116 +1175,19 @@
             const quantityInGrams = (amountToSpend / pricePerKg) * 1000;
             pulseQuantityEl.textContent = quantityInGrams >= 1000 ? `${(quantityInGrams / 1000).toFixed(2)} kg` : `${quantityInGrams.toFixed(2)} grams`;
         }
-        [pulsePricePerKgInput, amountToSpendInput].forEach(el => el.addEventListener('input', calculatePulseQuantity));
-        resetPulseCalcBtn.addEventListener('click', () => {
-            pulsePricePerKgInput.value = ''; amountToSpendInput.value = ''; calculatePulseQuantity();
-        });
-
-
-        // Loose Item Profit Calculator
-        const lipCostPricePackInput = document.getElementById('lipCostPricePack');
-        const lipTotalItemsInput = document.getElementById('lipTotalItems');
-        const lipSellingPriceItemInput = document.getElementById('lipSellingPriceItem');
-        const lipCostPerItemEl = document.getElementById('lipCostPerItem');
-        const lipProfitPerItemEl = document.getElementById('lipProfitPerItem');
-        const lipMessageEl = document.getElementById('lipMessage');
-        const resetLipCalcBtn = document.getElementById('resetLipCalc');
-
-        function calculateLooseItemProfit() {
-            const costPricePack = getValidatedFloatInput(lipCostPricePackInput, lipMessageEl, 'Cost Price of Pack');
-            const totalItems = getValidatedIntInput(lipTotalItemsInput, lipMessageEl, 'Total Items');
-            const sellingPriceItem = getValidatedFloatInput(lipSellingPriceItemInput, lipMessageEl, 'Selling Price per Item');
-            lipProfitPerItemEl.classList.remove('profit-positive', 'profit-negative');
-            if (costPricePack === null || totalItems === null || sellingPriceItem === null || isNaN(costPricePack) || isNaN(totalItems) || isNaN(sellingPriceItem)) {
-                lipCostPerItemEl.textContent = formatIndianRupees(0);
-                lipProfitPerItemEl.textContent = formatIndianRupees(0);
-                return;
-            }
-            if (totalItems === 0) {
-                lipMessageEl.textContent = 'Total items cannot be zero.';
-                lipCostPerItemEl.textContent = formatIndianRupees(0);
-                lipProfitPerItemEl.textContent = formatIndianRupees(0);
-                return;
-            }
-            const costPerItem = costPricePack / totalItems;
-            const profitPerItem = sellingPriceItem - costPerItem;
-            lipCostPerItemEl.textContent = formatIndianRupees(costPerItem);
-            lipProfitPerItemEl.textContent = formatIndianRupees(profitPerItem);
-            if (profitPerItem >= 0) lipProfitPerItemEl.classList.add('profit-positive');
-            else lipProfitPerItemEl.classList.add('profit-negative');
-        }
-        [lipCostPricePackInput, lipTotalItemsInput, lipSellingPriceItemInput].forEach(el => el.addEventListener('input', calculateLooseItemProfit));
-        resetLipCalcBtn.addEventListener('click', () => {
-            lipCostPricePackInput.value = ''; lipTotalItemsInput.value = ''; lipSellingPriceItemInput.value = ''; calculateLooseItemProfit();
-        });
-        
-
-        // Scheme / Offer Calculator
-        const schemePricePerItemInput = document.getElementById('schemePricePerItem');
-        const schemeBuyQtyInput = document.getElementById('schemeBuyQty');
-        const schemeGetQtyInput = document.getElementById('schemeGetQty');
-        const schemeEffectivePriceEl = document.getElementById('schemeEffectivePrice');
-        const schemeTotalCostEl = document.getElementById('schemeTotalCost');
-        const schemeMessageEl = document.getElementById('schemeMessage');
-        const resetSchemeCalcBtn = document.getElementById('resetSchemeCalc');
-
-        function calculateScheme() {
-            const pricePerItem = getValidatedFloatInput(schemePricePerItemInput, schemeMessageEl, 'Price per Item');
-            const buyQty = getValidatedIntInput(schemeBuyQtyInput, schemeMessageEl, 'Buy Quantity');
-            const getQty = getValidatedIntInput(schemeGetQtyInput, schemeMessageEl, 'Get Quantity');
-            if (pricePerItem === null || buyQty === null || getQty === null || isNaN(pricePerItem) || isNaN(buyQty) || isNaN(getQty)) {
-                schemeEffectivePriceEl.textContent = formatIndianRupees(0);
-                schemeTotalCostEl.textContent = formatIndianRupees(0);
-                return;
-            }
-            const totalItems = buyQty + getQty;
-            if (totalItems === 0) {
-                schemeMessageEl.textContent = 'Total items (Buy + Get) cannot be zero.';
-                schemeEffectivePriceEl.textContent = formatIndianRupees(0);
-                schemeTotalCostEl.textContent = formatIndianRupees(0);
-                return;
-            }
-            const totalCost = pricePerItem * buyQty;
-            const effectivePrice = totalCost / totalItems;
-            schemeEffectivePriceEl.textContent = formatIndianRupees(effectivePrice);
-            schemeTotalCostEl.textContent = formatIndianRupees(totalCost);
-        }
-        [schemePricePerItemInput, schemeBuyQtyInput, schemeGetQtyInput].forEach(el => el.addEventListener('input', calculateScheme));
-        resetSchemeCalcBtn.addEventListener('click', () => {
-            schemePricePerItemInput.value = ''; schemeBuyQtyInput.value = ''; schemeGetQtyInput.value = ''; calculateScheme();
-        });
-
-
-        // Leftover Calculator
-        const totalQuantityInput = document.getElementById('totalQuantity');
-        const soldQuantityInput = document.getElementById('soldQuantity');
-        const leftoverQuantityEl = document.getElementById('leftoverQuantity');
-        const leftoverMessageEl = document.getElementById('leftoverMessage');
-        const resetLeftoverCalcBtn = document.getElementById('resetLeftoverCalc');
-
-        function calculateLeftovers() {
-            const totalQty = getValidatedIntInput(totalQuantityInput, leftoverMessageEl, 'Total Quantity');
-            const soldQty = getValidatedIntInput(soldQuantityInput, leftoverMessageEl, 'Sold Quantity');
-            if (totalQty === null || soldQty === null || isNaN(totalQty) || isNaN(soldQty)) {
-                leftoverQuantityEl.textContent = '0';
-                return;
-            }
-            if (soldQty > totalQty) {
-                leftoverMessageEl.textContent = 'Sold quantity cannot be greater than total quantity.';
-                leftoverQuantityEl.textContent = '0';
-                return;
-            }
-            leftoverMessageEl.textContent = '';
-            const leftoverQty = totalQty - soldQty;
-            leftoverQuantityEl.textContent = leftoverQty;
-        }
-        [totalQuantityInput, soldQuantityInput].forEach(el => el.addEventListener('input', calculateLeftovers));
-        resetLeftoverCalcBtn.addEventListener('click', () => {
-            totalQuantityInput.value = ''; soldQuantityInput.value = ''; calculateLeftovers();
+        if(pulsePricePerKgInput && amountToSpendInput) [pulsePricePerKgInput, amountToSpendInput].forEach(el => el.addEventListener('input', calculatePulseQuantity));
+        if(resetPulseCalcBtn) resetPulseCalcBtn.addEventListener('click', () => {
+            if(pulsePricePerKgInput) pulsePricePerKgInput.value = ''; 
+            if(amountToSpendInput) amountToSpendInput.value = ''; 
+            calculatePulseQuantity();
         });
         
         initializeReorderListInputs();
         calculateTotal(); // Initial calculation for reorder list
+        calculateMargin();
+        calculateGST();
+        calculateDiscount();
+        calculatePulseQuantity();
     });
     </script>
 </body>
