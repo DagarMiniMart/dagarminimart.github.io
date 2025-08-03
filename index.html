@@ -1165,15 +1165,15 @@
             const amountToSpend = getValidatedFloatInput(amountToSpendInput, pulseMessageEl, 'Amount to Spend');
             if(!pulseQuantityEl) return;
             if (pricePerKg === null || amountToSpend === null || isNaN(pricePerKg) || isNaN(amountToSpend)) {
-                pulseQuantityEl.textContent = '0.00 grams';
+                pulseQuantityEl.textContent = '0.00g';
                 return;
             }
             if (pricePerKg === 0) {
-                pulseQuantityEl.textContent = (amountToSpend > 0) ? 'Infinite' : '0.00 grams';
+                pulseQuantityEl.textContent = (amountToSpend > 0) ? 'Infinite' : '0.00g';
                 return;
             }
             const quantityInGrams = (amountToSpend / pricePerKg) * 1000;
-            pulseQuantityEl.textContent = quantityInGrams >= 1000 ? `${(quantityInGrams / 1000).toFixed(2)} kg` : `${quantityInGrams.toFixed(2)} grams`;
+            pulseQuantityEl.textContent = quantityInGrams >= 1000 ? `${(quantityInGrams / 1000).toFixed(2)} kg` : `${quantityInGrams.toFixed(2)} g`;
         }
         if(pulsePricePerKgInput && amountToSpendInput) [pulsePricePerKgInput, amountToSpendInput].forEach(el => el.addEventListener('input', calculatePulseQuantity));
         if(resetPulseCalcBtn) resetPulseCalcBtn.addEventListener('click', () => {
